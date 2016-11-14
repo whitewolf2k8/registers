@@ -26,7 +26,6 @@ $(function() {
         $('#toTop').fadeIn();
       } else {
         $('#toTop').fadeOut();
-
       }
 
     });

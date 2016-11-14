@@ -1,16 +1,12 @@
 <?
 	require_once("list_function.php");
-	require_once("list_function.php");
-
-
-
 
   function connectingDb()
   {
     global $bdusername, $bdpassword, $bdname;
     $link = new mysqli('localhost', $bdusername , $bdpassword, $bdname);
     if (!$link) {
-        die('пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (' . mysqli_connect_errno() . ') ');
+        die('Ошибка подключения (' . mysqli_connect_errno() . ') ');
     }
     return $link;
   }
@@ -26,7 +22,7 @@
     $stmt = mysqli_stmt_init($link);
     if(!mysqli_stmt_prepare($stmt, $query))
     {
-      echo "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ\n";
+      echo "Ошибка подготовки запроса\n";
     }
     else
     {
@@ -71,28 +67,32 @@
 
   function changeCodingPage($string)
   {
-		$enc=((mb_detect_encoding($string)==false)?"IBM866":mb_detect_encoding($string));
-		if($enc!="IBM866"){
-			return  $string;
+		$enc=((mb_detect_encoding($string)==false)?"cp866":mb_detect_encoding($string));
+		if($enc!="cp866"){
+			$result=$string;
+			$result=replace_symvol($result,"ї","Є","є");
+			$result=replace_symvol($result,"ў","І","і");
+			$result=replace_symvol($result,"Ў","i","І");
+			$result=replace_symvol($result,"°","Ї","ї");
+			$result=replace_symvol($result,"•","Ї","ї");
+			return  $result;
 		}else{
-				$result= iconv(	$enc, "Windows-1251//TRANSLIT",  $string);
-					if($result!=false){
-						$result=replace_symvol($result,"пїЅ","пїЅ","пїЅ");
-						$result=replace_symvol($result,"пїЅ","пїЅ","пїЅ");
-						$result=replace_symvol($result,"пїЅ","i","пїЅ");
-						$result=replace_symvol($result,"пїЅ","пїЅ","пїЅ");
-						$result=replace_symvol($result,"пїЅ","пїЅ","пїЅ");
-						return $result;
-					}else {
-						$result=$string;
-						return $result;
-					}
-
+				//$result=iconv(	$enc, "cp1251",  $string);
+		//		if($result!=false){
+					$result=$string;
+					$result=replace_symvol($result,"ї","Є","є");
+					$result=replace_symvol($result,"ў","І","і");
+					$result=replace_symvol($result,"Ў","i","І");
+					$result=replace_symvol($result,"°","Ї","ї");
+					$result=replace_symvol($result,"•","Ї","ї");
+					//echo $result."<---------".$string."<br>";
+					return $result;
+			//	}
 		}
 	}
 
 	function isCyrilic($text) {
-	    return preg_match('/[пїЅ-пїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ0-9]/', $text);
+	    return preg_match('/[А-Яа-яЁёЇїҐґ0-9]/', $text);
 	}
   function changeCodingPageShort($string)
   {
@@ -104,7 +104,16 @@
     $result=$string;
     $pos=stripos($result, $sherch);
     while ($pos!==false){
-			$replace=((substr($result, $pos,1)!==$sherch)?$replaceU:$replaceL);
+			if("°"==$sherch||"•"==$sherch){
+				$s="";
+				if($pos==0){
+					$s=$replaceU;
+				}else{
+					$s=(ctype_upper(substr($result, $pos-1,1))?$replaceU:$replaceL);
+				}
+			}else{
+				$replace=((substr($result, $pos,1)!==$sherch)?$replaceU:$replaceL);
+			}
       $result=substr_replace($result,$replace,$pos,1);
       $pos=stripos($result, $sherch);
     }
@@ -116,7 +125,7 @@
     $hours = floor($time/3600);
     $minutes = floor(($time/3600 - $hours)*60);
     $seconds =ceil(((($time/3600 - $hours)*60) - floor(($time/3600 - $hours)*60))*60);
-    return "<br> пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ  $hours пїЅпїЅпїЅпїЅпїЅ $minutes пїЅпїЅпїЅпїЅпїЅпїЅ $seconds пїЅпїЅпїЅпїЅпїЅпїЅ";
+    return "<br> Виконання скрипта зайняло  $hours годин $minutes хвилин $seconds секунд";
   }
 
 	function formatKodKved10($string){
@@ -170,7 +179,7 @@
 		}
 	}
 	function errorMesKodKved10(){
-		return "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ.пїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.";
+		return "Введений код КВЕД не відповідає шаюлону чч.чч. Неможливо виконати пошук.";
 	}
 
 	function formatKdKise14($string){
@@ -181,24 +190,24 @@
 					if(preg_match("/\d\d\d\d/", $string)){
 						return $string;
 					}
-					return "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
+					return "Введене чило не відповідає формату чччч";
         	break;
 			case 1:
 					if($string==0){
 						return $string;
 					}
-					return "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
+					return "Введене чило не відповідає формату чччч";
 					break;
 
 			default:
-	        return "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
+	        return "Введене чило не відповідає формату чччч";
 					break;
 		}
 	}
 	function formatKodKise14($string){
 		$string=str_replace(" ","",$string);
 		$result="";
-		$errorM= "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ S.пїЅпїЅпїЅпїЅпїЅ";
+		$errorM= "Введене чило не відповідає формату S.ччччч";
 		switch (iconv_strlen($string, "Windows-1251")) {
 			case 3:
 					if(preg_match("/S\.\d/", $string)){
@@ -244,7 +253,7 @@
 
 	function getPaginator($total,$count=10,$now){
 		$arrayCount= array(0,10,20,30,40,50,100);
-		//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		//проверка на нулевое количество страниц в выборе при первой загрузке пагинатора
 		$count=($count=="")?50:$count;
 		$result.="" ;
 		if($count==0){
@@ -252,11 +261,11 @@
 		}else {
 			$pageCount=round($total/$count, 0, PHP_ROUND_HALF_UP);
 		}
-		$result.="<div class='pagination'><p> пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ".
-		$total." пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ "
+		$result.="<div class='pagination'><p> В таблицю вибрано ".
+		$total." записів. Показати в таблиці по "
 			.'<select name="limits" size="1" onchange="submitFormLim(this.value)">';
 		foreach($arrayCount as $v) {
-			$result .= '<option value="'.$v.'"'.($count==$v ? ' selected="selected"' : '').'>'.($v==0 ? 'пїЅпїЅпїЅ' : $v).'</option>';
+			$result .= '<option value="'.$v.'"'.($count==$v ? ' selected="selected"' : '').'>'.($v==0 ? 'Все' : $v).'</option>';
 		}
  		$result.= '</select></p>';
 		if($total>$count && $count!=0){
