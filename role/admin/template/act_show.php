@@ -84,6 +84,7 @@
       document.getElementById("delBtn").disabled=false;
       document.getElementById("addBtn").disabled=true;
     }
+
     for(var i=0;i<arrText.length;i++){
       arrText[i].disabled = flag;
     }
@@ -110,6 +111,7 @@ function changeAmountAction(id) {
     });
   });
 </script>
+
 
 </head>
 
@@ -171,15 +173,7 @@ function changeAmountAction(id) {
             <div class="clr"></div>
 
             <h5 class="spoiler-title">Показать текст</h5>
-            <div class="spoiler-body">
-              <p><span>Основний квед <input type="text"/></span></p>
-              <div class="clr"></div>
-              <p><span>Основний квед <input type="text"/></span></p>
-              <div class="clr"></div>
-              <p><span>Основний квед <input type="text"/></span></p>
-              <div class="clr"></div>
-              <p><span>Основний квед <input type="text"/></span></p>
-            </div>
+            <div class="spoiler-body"><span><input type="text"/></span></div>
 
 
             <div class="clr"></div>

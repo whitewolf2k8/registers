@@ -359,6 +359,6 @@
 <div class="footer">
 	 <?php  require_once('footer.php'); ?>
 </div>
-<div id="toTop" > ^ Наверх </div>
+
 </body>
 </html>
