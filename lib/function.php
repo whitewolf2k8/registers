@@ -1,6 +1,9 @@
 <?
 	require_once("list_function.php");
 
+
+
+
   function connectingDb()
   {
     global $bdusername, $bdpassword, $bdname;
@@ -67,27 +70,23 @@
 
   function changeCodingPage($string)
   {
-		$enc=((mb_detect_encoding($string)==false)?"cp866":mb_detect_encoding($string));
-		if($enc!="cp866"){
-			$result=$string;
-			$result=replace_symvol($result,"¿","ª","º");
-			$result=replace_symvol($result,"¢","²","³");
-			$result=replace_symvol($result,"¡","i","²");
-			$result=replace_symvol($result,"°","¯","¿");
-			$result=replace_symvol($result,"•","¯","¿");
-			return  $result;
+		$enc=((mb_detect_encoding($string)==false)?"IBM866":mb_detect_encoding($string));
+		if($enc!="IBM866"){
+			return  $string;
 		}else{
-				//$result=iconv(	$enc, "cp1251",  $string);
-		//		if($result!=false){
-					$result=$string;
-					$result=replace_symvol($result,"¿","ª","º");
-					$result=replace_symvol($result,"¢","²","³");
-					$result=replace_symvol($result,"¡","i","²");
-					$result=replace_symvol($result,"°","¯","¿");
-					$result=replace_symvol($result,"•","¯","¿");
-					//echo $result."<---------".$string."<br>";
-					return $result;
-			//	}
+				$result= iconv(	$enc, "Windows-1251//TRANSLIT",  $string);
+					if($result!=false){
+						$result=replace_symvol($result,"¿","ª","º");
+						$result=replace_symvol($result,"¢","²","³");
+						$result=replace_symvol($result,"¡","i","²");
+						$result=replace_symvol($result,"°","¯","¿");
+						$result=replace_symvol($result,"•","¯","¿");
+						return $result;
+					}else {
+						$result=$string;
+						return $result;
+					}
+
 		}
 	}
 
@@ -104,16 +103,7 @@
     $result=$string;
     $pos=stripos($result, $sherch);
     while ($pos!==false){
-			if("°"==$sherch||"•"==$sherch){
-				$s="";
-				if($pos==0){
-					$s=$replaceU;
-				}else{
-					$s=(ctype_upper(substr($result, $pos-1,1))?$replaceU:$replaceL);
-				}
-			}else{
-				$replace=((substr($result, $pos,1)!==$sherch)?$replaceU:$replaceL);
-			}
+			$replace=((substr($result, $pos,1)!==$sherch)?$replaceU:$replaceL);
       $result=substr_replace($result,$replace,$pos,1);
       $pos=stripos($result, $sherch);
     }
