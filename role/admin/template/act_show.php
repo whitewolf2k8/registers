@@ -177,6 +177,8 @@ function changeAmountAction(id) {
               <p><span>Основний квед <input type="text"/></span></p>
               <div class="clr"></div>
               <p><span>Основний квед <input type="text"/></span></p>
+              <div class="clr"></div>
+              <p><span>Основний квед <input type="text"/></span></p>
             </div>
 
 
