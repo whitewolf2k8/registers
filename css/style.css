@@ -495,6 +495,15 @@ border-right: none;
 	background-repeat:no-repeat;
 	background-position: center;
 }
+.btn_del {
+  border-radius: 15px;
+  background-color: transparent;
+	vertical-align: middle;
+  padding: 4px 15px 4px 15px;
+	background-image:url("/img/use/del.png");
+	background-repeat:no-repeat;
+	background-position: center;
+}
 
 .btn_edit {
   border-radius: 15px;
@@ -502,6 +511,16 @@ border-right: none;
 	vertical-align: middle;
   padding: 4px 15px 4px 15px;
 	background-image:url("/img/use/edit.png");
+	background-repeat:no-repeat;
+	background-position: center;
+}
+
+.btn_find {
+  border-radius: 15px;
+  background-color: transparent;
+	vertical-align: middle;
+  padding: 4px 15px 4px 15px;
+	background-image:url("/img/use/find.png");
 	background-repeat:no-repeat;
 	background-position: center;
 }

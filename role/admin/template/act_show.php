@@ -39,66 +39,13 @@
       correct= confirm("Ви що хочете видалити відмічені записи??");
     }
     if (correct) {
-      document.getElementById('lo').innerHTML='<div id="preloader"></div>';
+    //  document.getElementById('lo').innerHTML='<div id="preloader"></div>';
       form.mode.value = mode;
       var x = document.getElementsByName("limitstart");
         x[0].value=0;
       form.submit();
     }
   }
-
-  function cleanFormImport() {
-    document.getElementById("fileImp").value="";
-    $.ajax({
-     type: "POST",
-     url: "script/process_amount_pv.php",
-     data: {mode:'getList'},
-     scriptCharset: "CP1251",
-     success: function(data){
-         var res = JSON.parse(data);
-         formCleanList(res);
-      }
-   });
-  }
-
-  function formCleanList(arr) {
-    document.getElementById("filtr_year_insert").innerHTML=arr.insert_year;
-    document.getElementById("filtr_period_insert").innerHTML=arr.insert_period;
-  }
-
-  function chacheCheck(){
-    var arrText=document.getElementsByClassName("amo");
-    var arrCheck=document.getElementsByName("checkList[]");
-    var cnt=0;
-    for(var i=0;i<arrCheck.length;i++){
-      if(arrCheck[i].checked)
-        cnt++;
-    }
-    var flag=true;
-    if(cnt==0)
-    {
-      flag=false;
-      document.getElementById("delBtn").disabled=true;
-      document.getElementById("addBtn").disabled=false;
-    }else{
-      document.getElementById("delBtn").disabled=false;
-      document.getElementById("addBtn").disabled=true;
-    }
-
-    for(var i=0;i<arrText.length;i++){
-      arrText[i].disabled = flag;
-    }
-  }
-
-
-function changeAmountAction(id) {
-  var arrCheck=document.getElementsByName("checkList[]");
-  for(var i=0;i<arrCheck.length;i++){
-    arrCheck[i].disabled="disabled";
-    if(id==arrCheck[i].value) arrCheck[i].checked=true;
-  }
-  document.getElementById("saveBtn").disabled=false;
-}
 
   $(document).ready(function() {
     setDataPoclerFild("dateActS");
@@ -111,8 +58,6 @@ function changeAmountAction(id) {
     });
   });
 </script>
-
-
 </head>
 
 <body>
@@ -137,9 +82,9 @@ function changeAmountAction(id) {
             <div id='errorM' style='display="none";margin-left:15%;'>	</div>
             <h2 style="text-align:center;" >Пошук актів по параметрам</h2>
             <p class="act_add">
-              <span>Коду ЄДРПОУ <input type="text" maxlength="8" placeholder="ЄДРПОУ" id="kd" style="width:100px;"/> </span>
-              <span>Коду КДМО <input type="text" placeholder="КДМО" maxlength="12" id="kdmo" style="width:130px;"/></span>
-              <span>Номеру рішення суду <input type="text"  id="kodDis" style="width:120px;"  value=""></span>
+              <span>Коду ЄДРПОУ <input type="text" maxlength="8" placeholder="ЄДРПОУ" id="kd" name="kd" onchange="searhOrg();" style="width:100px;"/> </span>
+              <span>Коду КДМО <input type="text" placeholder="КДМО" maxlength="12" id="kdmo" name="kdmo" onchange="searhOrg();" style="width:130px;"/></span>
+              <span>Номеру рішення суду <input type="text"  id="kodDis" name="kodDis" style="width:120px;"  value=""></span>
             </p>
             <p class="act_add">
               <span>Коду галузевого відділу
@@ -173,13 +118,35 @@ function changeAmountAction(id) {
             <div class="clr"></div>
 
             <h5 class="spoiler-title">Показать текст</h5>
-            <div class="spoiler-body"><span><input type="text"/></span></div>
-
-
+            <div class="spoiler-body">
+              <p>
+                <span id="kved"> Квед(и)
+                  <input type="text" id="text_kved" style="width:130px" />
+                  <input type="button" value="" name="add_kved" id="add_kved" class="btn_add"  onclick="checkInputDataKved();"/>
+                </span>
+              </p>
+              <p>
+                <span> Код(и) Кise
+                  <input type="text" id="text_kise" style="width:105px" />
+                  <input type="button" value="" name="add_kise" id="add_kise" class="btn_add"  onclick="checkInputDataKise();"/>
+                </span>
+              </p>
+              <p>
+                <span> Область
+                  <select id='obl_select' onchange="updateLists();" style="text-align:center; width:170px;"></select>
+                </span>
+                <span>Район
+                  <select id='ray_select' onchange="generateTeLists();" style="width:170px;text-align:center;"></select>
+                </span>
+                <span> Місто/Село
+                  <select id='ter_select' style="width:170px;text-align:center;"></select>
+                </span>
+              </p>
+            </div>
             <div class="clr"></div>
             <p align="center">
               <input type="button" value="Скасувати" class="button" onclick="cleanFormImport()" />
-              <input type="button" value="Імпортувати" class="button" onclick="submitForm('import')" />
+              <input type="button" value="Імпортувати" class="button" onclick="submitForm('search')" />
             </p>
           </div>
           <div class="clr"></div>
@@ -196,10 +163,10 @@ function changeAmountAction(id) {
               </tr>
             <? foreach ($ListResult as $key => $value) {
                 echo "<tr>";
-                echo "<td style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck()\" /></td>";
+            //    echo "<td style =\" overflow:visible\" > <input type=\"checkbox\"  value=\"".$value["id"]."\" onchange=\"chacheCheck()\" /></td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["nu_org"]."</td>";
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["nu_period"]." ".$value["nu_year"]."</td>";
-                echo "<td style =\" overflow:hidden;\" ><input class=\"amo\"  type=\"text\" id=\"".$value['id']."\"  name=\"textAmount[".$value['id']."]\" style=\"text-align:center;width:80px;\" value =\"".$value['amount']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
+                echo "<td style =\" overflow:hidden;\" >".$value['amount']."</td>";
                 echo"</tr>";
               }
         } ?>

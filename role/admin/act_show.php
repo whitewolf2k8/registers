@@ -1,6 +1,8 @@
 <?
   require_once('../../lib/start.php');
 
+  print_r($_POST);
+
   $filtr_year_insert=isset($_POST['filtr_year_insert']) ? stripslashes($_POST['filtr_year_insert']) : 0;
   $filtr_period_insert=isset($_POST['filtr_period_insert']) ? stripslashes($_POST['filtr_period_insert']) : 0;
 

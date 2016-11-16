@@ -101,12 +101,14 @@
       mysqli_free_result($result);
     }
     echo php2js($options);
-  }else if($action=="getList"){
+  }
+  if($action=="getList"){
     $option = array();
     $option["insert_year"]=getListYear($link,0,0);
     $option["insert_period"]= getListPeriod($link,"");
     echo php2js($option);
   }
+
 
   closeConnect($link);
 ?>

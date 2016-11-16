@@ -107,5 +107,87 @@
     echo php2js($options);
   }
 
+  if ($action=="checkKved") {
+    $filtr_kved_kod=$_POST["info"];
+    $ERROR_MSG ="";
+    $options= array();
+    $filtr_kved_kod1=formatKodKved10($filtr_kved_kod);
+    if(iconv_strlen($filtr_kved_kod1, "Windows-1251")==5){
+      $where[]=' (`kod` LIKE "'.$filtr_kved_kod1.'" ) ';
+      $filtr_kved_kod=str_replace(" ","",$filtr_kved_kod1);
+    }else{
+      $ERROR_MSG.= "<br>".$filtr_kved_kod1;
+    }
+    if($ERROR_MSG==""){
+      $whereStr = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+      $qeruStr="SELECT * FROM `kved10` ".$whereStr;
+      $result = mysqli_query($link,$qeruStr);
+      if($result){
+        $ListResult=array();
+
+        while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+          $row["kod"]=str_replace(" ","",$row["kod"]);
+          $ListResult[]=$row;
+        }
+        if(mysqli_num_rows($result)==0){
+          $ERROR_MSG="Такого коду Квед 2010 не знайдено. Перевірте ще раз..";
+        }
+        mysqli_free_result($result);
+      }
+    }
+    $options['kved_kod']=((isset($ListResult))?$ListResult:"");
+    $options['erroMes']=$ERROR_MSG;
+    echo php2js($options);
+  }
+
+  if ($action=="checkKise") {
+    $filtr_kise_kd=isset($_POST["info"]) ? stripslashes($_POST["info"]) : '';
+    $ERROR_MSG ="";
+    $options= array();
+    $where=array();
+
+    $filtr_kise_kd1=formatKdKise14($filtr_kise_kd);
+    if(iconv_strlen($filtr_kise_kd1, "Windows-1251")==1||iconv_strlen($filtr_kise_kd1, "Windows-1251")==4){
+      $where[]=' (`kd` = '.$filtr_kise_kd1.' ) ';
+    }else{
+      $ERROR_MSG.= "<br>".$filtr_kise_kd1;
+    }
+
+    if($ERROR_MSG==""){
+      $whereStr = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+      $qeruStr="SELECT * FROM `kise14` ".$whereStr;
+      $result = mysqli_query($link,$qeruStr);
+      if($result){
+        $ListResult=array();
+        while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+          $ListResult[]=$row;
+        }
+        if(mysqli_num_rows($result)==0){
+          $ERROR_MSG="Такого коду Kise не знайдено. Перевірте ще раз..";
+        }
+        mysqli_free_result($result);
+      }
+    }
+    $options['kise_kod']=((isset($ListResult))?$ListResult:"");
+    $options['erroMes']=$ERROR_MSG;
+    echo php2js($options);
+  }
+
+  if($action=="getRay"){
+    $kodObl=$_POST['obl'];
+    $options=array();
+    $qeruStr="SELECT * FROM `region` WHERE reg=".$kodObl." AND kod NOT IN (0,100,200)";
+    $result = mysqli_query($link,$qeruStr);
+    if($result){
+      while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+        $options[]=array("kod" =>$row['kod'],"nu" =>$row['nu']);
+      }
+      mysqli_free_result($result);
+    }
+    echo php2js($options);
+  }
+
+
+
   closeConnect($link);
 ?>
