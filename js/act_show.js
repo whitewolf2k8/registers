@@ -324,3 +324,17 @@ function searhOrg(){
    });
   }
 }
+
+function cleanOrg() {
+  document.getElementById('kd').value="";
+  document.getElementById('kdmo').value="";
+}
+
+function getKveds() {
+  var tt=document.getElementById('kved').getElementsByTagName('abbr');
+  var arr=[];
+  for(var i=0; i<tt.length;i++){
+    arr.push(tt[i].id);
+  }
+  return arr;
+}

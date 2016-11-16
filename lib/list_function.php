@@ -113,11 +113,9 @@
   {
     $str="<option value='0'".(($id==0)?"selected":"").">".$mes."</option>";
     foreach ($arr as $key => $value) {
-      $str.="<option value='".$key."' ".(($kod===$key)?"selected":"").">".$value."</option>";
+      $str.="<option value='".$key."' ".(($id==$key)?"selected":"").">".$value."</option>";
     }
     return $str;
   }
-
-
 
 ?>

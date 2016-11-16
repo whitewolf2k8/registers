@@ -38,6 +38,8 @@
     if(mode=='del'){
       correct= confirm("Ви що хочете видалити відмічені записи??");
     }
+
+    document.getElementById("kveds").value=getKveds();
     if (correct) {
     //  document.getElementById('lo').innerHTML='<div id="preloader"></div>';
       form.mode.value = mode;
@@ -78,41 +80,42 @@
           <input type="hidden" name="mode" />
           <input type="hidden" name="limitstart" value="0"/>
           <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
+          <input type="hidden" id ="kveds" name="kdeds" <? echo "value='".$filtr_Kveds."'"; ?> />
           <div class="item_blue" style="position: relative; width: 770px; left: 50%; margin-left: -335px;">
             <div id='errorM' style='display="none";margin-left:15%;'>	</div>
             <h2 style="text-align:center;" >Пошук актів по параметрам</h2>
             <p class="act_add">
-              <span>Коду ЄДРПОУ <input type="text" maxlength="8" placeholder="ЄДРПОУ" id="kd" name="kd" onchange="searhOrg();" style="width:100px;"/> </span>
-              <span>Коду КДМО <input type="text" placeholder="КДМО" maxlength="12" id="kdmo" name="kdmo" onchange="searhOrg();" style="width:130px;"/></span>
-              <span>Номеру рішення суду <input type="text"  id="kodDis" name="kodDis" style="width:120px;"  value=""></span>
+              <span>Коду ЄДРПОУ <input type="text" maxlength="8" placeholder="ЄДРПОУ" id="kd" name="kd" onchange="searhOrg();" style="width:90px;" value="<? echo $filtr_kd; ?>" /> </span>
+              <span>Коду КДМО <input type="text" placeholder="КДМО" maxlength="12" id="kdmo" name="kdmo" onchange="searhOrg();" style="width:125px;" value="<? echo $filtr_kdmo; ?>" />
+              <input type="button" value="" name="add_kved" id="add_kved" class="btn_del"  onclick="cleanOrg();"/>
+              Номеру рішення суду <input type="text"  id="kodDis" name="kodDis" style="width:110px;"  value=""></span>
             </p>
             <p class="act_add">
               <span>Коду галузевого відділу
-                <input type="text"  id="kodDepNom"  value="" maxlength="4"  style="width:50px;" onchange="chandeDep();" />
-                <select id="kodDepList"  style="width:222px; text-align:center;" onchange="chengeIdListDep();"><? echo $list_department; ?></select>
+                <input type="text"  id="kodDepNom" name="kodDepNom" maxlength="4"  style="width:50px;" onchange="chandeDep();" value="<? echo $filtr_dep_nom; ?>" />
+                <select id="kodDepList" name="kodDepList" style="width:222px; text-align:center;" onchange="chengeIdListDep();"><? echo $list_department; ?></select>
               </span>
             </p>
             <div class="clr"></div>
             <p class="act_add">
               <span>
                 Типу(ам) актів
-                <select name="types[]" style="width:150px;"><? echo $list_type_act; ?></select>
-                <select name="types[]" style="width:150px;"><? echo $list_type_act; ?></select>
+                <? echo $list_type; ?>
                 <input type="button" value="" name="add_type" class="btn_add"  onclick="addTypeSelect();"/> </span>
               </span>
             </p>
             <div class="clr"></div>
             <p class="act_add">
                <span>Період складання акту:
-                  З <input type="text" id='dateActS'  value="">
-                  по <input type="text" id='dateActE'  value="">
+                  З <input type="text" id='dateActS' name='dateActS'  value="<? echo $filtr_dateActS; ?>">
+                  по <input type="text" id='dateActE' name='dateActE'  value="<? echo $filtr_dateActE; ?>">
                </span>
             </p>
             <div class="clr"></div>
             <p class="act_add">
                <span>Період ліквідації по рішенню суду:
-                  З <input type="text" id='dateDelS'  value="">
-                  по <input type="text" id='dateDelE'  value="">
+                  З <input type="text" id='dateDelS' name='dateDelS'  value="<? echo $filtr_dateDelS; ?>">
+                  по <input type="text" id='dateDelE' name='dateDelE'  value="<? echo $filtr_dateDelE; ?>">
                </span>
             </p>
             <div class="clr"></div>

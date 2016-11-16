@@ -378,3 +378,12 @@
 			if($str=="") return "0000-00-00";
 			return date('Y-m-d', strtotime(str_replace('-', '/', $str)));
 	}
+
+	function getTypsHtml($arrType, $arrInput)
+	{
+			$result="";
+			foreach ($arrInput as $key => $value) {
+				$result.="<select name=\"types[]\" style=\"width:150px;\">".getListTypeAct($arrType,$value)."</select>";
+			}
+			return $result;
+	}

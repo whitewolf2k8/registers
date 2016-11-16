@@ -3,14 +3,24 @@
 
   print_r($_POST);
 
-  $filtr_year_insert=isset($_POST['filtr_year_insert']) ? stripslashes($_POST['filtr_year_insert']) : 0;
-  $filtr_period_insert=isset($_POST['filtr_period_insert']) ? stripslashes($_POST['filtr_period_insert']) : 0;
+  $filtr_kd=isset($_POST['kd']) ? stripslashes($_POST['kd']) : '';
+  $filtr_kdmo=isset($_POST['kdmo']) ? stripslashes($_POST['kdmo']) : '';
 
-  $filtr_year_select=isset($_POST['filtry_year_select']) ? stripslashes($_POST['filtry_year_select']) : 0;
-  $filtr_period_select=isset($_POST['filtr_period_select']) ? stripslashes($_POST['filtr_period_select']) : 0;
+  $filtr_dep_nom=isset($_POST['kodDepNom']) ? stripslashes($_POST['kodDepNom']) : '';
+  $filtr_dep_id=isset($_POST['kodDepList']) ? stripslashes($_POST['kodDepList']) : '';
 
-  $filtr_kd=isset($_POST['filtr_kd']) ? stripslashes($_POST['filtr_kd']) : '';
-  $filtr_kdmo=isset($_POST['filtr_kdmo']) ? stripslashes($_POST['filtr_kdmo']) : '';
+  $filtr_arr_typse_act=isset($_POST['types']) ? $_POST['types'] : array(0,0);
+
+  $filtr_dateActS=isset($_POST['dateActS']) ? stripslashes($_POST['dateActS']) : '';
+  $filtr_dateActE=isset($_POST['dateActE']) ? stripslashes($_POST['dateActE']) : '';
+
+  $filtr_dateDelS=isset($_POST['dateDelS']) ? stripslashes($_POST['dateDelS']) : '';
+  $filtr_dateDelE=isset($_POST['dateDelE']) ? stripslashes($_POST['dateDelE']) : '';
+
+  $filtr_Kveds=isset($_POST['kveds']) ? $_POST['kveds'] : '';
+
+
+
 
   $paginathionLimitStart=isset($_POST['limitstart']) ? stripslashes($_POST['limitstart']) : 0;
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
@@ -154,8 +164,8 @@
   $select_year= getListYear($link,$filtr_year_select,1);
   $select_period= getListPeriod($link,$filtr_period_select);
 
-  $list_department=getListDepatment($link,0);
-  $list_type_act=getListTypeAct($typeAct,0);
+  $list_department=getListDepatment($link,$filtr_dep_id);
+  $list_type=getTypsHtml($typeAct,$filtr_arr_typse_act);
 
   require_once('template/act_show.php');
 ?>
