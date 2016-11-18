@@ -17,38 +17,44 @@
   function submitForm(mode) {
     correct = true;
     form = document.forms['adminForm'];
-    if(mode=='import'){
-      if (form.fileImp.value=="") {
-        correct = false;
-        document.getElementById('fileImp').className="error";
-        document.getElementById('errorMes').className="error";
-        document.getElementById('errorMes').innerHTML="<p>Будь ласка оберіть файл для імпорту.</p>";
-      }
-    }
-
-    if(mode=='edit'){
-      correct= confirm("Ви впевнені в змінах ??");
-      if(correct){
-        var arrCheck=document.getElementsByName("checkList[]");
-        for(var i=0;i<arrCheck.length;i++){
-          arrCheck[i].disabled=false;
-        }
-      }
-    }
-    if(mode=='del'){
-      correct= confirm("Ви що хочете видалити відмічені записи??");
-    }
-
     document.getElementById("kveds").value=getKveds();
     document.getElementById("kises").value=getKises();
     if (correct) {
-    //  document.getElementById('lo').innerHTML='<div id="preloader"></div>';
+      document.getElementById('lo').innerHTML='<div id="preloader"></div>';
       form.mode.value = mode;
       var x = document.getElementsByName("limitstart");
         x[0].value=0;
       form.submit();
     }
   }
+
+  function openUrl(url, post)
+   {
+       if ( post ) {
+           var form = $('<form/>', {
+               action: url,
+               method: 'POST',
+               target: '_blank',
+               style: {
+                  display: 'none'
+               }
+           });
+           for(var key in post) {
+               form.append($('<input/>',{
+                   type: 'hidden',
+                   name: key,
+                   value: post[key]
+               }));
+           }
+           form.appendTo(document.body); // Необходимо для некоторых браузеров
+           form.submit();
+
+       } else {
+           window.open( url, '_blank' );
+       }
+  }
+
+
 
   $(document).ready(function() {
     setDataPoclerFild("dateActS");
@@ -90,7 +96,7 @@
               <span>Коду ЄДРПОУ <input type="text" maxlength="8" placeholder="ЄДРПОУ" id="kd" name="kd" onchange="searhOrg();" style="width:90px;" value="<? echo $filtr_kd; ?>" /> </span>
               <span>Коду КДМО <input type="text" placeholder="КДМО" maxlength="12" id="kdmo" name="kdmo" onchange="searhOrg();" style="width:125px;" value="<? echo $filtr_kdmo; ?>" />
               <input type="button" value="" class="btn_del"  onclick="cleanOrg();"/>
-              Номеру рішення суду <input type="text"  id="kodDis" name="kodDis" style="width:110px;"  value="<? echo $filtr_dis; ?>"></span>
+              Номеру рішення суду <input type="text"  id="kodDis" name="kodDis" style="width:105px;"  value="<? echo $filtr_dis; ?>"></span>
             </p>
             <p class="act_add">
               <span>Коду галузевого відділу
@@ -156,8 +162,7 @@
             </div>
             <div class="clr"></div>
             <p align="center">
-              <input type="button" value="Скасувати" class="button" onclick="cleanFormImport()" />
-              <input type="button" value="Імпортувати" class="button" onclick="submitForm('search')" />
+              <input type="button" value="Пошук" class="button" onclick="submitForm('search')" />
             </p>
           </div>
           <div class="clr"></div>
@@ -165,24 +170,37 @@
 
         <? if(isset($ListResult)){ ?>
           <div id="table_id" align="center">
-            <table>
+            <table id="table_id" >
               <tr>
-                <th>&nbsp;</th>
-                <th>Підприємство</th>
-                <th>Період</th>
-                <th>Чисельність</th>
+                <th rowspan="2">&nbsp;</th>
+                <th rowspan="2">ЄДРПОУ</th>
+                <th rowspan="2">КДМО</th>
+                <th colspan="2">Дата </th>
+                <th rowspan="2">Номер рішення</th>
+                <th rowspan="2">Тип акту</th>
+                <th rowspan="2">Галузевий відділ</th>
+                <th rowspan="2">Адреса складання</th>
               </tr>
-            <? foreach ($ListResult as $key => $value) {
-                echo "<tr>";
-            //    echo "<td style =\" overflow:visible\" > <input type=\"checkbox\"  value=\"".$value["id"]."\" onchange=\"chacheCheck()\" /></td>";
-                echo "<td style =\" overflow:hidden;\" >".$value["nu_org"]."</td>";
-                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["nu_period"]." ".$value["nu_year"]."</td>";
-                echo "<td style =\" overflow:hidden;\" >".$value['amount']."</td>";
+              <tr class="second_level">
+                <th> складання акту</th>
+                <th>ліквідації по рішенню суду</th>
+              </tr>
+              <? foreach ($ListResult as $key => $value) {
+                echo "<tr id=\"".$value['id']."\">";
+                echo "<td  style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck('".$value["id"]."');\" /></td>";
+                echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kd"]."</a></td>";
+                echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kdmo"]."</a></td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["da"]."</td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["dl"]."</td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["rnl"]."</td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["types"]."</td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["dep"]."</td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["ad"]."</td>";
                 echo"</tr>";
-              }
-        } ?>
-          </table>
-        </div>
+              } ?>
+            </table>
+          </div>
+        <? } ?>
         </form>
      </div>
 

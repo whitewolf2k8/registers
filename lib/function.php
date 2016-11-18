@@ -382,8 +382,14 @@
 	function getTypsHtml($arrType, $arrInput)
 	{
 			$result="";
+			$count=count($arrInput);
+
 			foreach ($arrInput as $key => $value) {
-				$result.="<select name=\"types[]\" style=\"width:150px;\">".getListTypeAct($arrType,$value)."</select>";
+				if($count<=2 && $value==0 ) {
+					$result.="<select name=\"types[]\" style=\"width:150px;\">".getListTypeAct($arrType,$value)."</select>";
+				}else if ($value!=0) {
+					$result.="<select name=\"types[]\" style=\"width:150px;\">".getListTypeAct($arrType,$value)."</select>";
+				}
 			}
 			return $result;
 	}

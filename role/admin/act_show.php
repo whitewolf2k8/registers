@@ -1,8 +1,6 @@
 <?
   require_once('../../lib/start.php');
 
-  print_r($_POST);
-
   $filtr_kd=isset($_POST['kd']) ? stripslashes($_POST['kd']) : '';
   $filtr_kdmo=isset($_POST['kdmo']) ? stripslashes($_POST['kdmo']) : '';
 
@@ -81,7 +79,7 @@
   }
 
 
-  if($filtr_dep_id!=""){
+  if($filtr_dep_id!=0){
     $where[]=" ac.department = '".$filtr_dep_id."'";
   }
   $str ="";
@@ -101,7 +99,7 @@
     $kiseWhere=array();
     $fields = explode(",", $filtr_Kises);
     foreach ($fields as $key => $value) {
-      $kvedWhere[]=" organ.kice like ('".substr($value,5)."')";# code...
+      $kvedWhere[]=" organ.kice like ('".substr($value,5)."')";
     }
     if($str=implode('OR', $kiseWhere)!=""){
       $where[]=" (".$str.") ";
@@ -126,7 +124,6 @@
   $qeruStrPaginathion="SELECT COUNT(ac.id) as resC FROM `acts`  as ac "
     ." left join  organizations as organ on organ.id=ac.org".$whereStrPa;
 
-  echo $qeruStrPaginathion;
 
   $resultPa = mysqli_query($link,$qeruStrPaginathion);
   if($resultPa){
@@ -144,21 +141,20 @@
     $whereStr.=' LIMIT '.$paginathionLimitStart.','.$paginathionLimit;
   }
 
-  $qeruStr="SELECT cn.id, org.nu as nu_org ,cn.amount, y.short_nu as nu_year, p.nu as nu_period FROM `amount_workers`  as cn "
-    ." left join  organizations as org on org.id=cn.org"
-    ." left join year as y on y.id=cn.id_year "
-    ." left join period as p on p.id=cn.id_period ".$whereStr;
+  $qeruStr="SELECT organ.kd, organ.kdmo, ac.* FROM `acts`  as ac "
+    ." left join  organizations as organ on organ.id=ac.org".$whereStr;
 
   //echo $qeruStr;
   $result = mysqli_query($link,$qeruStr);
   if($result){
     $ListResult=array();
     while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-      $ListResult[]=$row;
+      $row["da"]=dateToDatapiclerFormat($row["da"]);
+      $row["dl"]=dateToDatapiclerFormat($row["dl"]);
+      $ListResult[]=$row+array('types' =>getTypeAct($typeAct,$row['act']),'dep'=>getDepartmentNu($link,$row['department']) );
     }
     mysqli_free_result($result);
   }
-
 
 
   $list_department=getListDepatment($link,$filtr_dep_id);
