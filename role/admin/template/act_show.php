@@ -40,6 +40,7 @@
     }
 
     document.getElementById("kveds").value=getKveds();
+    document.getElementById("kises").value=getKises();
     if (correct) {
     //  document.getElementById('lo').innerHTML='<div id="preloader"></div>';
       form.mode.value = mode;
@@ -80,15 +81,16 @@
           <input type="hidden" name="mode" />
           <input type="hidden" name="limitstart" value="0"/>
           <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
-          <input type="hidden" id ="kveds" name="kdeds" <? echo "value='".$filtr_Kveds."'"; ?> />
+          <input type="hidden" id ="kveds" name="kveds" <? echo "value='".$filtr_Kveds."'"; ?> />
+          <input type="hidden" id ="kises" name="kises" <? echo "value='".$filtr_Kises."'"; ?> />
           <div class="item_blue" style="position: relative; width: 770px; left: 50%; margin-left: -335px;">
             <div id='errorM' style='display="none";margin-left:15%;'>	</div>
             <h2 style="text-align:center;" >Пошук актів по параметрам</h2>
             <p class="act_add">
               <span>Коду ЄДРПОУ <input type="text" maxlength="8" placeholder="ЄДРПОУ" id="kd" name="kd" onchange="searhOrg();" style="width:90px;" value="<? echo $filtr_kd; ?>" /> </span>
               <span>Коду КДМО <input type="text" placeholder="КДМО" maxlength="12" id="kdmo" name="kdmo" onchange="searhOrg();" style="width:125px;" value="<? echo $filtr_kdmo; ?>" />
-              <input type="button" value="" name="add_kved" id="add_kved" class="btn_del"  onclick="cleanOrg();"/>
-              Номеру рішення суду <input type="text"  id="kodDis" name="kodDis" style="width:110px;"  value=""></span>
+              <input type="button" value="" class="btn_del"  onclick="cleanOrg();"/>
+              Номеру рішення суду <input type="text"  id="kodDis" name="kodDis" style="width:110px;"  value="<? echo $filtr_dis; ?>"></span>
             </p>
             <p class="act_add">
               <span>Коду галузевого відділу
@@ -100,7 +102,7 @@
             <p class="act_add">
               <span>
                 Типу(ам) актів
-                <? echo $list_type; ?>
+                <? echo $html_type; ?>
                 <input type="button" value="" name="add_type" class="btn_add"  onclick="addTypeSelect();"/> </span>
               </span>
             </p>
@@ -120,29 +122,35 @@
             </p>
             <div class="clr"></div>
 
-            <h5 class="spoiler-title">Показать текст</h5>
+            <h5 class="spoiler-title">Додадкові умови відбору</h5>
             <div class="spoiler-body">
               <p>
                 <span id="kved"> Квед(и)
                   <input type="text" id="text_kved" style="width:130px" />
                   <input type="button" value="" name="add_kved" id="add_kved" class="btn_add"  onclick="checkInputDataKved();"/>
+                  <? echo $html_kved; ?>
                 </span>
               </p>
               <p>
-                <span> Код(и) Кise
+                <span id="kise"> Код(и) Кise
                   <input type="text" id="text_kise" style="width:105px" />
                   <input type="button" value="" name="add_kise" id="add_kise" class="btn_add"  onclick="checkInputDataKise();"/>
+                  <? echo $html_kises; ?>
                 </span>
               </p>
               <p>
                 <span> Область
-                  <select id='obl_select' onchange="updateLists();" style="text-align:center; width:170px;"></select>
+                  <select id='obl_select' name="obl_select" onchange="updateLists();" style="text-align:center; width:170px;"><? echo $select_obl; ?></select>
                 </span>
                 <span>Район
-                  <select id='ray_select' onchange="generateTeLists();" style="width:170px;text-align:center;"></select>
+                  <select id='ray_select' name='ray_select' onchange="generateTeLists();" <? echo (($select_ray["anabled"]==0)?"disabled":""); ?> style="width:170px;text-align:center;">
+                    <? echo $select_ray["data"]; ?>
+                  </select>
                 </span>
                 <span> Місто/Село
-                  <select id='ter_select' style="width:170px;text-align:center;"></select>
+                  <select id='ter_select' name="ter_select" <? echo (($select_ter["anabled"]==0)?"disabled":""); ?> style="width:170px;text-align:center;">
+                    <? echo $select_ter["data"]; ?>
+                  </select>
                 </span>
               </p>
             </div>

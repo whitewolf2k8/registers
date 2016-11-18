@@ -387,3 +387,52 @@
 			}
 			return $result;
 	}
+
+	function getKvedHtml($link,$arrKved)
+	{
+		$result="";
+		$fields = explode(",", $arrKved);
+		foreach ($fields as $key => $value) {
+			if($value!=""){
+				$res = mysqli_query($link,"SELECT * FROM `kved10` WHERE `id`=".$value);
+				$row = mysqli_fetch_assoc($res);
+				$result.="<abbr id=\"".$row["id"]."\"  title=\"".$row["nu"]."\">".$row["kod"]."</abbr>"
+		    	."<input type=\"button\" id=\"b_".$row["id"]."\" class=\"btn_del\"  onclick=\"delKved('".$row["id"]."');\"/>";
+			}
+		}
+		return $result;
+	}
+
+	function getKisedHtml($link,$arrKved)
+	{
+		$result="";
+		$fields = explode(",", $arrKved);
+		foreach ($fields as $key => $value) {
+			$kd =substr($value,5);
+			if($kd!=""){
+				$res = mysqli_query($link,"SELECT * FROM `kise14` WHERE `kd`=".$kd);
+				$row = mysqli_fetch_assoc($res);
+				$result.="<abbr id=\"kise_".$row["kd"]."\"  title=\"".$row["nu"]."\">".$row["kod"]."</abbr>"
+				."<input type=\"button\" id=\"kise_b_".$row["kd"]."\" class=\"btn_del\"  onclick=\"delKise('".$row["kd"]."');\"/>";
+			}
+		}
+		return $result;
+	}
+
+	function getKveds($link,$strKveds)
+	{
+		$result=array();
+		$fields = explode(",", $strKveds);
+		foreach ($fields as $key => $value) {
+			if($value!=""){
+				$res=mysqli_query($link,"SELECT * FROM `kved10` WHERE id=".$value);
+				$row=mysqli_fetch_array($res, MYSQLI_ASSOC);
+				$result[]=$row["kod"];
+				mysqli_free_result($res);
+			}
+		}
+		return $result;
+	}
+
+
+?>

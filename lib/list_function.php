@@ -118,4 +118,31 @@
     return $str;
   }
 
+  function getListRay($link,$obl,$ray,$mes=" - βρ³ - ")
+  {
+    $result=array();
+    if($obl==""){
+      $result["anabled"]=0;
+      $result["data"]="<option value='' selected >".$mes."</option>";
+    }else{
+      $result["anabled"]=1;
+      $result["data"]=getListTeR($link, $obl,$ray);
+    }
+    return $result;
+  }
+
+  function getListTeritorys($link,$obl,$ray,$ter,$mes=" - βρ³ - ")
+  {
+    $result=array();
+    if($ray==""){
+      $result["anabled"]=0;
+      $result["data"]="<option value='' selected >".$mes."</option>";
+    }else{
+      $result["anabled"]=1;
+      $str="SELECT te, nu FROM `koatuu` WHERE  te like  ('".$obl.$ray."%') and te not like  ('%000') ";
+      $result["data"]=createListDuble($link,"te","nu",$str,$ter);
+    }
+    return $result;
+  }
+
 ?>
