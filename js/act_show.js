@@ -34,7 +34,7 @@ function chengeIdListDep() {
   var list = document.getElementById("kodDepList");
   var selectId=list.options[list.selectedIndex].value;
   var fildDepNom = document.getElementById("kodDepNom");
-  if(selectId===0){
+  if(selectId==0){
     fildDepNom.value="";
   }else{
     $.ajax({
@@ -164,8 +164,8 @@ function checkInputDataKved(){
 function addKved(arr) {
   var co = arr.length;
   if (co>0) {
-    var str ="<abbr id=\""+arr[0].kod+"\"  title=\""+arr[0].nu+"\">"+arr[0].kod+"</abbr>"+
-    "<input type=\"button\" id=\"b_"+arr[0].kod+"\" class=\"btn_del\"  onclick=\"delKved('"+arr[0].kod+"');\"/>";
+    var str ="<abbr id=\""+arr[0].id+"\"  title=\""+arr[0].nu+"\">"+arr[0].kod+"</abbr>"+
+    "<input type=\"button\" id=\"b_"+arr[0].id+"\" class=\"btn_del\"  onclick=\"delKved('"+arr[0].id+"');\"/>";
     $("input[name=add_kved]").after(str);
     document.getElementById("text_kved").value="";
   }
@@ -199,12 +199,13 @@ function checkInputDataKise(){
 function addKise(arr) {
   var co = arr.length;
   if (co>0) {
-    var str ="<abbr id=\"kise_"+arr[0].kod+"\"  title=\""+arr[0].nu+"\">"+arr[0].kod+"</abbr>"+
-    "<input type=\"button\" id=\"kise_b_"+arr[0].kod+"\" class=\"btn_del\"  onclick=\"delKise('"+arr[0].kod+"');\"/>";
+    var str ="<abbr id=\"kise_"+arr[0].kd+"\"  title=\""+arr[0].nu+"\">"+arr[0].kod+"</abbr>"+
+    "<input type=\"button\" id=\"kise_b_"+arr[0].kd+"\" class=\"btn_del\"  onclick=\"delKise('"+arr[0].kd+"');\"/>";
     $("input[name=add_kise]").after(str);
     document.getElementById("text_kise").value="";
   }
 }
+
 function delKise(id) {
   var el1 =document.getElementById("kise_"+id);
   el1.parentNode.removeChild(el1);
@@ -212,26 +213,26 @@ function delKise(id) {
   el.parentNode.removeChild(el);
 }
 
-
 function generateTeLists() {
   var obl= document.getElementById("obl_select");
-  var ray= document.getElementById("obl_select");
+  var ray= document.getElementById("ray_select");
   var selectedObl= obl.options[obl.selectedIndex].value;
   var selectedRay= ray.options[ray.selectedIndex].value;
 
     if(selectedRay!=""){
       $.ajax({
        type: "POST",
-       url: "script\\processTea.php",
-       data: {ob:obl,ra:ray},
+       url: "script\\processTeaForAct.php",
+       data: {ob:selectedObl,ra:selectedRay},
        scriptCharset: "CP1251",
        success: function(data){
            var res = JSON.parse(data);
            formList(res,"ter_select"); // распарсим JSON
         }
      });
+
     }else{
-      cleanLists("ter_selected");
+      cleanLists("ter_select");
     }
 }
 
@@ -245,7 +246,7 @@ function updateLists() {
     $.ajax({
      type: "POST",
      url: "script\\processAct.php",
-     data: {id:"mode",obl:selected},
+     data: {mode:"getRay",obl:selected},
      scriptCharset: "CP1251",
      success: function(data){
          var res = JSON.parse(data);
@@ -258,9 +259,9 @@ function updateLists() {
   }
 }
 
-function formList(res,id) {
+function formList(arr,id) {
   var arrSize=count(arr);
-  if(arrSize!=0) {
+
     var x = document.getElementById(id);
     if(x.getAttribute("disabled")){
       x.removeAttribute("disabled");
@@ -282,7 +283,6 @@ function formList(res,id) {
     if(x.getAttribute("disabled")){
       x.removeAttribute("disabled");
     }
-  }
 }
 
 function cleanLists(id) {
@@ -332,6 +332,15 @@ function cleanOrg() {
 
 function getKveds() {
   var tt=document.getElementById('kved').getElementsByTagName('abbr');
+  var arr=[];
+  for(var i=0; i<tt.length;i++){
+    arr.push(tt[i].id);
+  }
+  return arr;
+}
+
+function getKises() {
+  var tt=document.getElementById('kise').getElementsByTagName('abbr');
   var arr=[];
   for(var i=0; i<tt.length;i++){
     arr.push(tt[i].id);

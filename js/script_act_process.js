@@ -71,7 +71,7 @@ function chengeIdListDep() {
   var list = document.getElementById("kodDepList");
   var selectId=list.options[list.selectedIndex].value;
   var fildDepNom = document.getElementById("kodDepNom");
-  if(selectId===0){
+  if(selectId==0){
     fildDepNom.value="";
   }else{
     $.ajax({

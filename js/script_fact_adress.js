@@ -14,7 +14,6 @@
 
   function formListRay(arr,idRay, idElement) {
     var arrSize=count(arr);
-    if(arrSize!=0) {
       var x = document.getElementById(idElement);
         if(x.getAttribute("disabled")){
           x.removeAttribute("disabled");
@@ -41,12 +40,10 @@
       if(x.getAttribute("disabled")){
         x.removeAttribute("disabled");
       }
-    }
   }
 
   function formListTea(arr,te, idElement) {
     var arrSize=count(arr);
-    if(arrSize!=0) {
       var x = document.getElementById(idElement);
       if(!x.getAttribute("disabled")){
         x.setAttribute("disabled","disabled");
@@ -74,12 +71,10 @@
       if(x.getAttribute("disabled")){
         x.removeAttribute("disabled");
       }
-    }
   }
 
   function formListObl(arr,idObl, idElement) {
     var arrSize=count(arr);
-    if(arrSize!=0) {
       var x = document.getElementById(idElement);
       if(!x.getAttribute("disabled")){
         x.setAttribute("disabled","disabled");
@@ -107,7 +102,6 @@
       if(x.getAttribute("disabled")){
         x.removeAttribute("disabled");
       }
-    }
   }
 
   function updateLists(mode,idRay,id) {
@@ -455,7 +449,7 @@
           var x=document.getElementById("errorMesCon");
           x.innerHTML="";
           x.innerHTML = "<p class=\"error\"> Необхідно ввести дані !</p>   <div class=\"clr\"></div>";
-    
+
         } };
       btDel.onclick=function() {
         if (confirm("Видалити даний контакт?")){

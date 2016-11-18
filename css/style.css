@@ -412,10 +412,16 @@ border-radius: 10px;
 border-spacing: 0;
 text-align: center;
 }
+
+
+table a:hover {
+	 color: #1d91c3; /* Цвет ссылки при наведении на нее курсора мыши */
+	 text-decoration: underline; /* Добавляем подчеркивание */
+	 cursor: pointer;
+}
 th {
 background: #BCEBDD;
-color: white;
-text-shadow: 0 1px 1px #2D2020;
+color: rgba(#040212, 0.92);
 padding: 10px 20px;
 }
 th, td {
@@ -494,6 +500,7 @@ border-right: none;
 	background-image:url("/img/use/add.png");
 	background-repeat:no-repeat;
 	background-position: center;
+	cursor: pointer;
 }
 .btn_del {
   border-radius: 15px;
@@ -503,6 +510,7 @@ border-right: none;
 	background-image:url("/img/use/del.png");
 	background-repeat:no-repeat;
 	background-position: center;
+	 cursor: pointer;
 }
 
 .btn_edit {
@@ -513,6 +521,7 @@ border-right: none;
 	background-image:url("/img/use/edit.png");
 	background-repeat:no-repeat;
 	background-position: center;
+	cursor: pointer;
 }
 
 .btn_find {
@@ -523,6 +532,7 @@ border-right: none;
 	background-image:url("/img/use/find.png");
 	background-repeat:no-repeat;
 	background-position: center;
+	cursor: pointer;
 }
 
 
