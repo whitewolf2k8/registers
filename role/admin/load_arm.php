@@ -4,10 +4,8 @@
   function getTea($str){
     $str=str_replace(" ","",$str);
     if(strlen($str)==10){
-    //  echo substr($str, 0, 5);
       return substr($str, 0, 5);
     }else{
-  //    echo substr($str, 0, 4);
       return substr($str, 0, 4);
     }
   }
@@ -140,7 +138,8 @@
         }
       }
     }
-  }else if($action=="importKd"){
+  }
+  if($action=="importKd"){
     $start = microtime(true);
     set_time_limit(90000);
     if (!file_exists($tmpFile=$_FILES["fileImpKd"]['tmp_name'])) {
@@ -239,7 +238,106 @@
     }
   }
 
+  if($action=="importKdFin"){
+    $start = microtime(true);
+    set_time_limit(90000);
+    if (!file_exists($tmpFile=$_FILES["fileImpKdFin"]['tmp_name'])) {
+      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
+    }else {
+      $db = dbase_open($tmpFile, 0);
+      if ($db) {
+          $countUpdate=0;
+          $countInsert=0;
+          // чтение некотрых данных
+          $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? and `kdmo`=?";
+          $queryUpdate = "UPDATE `organizations` SET `kd`=?,`kdmo`=?,`kdg`=?,`nu`=?,"
+            ."`ad`=?,`pi`=?,`te`=?,`tea`=?,`vdf10`=?,`pr`=?, `dz`=?  WHERE `kd`=? and `kdmo`=?";
+          $queryInsert = "INSERT INTO `organizations`(`kd`,`kdmo`,`kdg`,`nu`,"
+            ."`ad`,`pi`,`te`,`tea`,`vdf10`,`pr`,`dz`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+          $stmtSelect = mysqli_stmt_init($link);
+          $stmtUpdate = mysqli_stmt_init($link);
+          $stmtInsert = mysqli_stmt_init($link);
 
-//  closeConnect($link);
+          $rowCount=dbase_numrecords ($db);
+          if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtUpdate, $queryUpdate)))
+          {
+            echo " Помилка Пыдготовки запиту \n <br>";
+          } else {
+            mysqli_stmt_bind_param($stmtInsert, "iisssssssss",$kd,$kdmo,$kdg,$nu,
+              $ad,$pi,$te,$tea,$vdf10,$pr,$dz);
+            mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
+            mysqli_stmt_bind_param($stmtUpdate, "iisssssssssii",$kdU,$kdmoU,$kdgU,
+              $nuU,$adU,$piU,$teU,$teaU,$vdf10U,$prU,$dzU,$kdUS,$kdmoUS);
+            for($i=1;$i<=$rowCount;$i++){
+              $row= dbase_get_record_with_names ( $db , $i);
+              if($row["KO"]==48){
+                if($row["KDMO_ST"]!=0){
+                  if($row["KDMO_NEW"]==0){
+                    $kdmoGet=$row["KDMO_ZAM"];
+                  }else{
+                    $kdmoGet=$row["KDMO_NEW"];
+                  }
+                  $kdmo_old=$row["KDMO_ST"];
+                }else{
+                  $kdmoGet=$row["KDMO"];
+                }
+                //print_r($row);
+                $kdS=$row["KD"];
+                $kdmoS=((isset($kdmo_old))?($kdmo_old):($kdmoGet));
+                echo $kdmo_old." - ".$kdmoGet." - ".$kdmoS."<br>";
+                mysqli_stmt_execute($stmtSelect);
+                $result = mysqli_stmt_get_result($stmtSelect);
+                if(mysqli_num_rows($result)>0)
+                {
+                  $kdU = $row["KD"];
+                  $kdmoU = $kdmoGet;
+                  $kdgU = $row["KDG"];
+                  $nuU = changeCodingPage($row['NU']);
+                  $adU = changeCodingPage($row['ADF']);
+                  $piU = $row['PIF'];
+                  $teU = $row['TEF'];
+                  $teaU = getTea($row['TEF']);
+                  $vdf10U = changeCodingPageShort($row['VDF10']);
+                  $pr = $row['PR'];
+                  $drU = $row['DR'];
+                  $dzU = $row['DZ'];
+                  $kdUS = $row["KD"];
+                  $kdmoUS = ((isset($kdmo_old))?($kdmo_old):($kdmoGet));
+                  mysqli_stmt_execute($stmtUpdate);
+                  $countUpdate+=1;
+                } else {
+                  $kd = $row["KD"];
+                  $kdmo = $row["KDMO"];
+                  $kdg = $row["KDG"];
+                  $nu = changeCodingPage($row['NU']);
+                  $ad = changeCodingPage($row['ADF']);
+                  $pi = $row['PIF'];
+                  $te = $row['TEF'];
+                  $tea = getTea($row['TEF']);
+                  $vdf10 = changeCodingPageShort($row['VDF10']);
+                  $pr = $row['PR'];
+                  $dz = $row['DZ'];
+                  mysqli_stmt_execute($stmtInsert);
+                  $countInsert+=1;
+                }
+                mysqli_free_result($result);
+                if(isset($kdmo_old))unset($kdmo_old);
+              }
+            }
+          mysqli_stmt_close($stmtSelect);
+          mysqli_stmt_close($stmtInsert);
+          mysqli_stmt_close($stmtUpdate);
+          $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
+          $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
+          $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
+          $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
+          dbase_close($db);
+        }
+      }
+    }
+  }
+
+
+  closeConnect($link);
   require_once('template/load_arm.php');
 ?>
