@@ -43,60 +43,6 @@
       form.submit();
     }
   }
-
-  function cleanFormImport() {
-    document.getElementById("fileImp").value="";
-    $.ajax({
-     type: "POST",
-     url: "script/process_amount_pv.php",
-     data: {mode:'getList'},
-     scriptCharset: "CP1251",
-     success: function(data){
-         var res = JSON.parse(data);
-         formCleanList(res);
-      }
-   });
-  }
-
-  function formCleanList(arr) {
-    document.getElementById("filtr_year_insert").innerHTML=arr.insert_year;
-    document.getElementById("filtr_period_insert").innerHTML=arr.insert_period;
-  }
-
-  function chacheCheck(){
-    var arrText=document.getElementsByClassName("amo");
-    var arrCheck=document.getElementsByName("checkList[]");
-    var cnt=0;
-    for(var i=0;i<arrCheck.length;i++){
-      if(arrCheck[i].checked)
-        cnt++;
-    }
-    var flag=true;
-    if(cnt==0)
-    {
-      flag=false;
-      document.getElementById("delBtn").disabled=true;
-      document.getElementById("addBtn").disabled=false;
-    }else{
-      document.getElementById("delBtn").disabled=false;
-      document.getElementById("addBtn").disabled=true;
-    }
-
-    for(var i=0;i<arrText.length;i++){
-      arrText[i].disabled = flag;
-    }
-  }
-
-
-function changeAmountAction(id) {
-  var arrCheck=document.getElementsByName("checkList[]");
-  for(var i=0;i<arrCheck.length;i++){
-    arrCheck[i].disabled="disabled";
-    if(id==arrCheck[i].value) arrCheck[i].checked=true;
-  }
-  document.getElementById("saveBtn").disabled=false;
-}
-
   $(document).ready(function() {
     $("#filtr_kd").ForceNumericOnly();
     $("#filtr_kdmo").ForceNumericOnly();
@@ -120,7 +66,7 @@ function changeAmountAction(id) {
       		    <?php if ($ERROR_MSG != '') echo '<p class="error">'.$ERROR_MSG.'</p>';?>
       	</div>
 
-        <h2>Листи від підприємств</h2>
+        <h2>Інформація про порушення законодвства</h2>
 
         <form name="adminForm" action="load_list.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" />
@@ -128,22 +74,9 @@ function changeAmountAction(id) {
           <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
 
           <div class="item_blue" style="float:left;margin-left:15%; width:300px;">
-            <h2>Іморт файлу</h2>
+            <h2>Іморт файлу з порушеннями</h2>
             <p><input type="file" id="fileImp"  accept=".csv" name="fileImp" style="width:256px" /></p>
             <p style="text-align:center"></p>
-            <p>
-               <div class="navigation_left"></div>
-               <div class="navigation_right">
-
-               </div>
-            </p>
-            <div class="clr"></div>
-            <p>
-               <div class="navigation_left"></div>
-               <div class="">
-
-               </div>
-            </p>
             <div class="clr"></div>
             <p align="center">
               <input type="button" value="Скасувати" class="button" onclick="cleanFormImport()" />
@@ -163,50 +96,32 @@ function changeAmountAction(id) {
                <div class="navigation_right"><input align="right" type="text" id="filtr_kdmo" name="filtr_kdmo" value="<?php echo $filtr_kdmo; ?>" style="width:180px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
-            <p>
-               <div class="navigation_left"></div>
-               <div class="navigation_right">
-
-               </div>
-            </p>
-            <div class="clr"></div>
-            <p>
-               <div class="navigation_left"></div>
-               <div class="navigation_right">
-
-               </div>
-            </p>
-            <div class="clr"></div>
             <p align="center">
   	          <input type="button" value="Пошук" class="button" onclick="submitForm('')" />
-            <? /* <input type="button" value="Додати" id="addBtn" class="button" onclick="submitForm('')" /> -->
-              <input type="button" value="Зберегти" id="saveBtn" class="button" disabled=true onclick="submitForm('edit')" />
-              <input type="button" value="Видалити" id="delBtn" class="button" disabled  onclick="submitForm('del')" />*/ ?>
   	        </p>
   	    	</div>
 
           <div class="clr"></div>
           <div id="lo"></div>
-
         <? if(isset($ListResult)){ ?>
           <div id="table_id" align="center">
             <table>
               <tr>
-                <th>Kd</th>
-                <th>Kdmo</th>
-                <?//<th>Чисельність</th>?>
+                <th>ЭДРПОУ</th>
+                <th>КДМО</th>
+                <th>Вихідний № листа</th>
               </tr>
             <? foreach ($ListResult as $key => $value) {
                 echo "<tr>";
-                //echo "<td style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck()\" /></td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["kd"]."</td>";
-                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["kdmo"]." ".$value[""]."</td>";
-                //echo "<td style =\" overflow:hidden;\" ><input class=\"amo\"  type=\"text\" id=\"".$value['id']."\"  name=\"textAmount[".$value['id']."]\" style=\"text-align:center;width:80px;\" value =\"".$value['amount']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["kdmo"]."</td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["label"]."</td>";
                 echo"</tr>";
               }
-        } ?>
-          </table>
-        </div>
+               ?>
+            </table>
+            </div>
+          <? } ?>
         </form>
      </div>
 
