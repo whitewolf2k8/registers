@@ -44,6 +44,10 @@
     }
   }
 
+function cleanFiter() {
+  document.getElementById("filtr_kd").value="";
+}
+
   function cleanFormImport() {
     document.getElementById("fileImp").value="";
     $.ajax({
@@ -151,7 +155,7 @@ function changeAmountAction(id) {
             </p>
           </div>
 
-          <div class="item_blue" style="float:right;margin-right:15%; width:320px;">
+          <div class="item_blue" style="float:right;margin-right:15%; width:350px;">
   	        <h2>Пошук</h2>
             <p>
           	   <div class="navigation_left">Пошук по "Kd"</div>
@@ -159,8 +163,19 @@ function changeAmountAction(id) {
             </p>
             <div class="clr"></div>
             <p>
-          	   <div class="navigation_left">Пошук по "Kdmo"</div>
+               <div class="navigation_left">Пошук по "Kdmo"</div>
                <div class="navigation_right"><input align="right" type="text" id="filtr_kdmo" name="filtr_kdmo" value="<?php echo $filtr_kdmo; ?>" style="width:180px;text-align:center;" /></div>
+            </p>
+
+            <div class="clr"></div>
+            <p>
+               <div class="navigation_left">Дата порушення</div>
+               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:180px;text-align:center;" /></div>
+            </p>
+            <div class="clr"></div>
+            <p>
+               <div class="navigation_left">Стадія провадження</div>
+               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:180px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
             <p>
@@ -178,8 +193,8 @@ function changeAmountAction(id) {
             </p>
             <div class="clr"></div>
             <p align="center">
-  	          <input type="button" value="Пошук" class="button" onclick="submitForm('')" />
-              <input type="button" value="Очистити" id="post" class="button" onclick="submitForm()" />
+              <input type="button" value="Пошук" class="button" onclick="submitForm('')" />
+              <input type="button" value="Очистити" class="button" onclick="cleanFiter()" />
             <!--  <input type="button" value="Додати" id="addBtn" class="button" onclick="submitForm('')" /> -->
             <!--  <input type="button" value="Зберегти" id="saveBtn" class="button" disabled=true onclick="submitForm('edit')" />-->
             <!--  <input type="button" value="Видалити" id="delBtn" class="button" disabled  onclick="submitForm('del')" /> -->
@@ -193,17 +208,23 @@ function changeAmountAction(id) {
           <div id="table_id" align="center">
             <table>
               <tr>
-                <th>&nbsp;</th>
-                <th>Підприємство</th>
-                <th>Період</th>
-                <th>Чисельність</th>
+                <th>ЄДРПО</th>
+                <th>Kdmo</th>
+                <th>Арбітражний керуючий</th>
+                <th>№ справи</th>
+                <th>Дата порушення</th>
+                <th>Стадія провадження</th>
               </tr>
             <? foreach ($ListResult as $key => $value) {
                 echo "<tr>";
-                echo "<td style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck()\" /></td>";
-                echo "<td style =\" overflow:hidden;\" >".$value["nu_org"]."</td>";
-                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["nu_period"]." ".$value["nu_year"]."</td>";
-                echo "<td style =\" overflow:hidden;\" ><input class=\"amo\"  type=\"text\" id=\"".$value['id']."\"  name=\"textAmount[".$value['id']."]\" style=\"text-align:center;width:80px;\" value =\"".$value['amount']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
+                //echo "<td style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck()\" /></td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["kd"]."</td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["kdmo"]." ".$value[""]."</td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value[""]." ".$value[""]."</td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value[""]." ".$value[""]."</td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value[""]." ".$value[""]."</td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value[""]." ".$value[""]."</td>";
+                //echo "<td style =\" overflow:hidden;\" ><input class=\"amo\"  type=\"text\" id=\"".$value['id']."\"  name=\"textAmount[".$value['']."]\" style=\"text-align:center;width:80px;\" value =\"".$value['']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
                 echo"</tr>";
               }
         } ?>

@@ -38,14 +38,14 @@
   			if ($resultOrg){
   				if (mysqli_num_rows($resultOrg) == 1) {
   					$row = mysqli_fetch_assoc($resultOrg);
-  					$res = mysqli_query($link,'SELECT id FROM amount_workers WHERE id_org="'.$row['id'].'" AND'
-              .' type = 0 AND id_year = '.$filtr_year_insert
-              .' AND id_period = '.$filtr_period_insert .'   LIMIT 1');
+  					$res = mysqli_query($link,'SELECT id FROM bankrupts WHERE id_org="'.$row['id'].'" AND'
+            ." list like ('".$fields[0]."')");
+            //.' type = 0 AND id_year = '.$filtr_year_insert
+            //.' AND id_period = '.$filtr_period_insert .'   LIMIT 1');
   					if (mysqli_num_rows($res) == 0)
   					{
-  						$query_str = 'INSERT INTO `amount_workers`(`type`, `id_org`, `id_year`, `id_period`, `amount`)'
-                .' VALUES (0,'.$row[id].','.$filtr_year_insert.','.$filtr_period_insert.','.($fields[2]+$fields[3]+$fields[4]).')';
-  						mysqli_query($link,$query_str);
+  						$query_str = 'INSERT INTO `bankrupts`(`id`, `id_org`, `maneger_deal`, `deal_number`, `date_deal`,`type_deal`)'
+                .' VALUES (0,'.$row[id].','.$fields[1].','.$fields[0]."')";
   						$countIns++;
   					}
   					else
@@ -131,10 +131,11 @@
   }
 
 
-  $qeruStr="SELECT cn.id, org.nu as nu_org ,cn.amount, y.short_nu as nu_year, p.nu as nu_period FROM `amount_workers`  as cn "
-    ." left join  organizations as org on org.id=cn.id_org"
-    ." left join year as y on y.id=cn.id_year "
-    ." left join period as p on p.id=cn.id_period ".$whereStr;
+   $qeruStr="SELECT org.kd,org.kdmo, ba.* FROM "
+   ." bankrupts as ba "
+   ." left join organizations as org on org.id=ba.id_org".$whereStr;
+    //." left join year as y on y.id=cn.id_year "
+    //." left join period as p on p.id=cn.id_period ".$whereStr;
 
   //echo $qeruStr;
   $result = mysqli_query($link,$qeruStr);
