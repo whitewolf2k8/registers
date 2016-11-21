@@ -185,7 +185,6 @@
                 //print_r($row);
                 $kdS=$row["KD"];
                 $kdmoS=((isset($kdmo_old))?($kdmo_old):($kdmoGet));
-                echo $kdmo_old." - ".$kdmoGet." - ".$kdmoS."<br>";
                 mysqli_stmt_execute($stmtSelect);
                 $result = mysqli_stmt_get_result($stmtSelect);
                 if(mysqli_num_rows($result)>0)
@@ -251,9 +250,9 @@
           // чтение некотрых данных
           $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? and `kdmo`=?";
           $queryUpdate = "UPDATE `organizations` SET `kd`=?,`kdmo`=?,`kdg`=?,`nu`=?,"
-            ."`ad`=?,`pi`=?,`te`=?,`tea`=?,`vdf10`=?,`pr`=?, `dz`=?  WHERE `kd`=? and `kdmo`=?";
+            ."`ad`=?,`pi`=?,`te`=?,`tea`=? WHERE `kd`=? and `kdmo`=?";
           $queryInsert = "INSERT INTO `organizations`(`kd`,`kdmo`,`kdg`,`nu`,"
-            ."`ad`,`pi`,`te`,`tea`,`vdf10`,`pr`,`dz`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+            ."`ad`,`pi`,`te`,`tea`) VALUES (?,?,?,?,?,?,?,?)";
           $stmtSelect = mysqli_stmt_init($link);
           $stmtUpdate = mysqli_stmt_init($link);
           $stmtInsert = mysqli_stmt_init($link);
@@ -263,67 +262,50 @@
           {
             echo " Помилка Пыдготовки запиту \n <br>";
           } else {
-            mysqli_stmt_bind_param($stmtInsert, "iisssssssss",$kd,$kdmo,$kdg,$nu,
-              $ad,$pi,$te,$tea,$vdf10,$pr,$dz);
+            mysqli_stmt_bind_param($stmtInsert, "iissssss",$kd,$kdmo,$kdg,$nu,
+              $ad,$pi,$te,$tea);
             mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
-            mysqli_stmt_bind_param($stmtUpdate, "iisssssssssii",$kdU,$kdmoU,$kdgU,
-              $nuU,$adU,$piU,$teU,$teaU,$vdf10U,$prU,$dzU,$kdUS,$kdmoUS);
+            mysqli_stmt_bind_param($stmtUpdate, "iissssssii",$kdU,$kdmoU,$kdgU,
+              $nuU,$adU,$piU,$teU,$teaU,$kdUS,$kdmoUS);
             for($i=1;$i<=$rowCount;$i++){
               $row= dbase_get_record_with_names ( $db , $i);
-              if($row["KO"]==48){
-                if($row["KDMO_ST"]!=0){
-                  if($row["KDMO_NEW"]==0){
-                    $kdmoGet=$row["KDMO_ZAM"];
-                  }else{
-                    $kdmoGet=$row["KDMO_NEW"];
-                  }
-                  $kdmo_old=$row["KDMO_ST"];
-                }else{
-                  $kdmoGet=$row["KDMO"];
-                }
-                //print_r($row);
-                $kdS=$row["KD"];
-                $kdmoS=((isset($kdmo_old))?($kdmo_old):($kdmoGet));
-                echo $kdmo_old." - ".$kdmoGet." - ".$kdmoS."<br>";
+              if ($row["KV10_MIS"]==1000) {
+                $kdS=$row["EDRPO"];
+                $kdmoS=$row["K_MIS"];
                 mysqli_stmt_execute($stmtSelect);
                 $result = mysqli_stmt_get_result($stmtSelect);
                 if(mysqli_num_rows($result)>0)
                 {
-                  $kdU = $row["KD"];
-                  $kdmoU = $kdmoGet;
-                  $kdgU = $row["KDG"];
-                  $nuU = changeCodingPage($row['NU']);
-                  $adU = changeCodingPage($row['ADF']);
-                  $piU = $row['PIF'];
+                  $kdU = $row["EDRPO"];
+                  $kdmoU = $row["K_MIS"];
+                  $kdgU = $row["OKPO"];
+                  $nuU = changeCodingPage($row['NAME_U']);
+                  $adU = changeCodingPage($row['NAME_VUL'].",".$row['NOM_B']);
+                  $piU = $row['P_IND'];
                   $teU = $row['TEF'];
                   $teaU = getTea($row['TEF']);
-                  $vdf10U = changeCodingPageShort($row['VDF10']);
-                  $pr = $row['PR'];
-                  $drU = $row['DR'];
-                  $dzU = $row['DZ'];
-                  $kdUS = $row["KD"];
-                  $kdmoUS = ((isset($kdmo_old))?($kdmo_old):($kdmoGet));
+                  $kdUS = $row["EDRPO"];
+                  $kdmoUS = $row["K_MIS"];
+
                   mysqli_stmt_execute($stmtUpdate);
                   $countUpdate+=1;
                 } else {
-                  $kd = $row["KD"];
-                  $kdmo = $row["KDMO"];
-                  $kdg = $row["KDG"];
-                  $nu = changeCodingPage($row['NU']);
-                  $ad = changeCodingPage($row['ADF']);
-                  $pi = $row['PIF'];
+                  $kd = $row["EDRPO"];
+                  $kdmo = $row["K_MIS"];
+                  $kdg = $row["OKPO"];
+                  $nu = changeCodingPage($row['NAME_U']);
+                  $ad = changeCodingPage($row['NAME_VUL'].",".$row['NOM_B']);
+                  $pi = $row['P_IND'];
                   $te = $row['TEF'];
                   $tea = getTea($row['TEF']);
-                  $vdf10 = changeCodingPageShort($row['VDF10']);
-                  $pr = $row['PR'];
-                  $dz = $row['DZ'];
+
                   mysqli_stmt_execute($stmtInsert);
                   $countInsert+=1;
                 }
                 mysqli_free_result($result);
-                if(isset($kdmo_old))unset($kdmo_old);
               }
             }
+          }
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtInsert);
           mysqli_stmt_close($stmtUpdate);
@@ -334,7 +316,6 @@
           dbase_close($db);
         }
       }
-    }
   }
 
 
