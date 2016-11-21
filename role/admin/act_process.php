@@ -10,7 +10,7 @@ if ($action=="add"){
   $countUpd=0;
   foreach ($arrList as $key => $value) {
     $query_str = "INSERT INTO `acts` (`org`, `da`, `dl`, `rnl`, `act`, `department`, `ad`, `dr`, `user`) SELECT `org`, `da`, `dl`, `rnl`, `act`, `department`, `ad`, `dr`, `user` FROM `acts_temp` WHERE `id` = ".$value;
-    echo $query_str;
+
     mysqli_query($link,$query_str);
     $query_str = "DELETE FROM `acts_temp` WHERE `id` = ".$value;
     mysqli_query($link,$query_str);

@@ -49,7 +49,7 @@ function submitForm(mode) {
 
         <form name="adminForm" action="load_arm.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" />
-    			<div class="item_blue" style="float:left;margin-left:15%; width:300px;">
+    			<div class="item_blue" style="float:left;margin-left:5%; width:300px;">
             <h2>Іморт файлу АРМ</h2>
             <p>Оберіть файл з розширення dbf</p>
             <p><input type="file" id="fileImp"  accept="db" name="fileImp" style="width:256px" /></p>
@@ -59,7 +59,17 @@ function submitForm(mode) {
             </p>
         	</div>
 
-          <div class="item_blue" style="float:right;margin-right:15%; width:300px;">
+          <div class="item_blue" style="float:left;margin-left:5%;width:300px;">
+            <h2>Іморт файлу з форми Фінансова звітність</h2>
+            <p>Оберіть файл з розширення dbf</p>
+            <p><input type="file" id="fileImpKdFin"  accept="db" name="fileImpKdFin" style="width:256px" /></p>
+            <p align="center">
+              <input type="button" value="Імпортувати" class="button" onclick="submitForm('importKdFin')" />
+              <input type="button" value="Експорт" class="button" onclick="submitForm('export')" />
+            </p>
+          </div>
+
+          <div class="item_blue" style="float:left;margin-left:5%; width:300px;">
   	        <h2>Іморт файлу MONOKD</h2>
   	        <p>Оберіть файл з розширення dbf</p>
   	        <p><input type="file" id="fileImpKd"  accept="db" name="fileImpKd" style="width:256px" /></p>
