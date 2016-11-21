@@ -30,6 +30,9 @@
               </ul>
           </li>
           <li>
+            <a href="load_arm.php">Завантаження даних про справи </a>
+          </li>
+          <li>
             <a href="" class="fly">Где заказывать?</a>
               <ul>
                 <li>
