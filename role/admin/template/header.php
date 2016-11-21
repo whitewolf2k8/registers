@@ -41,17 +41,17 @@
                        <li>
                         <a href="ссылка">Шапки</a>
                        </li>
-                        <li><a href="ссылка">Картинки для меп-карт</a></li>
-                        <li><a href="ссылка">Картинки</a></li>
-                        <li><a href="ссылка">Фоны</a></li>
-                        <li><a href="ссылка">Иконки</a></li>
-                        <li><a href="ссылка">Смайлы</a></li>
-                        <li><a href="ссылка">Награды</a></li>
-                        <li><a href="ссылка">Кнопки</a></li>
-                        <li><a href="ссылка">Заголовки</a></li>
-                        <li><a href="ссылка">Курсоры</a></li>
+                  <li><a href="ссылка">Картинки для меп-карт</a></li>
+                  <li><a href="ссылка">Картинки</a></li>
+                  <li><a href="ссылка">Фоны</a></li>
+                  <li><a href="ссылка">Иконки</a></li>
+                  <li><a href="ссылка">Смайлы</a></li>
+                  <li><a href="ссылка">Награды</a></li>
+                  <li><a href="ссылка">Кнопки</a></li>
+                  <li><a href="ссылка">Заголовки</a></li>
+                  <li><a href="ссылка">Курсоры</a></li>
                         <li><a href="ссылка">Tro lo lo </a></li>
-                    </ul>
+              </ul>
                                                                         </li>
               <li><a href="ссылка" class="fly">Рекламные элементы</a>
               <ul>
@@ -77,7 +77,10 @@
                                                                        </li>
           </ul>
       </li>
-      <li class="mid"><a href="ссылка">Навигация</a></li>
+      <li class="mid"><a href="ссылка">Навигация</a>
+      </li>
+      <li class="mid"><a href="load_list.php">Листи</a>
+      </li>
       </ul>
   </li>
   <li class="top"><a href="" id="" class="top_link"><span class="down">Довідники</span></a>
