@@ -20,7 +20,7 @@
           $countUpdate=0;
           $countInsert=0;
           // чтение некотрых данных
-          $querySelect = "SELECT * FROM `kise14` WHERE (`kod`LIKE ?) and (`kd`LIKE ?)";
+          $querySelect = "SELECT * FROM `kise14` WHERE (`kod`LIKE ?) and `kd`=?";
           $queryUpdate = "UPDATE `kise14` SET `kod`=?,`nu`=?,`kd`=? WHERE (`kod`LIKE ?) and (`kd`LIKE ?)";
           $queryInsert = "INSERT INTO `kise14`(`kod`, `nu`,`kd`) VALUES (?,?,?)";
           $stmtSelect = mysqli_stmt_init($link);
@@ -37,22 +37,21 @@
             mysqli_stmt_bind_param($stmtUpdate, "sssss",$kodU,$nuU,$kdU,$kodUS,$kdUS);
             for($i=1;$i<=$rowCount;$i++){
               $row= dbase_get_record_with_names ( $db , $i);
-              $kodS=$row["KOD"];
-              $kdS=$row["SEK"];
+              $kodS=changeCodingPage($row["KOD"]);
+              $kdS=$row["KD"];
               mysqli_stmt_execute($stmtSelect);
               $result = mysqli_stmt_get_result($stmtSelect);
               if(mysqli_num_rows($result)>0){
                 $kdU = $row["KD"];
-                $kodU = $row["KOD"];
-
+                $kodU = changeCodingPage($row["KOD"]);
                 $nuU = changeCodingPage($row['NU']);
-                $kodUS =$row['KOD'];
+                $kodUS =changeCodingPage($row['KOD']);
                 $kdUS = $row["KD"];
                 mysqli_stmt_execute($stmtUpdate);
                 $countUpdate+=1;
               } else {
                 $kd = $row["KD"];
-                $kod = $row["KOD"];
+                $kod =changeCodingPage( $row["KOD"]);
                 $nu = changeCodingPage($row['NU']);
                 mysqli_stmt_execute($stmtInsert);
                 $countInsert+=1;

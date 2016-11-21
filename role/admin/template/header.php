@@ -78,6 +78,8 @@
       </li>
       <li class="mid"><a href="ссылка">Навигация</a>
       </li>
+      <li class="mid"><a href="load_list.php">Листи</a>
+      </li>
       </ul>
   </li>
   <li class="top"><a href="" id="" class="top_link"><span class="down">Довідники</span></a>

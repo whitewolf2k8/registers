@@ -7,6 +7,7 @@
 <title>Головна</title>
 <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
 
+<script src="../../../js/jquery-1.7.2.js"></script>
 <script type="text/javascript">
 function submitForm(mode) {
   correct = true;
@@ -78,6 +79,6 @@ function submitForm(mode) {
 <div class="footer">
 	 <?php  require_once('footer.php'); ?>
 </div>
-
+<div id="toTop" > ^ Наверх </div>
 </body>
 </html>

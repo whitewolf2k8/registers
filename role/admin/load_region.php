@@ -1,6 +1,7 @@
 <?
   require_once('../../lib/start.php');
 
+
   $paginathionLimitStart=isset($_POST['limitstart']) ? stripslashes($_POST['limitstart']) : 0;
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
 
@@ -19,8 +20,8 @@
           $countUpdate=0;
           $countInsert=0;
           // чтение некотрых данных
-          $querySelect = "SELECT * FROM `region` WHERE `reg`= ? and `nu`=? ";
-          $queryUpdate = "UPDATE `region` SET `reg`=?,`kod`=?,`nu`=? WHERE `reg`= ? and `nu`=?";
+          $querySelect = "SELECT * FROM `region` WHERE `reg`= ? and (`nu` LIKE ?) ";
+          $queryUpdate = "UPDATE `region` SET `reg`=?,`kod`=?,`nu`=? WHERE `reg`= ? and (`nu`LIKE ?)";
           $queryInsert = "INSERT INTO `region`(`reg`, `kod`, `nu`)"
             ." VALUES (?,?,?)";
           $stmtSelect = mysqli_stmt_init($link);
@@ -28,7 +29,7 @@
           $stmtInsert = mysqli_stmt_init($link);
 
           $rowCount=dbase_numrecords ($db);
-        
+
           if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtUpdate, $queryUpdate)))
           {
             $ERROR_MSG.="<br> Помилка Підготовки запиту \n <br>";
@@ -39,7 +40,7 @@
 
             for($i=1;$i<=$rowCount;$i++){
               $row= dbase_get_record_with_names ( $db , $i);
-              $teS=$row["reg"];
+              $regS=$row["reg"];
               $nameS=changeCodingPage($row['name']);
 
               mysqli_stmt_execute($stmtSelect);
