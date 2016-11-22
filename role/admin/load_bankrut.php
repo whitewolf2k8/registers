@@ -4,8 +4,8 @@
   $filtr_year_insert=isset($_POST['filtr_year_insert']) ? stripslashes($_POST['filtr_year_insert']) : 0;
   $filtr_period_insert=isset($_POST['filtr_period_insert']) ? stripslashes($_POST['filtr_period_insert']) : 0;
 
-  $filtr_year_select=isset($_POST['filtry_year_select']) ? stripslashes($_POST['filtry_year_select']) : 0;
-  $filtr_period_select=isset($_POST['filtr_period_select']) ? stripslashes($_POST['filtr_period_select']) : 0;
+  $filtr_type_deal_select=isset($_POST['filtr_type_deal_select']) ? stripslashes($_POST['filtr_type_deal_select']) : 0;
+  $filtr_maneger_deal_select=isset($_POST['filtr_maneger_deal_select']) ? stripslashes($_POST['filtr_maneger_deal_select']) : 0;
 
   $filtr_kd=isset($_POST['filtr_kd']) ? stripslashes($_POST['filtr_kd']) : '';
   $filtr_kdmo=isset($_POST['filtr_kdmo']) ? stripslashes($_POST['filtr_kdmo']) : '';
@@ -32,32 +32,34 @@
   			if ($str == '') continue;
   			$fields = explode(",", $str);
   			$str_query = 'SELECT id'.' FROM organizations'
-  							.' WHERE kd="'.$fields[0].'" and kdmo ="'.$fields[1].'"'
+  							.' WHERE kd="'.$fields[0].' and kdmo ='.$fields[0].''
   							.' LIMIT 1';
+
   			$resultOrg = mysqli_query($link,$str_query);
   			if ($resultOrg){
-  				if (mysqli_num_rows($resultOrg) == 1) {
+  				if (mysqli_num_rows($resultOrg) == 1)
+          {
   					$row = mysqli_fetch_assoc($resultOrg);
-  					$res = mysqli_query($link,'SELECT id FROM bankrupts WHERE id_org="'.$row['id'].'" AND'
-            ." list like ('".$fields[0]."')");
-            //.' type = 0 AND id_year = '.$filtr_year_insert
-            //.' AND id_period = '.$filtr_period_insert .'   LIMIT 1');
-  					if (mysqli_num_rows($res) == 0)
+  					$res = mysqli_query($link,'SELECT id FROM bankrupts WHERE id="'.$row['id'].'" AND'
+            ." bankrupts like ('".$fields[1]."')");
+
+          //  echo 'SELECT id FROM bankrupts WHERE id_org="'.$row['id'].'" AND'
+          //  ." bankrupts like ('".$fields[0]."')"."<br>";
+
+  				 if (mysqli_num_rows($res) == 0)
   					{
-  						$query_str = 'INSERT INTO `bankrupts`(`id`, `id_org`, `maneger_deal`, `deal_number`, `date_deal`,`type_deal`)'
-                .' VALUES (0,'.$row[id].','.$fields[1].','.$fields[0]."')";
-  						$countIns++;
+            $query_str = 'INSERT INTO `bankrupts`(`id_org`, `maneger_deal`, `deal_number`, `date_deal`, `type_deal`)'
+              .' VALUES ('.$row[id].",'".$fields[1]."')";
+               mysqli_query($link,$query_str);
+              $countIns++;
   					}
   					else
   					{
-              $r = mysqli_fetch_assoc($res);
-              $query_str = "UPDATE `amount_workers` SET"
-                ." `amount`=".($fields[2]+$fields[3]+$fields[4])." WHERE id =".$r['id'];
-              mysqli_query($link,$query_str);
   						 $countUpd++;
   					}
   					@mysql_free_result($res);
-  				}else{
+  				}
+          else{
             if($fields[1]!=0){
               $ERROR_MSG .= 'Не знайдено підприємства з  kd '.$fields[0].' kdmo '.$fields[1]."<br>";
             }else{
@@ -95,25 +97,28 @@
 }
 
   $where = array();
-  $where[]=' cn.type = 0';
+  //$where[]=' cn.type = 0';
   if($filtr_kd!=""){
     $where[]=" org.kd = '".$filtr_kd."'";
   }
   if($filtr_kdmo!=""){
     $where[]=" org.kdmo = '".$filtr_kdmo."'";
   }
-  if($filtr_year_select!=""){
-    $where[]=" cn.id_year = ".$filtr_year_select;
+  if($filtr_type_deal_select!=""){
+    $where[]=" ba.type_deal = ".$filtr_type_deal_select;
   }
-  if($filtr_period_select!=""){
-    $where[]=" cn.id_period = ".$filtr_period_select;
+  if($filtr_maneger_deal_select!=""){
+    $where[]=" ba.maneger_deal = ".$filtr_maneger_deal_select;
   }
 
+
   $whereStrPa = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
-  $qeruStrPaginathion="SELECT COUNT(cn.id) as resC FROM `amount_workers`  as cn "
-    ." left join  organizations as org on org.id=cn.id_org"
-    ." left join year as y on y.id=cn.id_year "
-    ." left join period as p on p.id=cn.id_period ".$whereStrPa;
+  $qeruStrPaginathion="SELECT COUNT(ba.id)  FROM
+    . bankrupts as ba
+    . left join organizations as org on org.id=ba.id_org
+    WHERE
+    . kd,kdmo,id_org,maneger_deal,deal_number,data_deal,type_deal"
+    .$whereStrPa;
   $resultPa = mysqli_query($link,$qeruStrPaginathion);
   if($resultPa){
     $r=mysqli_fetch_array($resultPa, MYSQLI_ASSOC);

@@ -179,6 +179,11 @@ function changeAmountAction(id) {
             </p>
             <div class="clr"></div>
             <p>
+               <div class="navigation_left">№ справи</div>
+               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:180px;text-align:center;" /></div>
+            </p>
+            <div class="clr"></div>
+            <p>
 
                <div class="navigation_right">
 
@@ -220,10 +225,11 @@ function changeAmountAction(id) {
                 //echo "<td style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck()\" /></td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["kd"]."</td>";
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["kdmo"]." ".$value[""]."</td>";
-                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value[""]." ".$value[""]."</td>";
-                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value[""]." ".$value[""]."</td>";
-                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value[""]." ".$value[""]."</td>";
-                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value[""]." ".$value[""]."</td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["id_org"]." ".$value[""]."</td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["maneger_deal"]." ".$value[""]."</td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["deal_number"]." ".$value[""]."</td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["data_deal"]." ".$value[""]."</td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["type_deal"]." ".$value[""]."</td>";
                 //echo "<td style =\" overflow:hidden;\" ><input class=\"amo\"  type=\"text\" id=\"".$value['id']."\"  name=\"textAmount[".$value['']."]\" style=\"text-align:center;width:80px;\" value =\"".$value['']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
                 echo"</tr>";
               }
