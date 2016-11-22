@@ -40,7 +40,7 @@
   				if (mysqli_num_rows($resultOrg) == 1)
           {
   					$row = mysqli_fetch_assoc($resultOrg);
-  					$res = mysqli_query($link,'SELECT id FROM bankrupts WHERE id="'.$row['id'].'" AND'
+  					$res = mysqli_query($link,'SELECT id FROM bankrupts WHERE org="'.$row['id'].'" AND'
             ." bankrupts like ('".$fields[1]."')");
 
           //  echo 'SELECT id FROM bankrupts WHERE id_org="'.$row['id'].'" AND'
