@@ -13,6 +13,8 @@
   $paginathionLimitStart=isset($_POST['limitstart']) ? stripslashes($_POST['limitstart']) : 0;
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
 
+  $filtr_type_table=isset($_POST['typeShow'])?$_POST['typeShow']:0;
+
   $action = isset($_POST['mode']) ? $_POST['mode'] : '';
   $ERROR_MSG="";
 
@@ -21,99 +23,115 @@
   	$countIns = 0;
   	$countUpd = 0;
     $countKdmoNull = 0;
-  	if (!file_exists($tmpFile=$_FILES["fileImp"]['tmp_name'])) {
-  		$ERROR_MSG .= '<br />Помилка завантаження файлу.';
-  	}
-  	$d = @fopen($tmpFile, "r");
+    $start = microtime(true);
+    set_time_limit(90000);
+    if (!file_exists($tmpFile=$_FILES["fileImp"]['tmp_name'])) {
+      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
+    }else {
+      $db = dbase_open($tmpFile, 0);
+      if ($db) {
+        $countUpdate=0;
+        $countInsert=0;
+        // чтение некотрых данных
+        $querySelectAmount = "SELECT * FROM `amount_workers` as t1 "
+          ." left join  `organizations` as t2  on t1.id_org=t2.id ";
+        $querySelectProfit = "SELECT * FROM `profit_fin` as t1 "
+          ." left join  `organizations` as t2  on t1.id_org=t2.id ";
 
-  	if ($d != false) {
-  		while (!feof($d)) {
-  			$str = chop(fgets($d)); //считываем очередную строку из файла до \n включительно
-  			if ($str == '') continue;
-  			$fields = explode(",", $str);
-  			$str_query = 'SELECT id'.' FROM organizations'
-  							.' WHERE kd="'.$fields[0].'" and kdmo ="'.$fields[1].'"'
-  							.' LIMIT 1';
-  			$resultOrg = mysqli_query($link,$str_query);
-  			if ($resultOrg){
-  				if (mysqli_num_rows($resultOrg) == 1) {
-  					$row = mysqli_fetch_assoc($resultOrg);
-  					$res = mysqli_query($link,'SELECT id FROM amount_workers WHERE id_org="'.$row['id'].'" AND'
-              .' type = 0 AND id_year = '.$filtr_year_insert
-              .' AND id_period = '.$filtr_period_insert .'   LIMIT 1');
-  					if (mysqli_num_rows($res) == 0)
-  					{
-  						$query_str = 'INSERT INTO `amount_workers`(`type`, `id_org`, `id_year`, `id_period`, `amount`)'
-                .' VALUES (0,'.$row[id].','.$filtr_year_insert.','.$filtr_period_insert.','.($fields[2]+$fields[3]+$fields[4]).')';
-  						mysqli_query($link,$query_str);
-  						$countIns++;
-  					}
-  					else
-  					{
-              $r = mysqli_fetch_assoc($res);
-              $query_str = "UPDATE `amount_workers` SET"
-                ." `amount`=".($fields[2]+$fields[3]+$fields[4])." WHERE id =".$r['id'];
-              mysqli_query($link,$query_str);
-  						 $countUpd++;
-  					}
-  					@mysql_free_result($res);
-  				}else{
-            if($fields[1]!=0){
-              $ERROR_MSG .= 'Не знайдено підприємства з  kd '.$fields[0].' kdmo '.$fields[1]."<br>";
+        $queryUpdateAmount = "UPDATE `amount_workers` SET `type`=%d,`id_org`=%d,`id_year`=%d,`id_period`=%d,`amount`=%d WHERE `type`=%d AND `id_org`=%d AND `id_year`=%d AND `id_period`=%d";
+        $queryUpdateProfit = "UPDATE `profit_fin` SET `id_org`=%d,`id_year`=%d,`id_period`=%d,`profit`=%F WHERE `id_org`=%d AND `id_year`=%d AND `id_period`=%d";
+
+        $queryInsertAmount = "INSERT INTO `amount_workers`(`type`, `id_org`, `id_year`, `id_period`, `amount`)"
+          ." VALUES (%d,%d,%d,%d,%d)";
+        $queryInsertProfit = "INSERT INTO `profit_fin`(`id_org`, `id_year`, `id_period`, `profit`)"
+          ." VALUES (%d,%d,%d,%F)";
+
+        $rowCount=dbase_numrecords ($db);
+        for($i=1;$i<=$rowCount;$i++){
+          $row= dbase_get_record_with_names ( $db , $i);
+          $queryOrg="SELECT id FROM `organizations` WHERE `kd`=".$row["OKPO"]." AND `kdmo`=".$row["OKPO"]."0001";
+
+          $orgResult=mysqli_query($link, $queryOrg);
+          if($orgResult){
+            if (mysqli_num_rows($orgResult) == 1) {
+              $res=mysqli_fetch_assoc($orgResult);
+              $whereAmount=array();
+              $whereProfit=array();
+
+              $whereAmount[]="t1.type=1";
+              $whereAmount[]="t2.kd =".$row["OKPO"];
+              $whereAmount[]="t2.kdmo =".$row["OKPO"]."0001";
+              $whereAmount[]="t1.id_year =".$filtr_year_insert;
+              $whereAmount[]="t1.id_period =".$filtr_period_insert;
+
+              $whereProfit[]="t2.kd =".$row["OKPO"];
+              $whereProfit[]="t2.kdmo =".$row["OKPO"]."0001";
+              $whereProfit[]="t1.id_year =".$filtr_year_insert;
+              $whereProfit[]="t1.id_period =".$filtr_period_insert;
+
+              $whereAmountStr = ( count( $whereAmount ) ? ' WHERE ' . implode( ' AND ', $whereAmount ) : '' );
+              $whereProfitStr = ( count( $whereProfit ) ? ' WHERE ' . implode( ' AND ', $whereProfit ) : '' );
+
+              $resultAmount=mysqli_query($link, $querySelectAmount.$whereAmountStr);
+              $resultProfit=mysqli_query($link, $querySelectProfit.$whereProfitStr);
+
+              if(mysqli_num_rows($resultAmount) == 1){
+                mysqli_query($link,sprintf($queryUpdateAmount,1,$res["id"],$filtr_year_insert,$filtr_period_insert,$row["CHIS_FIN15"],1,$res["id"],$filtr_year_insert,$filtr_period_insert));
+                $countUpd++;
+              }else{
+                mysqli_query($link,sprintf($queryInsertAmount,1,$res["id"],$filtr_year_insert,$filtr_period_insert,$row["CHIS_FIN15"]));
+                $countIns++;
+              }
+
+              if(mysqli_num_rows($resultProfit) == 1){
+                mysqli_query($link,sprintf($queryUpdateProfit,$res["id"],$filtr_year_insert,$filtr_period_insert,$row["DOXID_15"],$res["id"],$filtr_year_insert,$filtr_period_insert));
+              }else{
+                mysqli_query($link,sprintf($queryInsertProfit,$res["id"],$filtr_year_insert,$filtr_period_insert,$row["DOXID_15"]));
+
+              }
+              mysqli_free_result($resultAmount);
+              mysqli_free_result($resultProfit);
+              mysqli_free_result($orgResult);
             }else{
-              $countKdmoNull++;
+              $ERROR_MSG .= 'Не знайдено підприємства з  kd '.$row["OKPO"]."<br>";
             }
           }
-  				@mysql_free_result($resultOrg);
-  			} else {
-  				$ERROR_MSG .= 'Помилка виконання запиту для підприємства kd '.$fields[0].' kdmo '.$fields[1];
-  				continue;
-  			}
-  		}
-  		fclose($d);
-  		$ERROR_MSG .= "<br />Імпорт завершено. Оновлених: $countUpd. Додано: $countIns. Де KDMO рівне 0: $countKdmoNull .  Всього: ".($countIns+$countUpd);
-  	} else
-  		$ERROR_MSG .= "<br />Неможливо відкрити файл імпорта";
-} else if ($action=="edit"){
-  $checkElement = $_POST["checkList"];
-  $arrAmont = $_POST["textAmount"];
-  foreach ($checkElement as $key => $value) {
-    $query_str = "UPDATE `amount_workers` SET"
-      ." `amount`=".$arrAmont[$value]." WHERE id =".$value;
-    mysqli_query($link,$query_str);
-    $countUpd++;
+        }
+        $ERROR_MSG .= "До бази данних було внесено ".$countIns.", та оновлено ".$countUpd." записів.<br>";
+      }else{
+        $ERROR_MSG .= "Не можливо відкрити файл з базою данних  <br>";
+      }
+      dbase_close($db);
+    }
   }
-  $ERROR_MSG .= "<br />Оновлено: $countUpd запис(ів).";
-}else if ($action=="del"){
-  $checkElement = $_POST["checkList"];
-  foreach ($checkElement as $key => $value) {
-    $query_str = "DELETE FROM `amount_workers` WHERE `id` = ".$value;
-    mysqli_query($link,$query_str);
-    $countUpd++;
-  }
-  $ERROR_MSG .= "<br />Видалено: $countUpd запис(ів).";
-}
+
+  $table=(($filtr_type_table==0)?"`amount_workers`":"profit_fin");
+
 
   $where = array();
-  $where[]=' cn.type = 0';
+  if($filtr_type_table!=1){
+    $where[]=' t1.type = 1';
+  }
+
   if($filtr_kd!=""){
-    $where[]=" org.kd = '".$filtr_kd."'";
+    $where[]=" t2.kd = '".$filtr_kd."'";
   }
   if($filtr_kdmo!=""){
-    $where[]=" org.kdmo = '".$filtr_kdmo."'";
+    $where[]=" t2.kdmo = '".$filtr_kdmo."'";
   }
   if($filtr_year_select!=""){
-    $where[]=" cn.id_year = ".$filtr_year_select;
+    $where[]=" t1.id_year = ".$filtr_year_select;
   }
   if($filtr_period_select!=""){
-    $where[]=" cn.id_period = ".$filtr_period_select;
+    $where[]=" t1.id_period = ".$filtr_period_select;
   }
 
   $whereStrPa = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
-  $qeruStrPaginathion="SELECT COUNT(cn.id) as resC FROM `amount_workers`  as cn "
-    ." left join  organizations as org on org.id=cn.id_org"
-    ." left join year as y on y.id=cn.id_year "
-    ." left join period as p on p.id=cn.id_period ".$whereStrPa;
+  $qeruStrPaginathion="SELECT COUNT(t1.id) as resC FROM ".$table."  as t1 "
+    ." left join  organizations as t2 on t2.id=t1.id_org"
+    ." left join year as t3 on t3.id=t1.id_year "
+    ." left join period as t4 on t4.id=t1.id_period ".$whereStrPa;
+
   $resultPa = mysqli_query($link,$qeruStrPaginathion);
   if($resultPa){
     $r=mysqli_fetch_array($resultPa, MYSQLI_ASSOC);
@@ -131,12 +149,14 @@
   }
 
 
-  $qeruStr="SELECT cn.id, org.nu as nu_org ,cn.amount, y.short_nu as nu_year, p.nu as nu_period FROM `amount_workers`  as cn "
-    ." left join  organizations as org on org.id=cn.id_org"
-    ." left join year as y on y.id=cn.id_year "
-    ." left join period as p on p.id=cn.id_period ".$whereStr;
+  $qeruStr="SELECT t2.nu as nu_org , t3.short_nu as nu_year, t4.nu as nu_period"
+    . " , t1.".(($filtr_type_table==0)?"amount":"profit")." as res  FROM ".$table." as t1 "
+    ." left join  organizations as t2 on t2.id=t1.id_org"
+    ." left join year as t3 on t3.id=t1.id_year "
+    ." left join period as t4 on t4.id=t1.id_period ".$whereStr;
 
-  //echo $qeruStr;
+//  echo $qeruStr;
+
   $result = mysqli_query($link,$qeruStr);
   if($result){
     $ListResult=array();
@@ -145,6 +165,7 @@
     }
     mysqli_free_result($result);
   }
+
 
   $insert_year= getListYear($link,0,0);
   $insert_period= getListPeriod($link,0);

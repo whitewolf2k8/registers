@@ -120,7 +120,7 @@ function changeAmountAction(id) {
       		    <?php if ($ERROR_MSG != '') echo '<p class="error">'.$ERROR_MSG.'</p>';?>
       	</div>
 
-        <h2>Середня кількість працівників із форми 1-ПВ по періодах</h2>
+        <h2>Кількість працівників/дохід з форми "Фінансова звітність" </h2>
 
         <form name="adminForm" action="load_amount_fin.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" />
@@ -129,7 +129,7 @@ function changeAmountAction(id) {
 
           <div class="item_blue" style="float:left;margin-left:15%; width:300px;">
             <h2>Іморт файлу</h2>
-            <p><input type="file" id="fileImp"  accept=".csv" name="fileImp" style="width:256px" /></p>
+            <p><input type="file" id="fileImp"  accept=".dbf" name="fileImp" style="width:256px" /></p>
             <p style="text-align:center">Період за який  імпортується</p>
             <p>
                <div class="navigation_left">рік</div>
@@ -177,11 +177,17 @@ function changeAmountAction(id) {
                </div>
             </p>
             <div class="clr"></div>
+
+            <h2 align="center">Представлення вихідної таблиці</h2>
+            <p align="center" style=" word-spacing:1px;">
+              <input type="radio" name="typeShow" value="0"<? echo (($filtr_type_table==0)?"checked":""); ?> > Чисельність
+              <input type="radio" name="typeShow" value="1" <? echo (($filtr_type_table==1)?"checked":""); ?> > Доходи
+            </p>
+
+            <div class="clr"></div>
             <p align="center">
   	          <input type="button" value="Пошук" class="button" onclick="submitForm('')" />
-            <!--  <input type="button" value="Додати" id="addBtn" class="button" onclick="submitForm('')" /> -->
-              <input type="button" value="Зберегти" id="saveBtn" class="button" disabled=true onclick="submitForm('edit')" />
-              <input type="button" value="Видалити" id="delBtn" class="button" disabled  onclick="submitForm('del')" />
+
   	        </p>
   	    	</div>
 
@@ -192,17 +198,15 @@ function changeAmountAction(id) {
           <div id="table_id" align="center">
             <table>
               <tr>
-                <th>&nbsp;</th>
                 <th>Підприємство</th>
                 <th>Період</th>
-                <th>Чисельність</th>
+                <th><? echo (($filtr_type_table==0)?"Чисельність":"Дохід"); ?></th>
               </tr>
             <? foreach ($ListResult as $key => $value) {
                 echo "<tr>";
-                echo "<td style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck()\" /></td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["nu_org"]."</td>";
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["nu_period"]." ".$value["nu_year"]."</td>";
-                echo "<td style =\" overflow:hidden;\" ><input class=\"amo\"  type=\"text\" id=\"".$value['id']."\"  name=\"textAmount[".$value['id']."]\" style=\"text-align:center;width:80px;\" value =\"".$value['amount']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
+                echo "<td style =\" overflow:hidden;\" >".$value['res']."</td>";
                 echo"</tr>";
               }
         } ?>
