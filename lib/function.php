@@ -77,17 +77,13 @@
 			$result=replace_symvol($result,"•","¯","¿");
 			return  $result;
 		}else{
-				//$result=iconv(	$enc, "cp1251",  $string);
-		//		if($result!=false){
 					$result=$string;
 					$result=replace_symvol($result,"¿","ª","º");
 					$result=replace_symvol($result,"¢","²","³");
 					$result=replace_symvol($result,"¡","i","²");
 					$result=replace_symvol($result,"°","¯","¿");
 					$result=replace_symvol($result,"•","¯","¿");
-					//echo $result."<---------".$string."<br>";
 					return $result;
-			//	}
 		}
 	}
 

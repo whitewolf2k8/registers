@@ -26,7 +26,7 @@
           <li><a href="" class="fly">Завантаження чисельності</a>
               <ul>
                   <li><a href="load_amount_pv.php">з 1-ПВ</a></li>
-                  <li><a href="load_region.php">з фінансів</a></li>
+                  <li><a href="load_amount_fin.php">з фінансів</a></li>
               </ul>
           </li>
           <li class="mid"><a href="load_list.php">Порушення законодавства</a></li>
