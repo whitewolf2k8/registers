@@ -145,4 +145,9 @@
     return $result;
   }
 
+  function getListMeneger($link, $selected){
+    $str="SELECT * FROM `managers`";
+    return createListDuble($link,"id","nu",$str,$selected);
+  }
+
 ?>

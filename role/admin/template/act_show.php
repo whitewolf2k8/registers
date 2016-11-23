@@ -172,7 +172,7 @@
           <div id="table_id" align="center">
             <table id="table_id" >
               <tr>
-                <th rowspan="2">&nbsp;</th>
+              <!--  <th rowspan="2">&nbsp;</th>-->
                 <th rowspan="2">╙дпонс</th>
                 <th rowspan="2">йдлн</th>
                 <th colspan="2">дЮРЮ </th>
@@ -187,7 +187,7 @@
               </tr>
               <? foreach ($ListResult as $key => $value) {
                 echo "<tr id=\"".$value['id']."\">";
-                echo "<td  style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck('".$value["id"]."');\" /></td>";
+                //echo "<td  style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck('".$value["id"]."');\" /></td>";
                 echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kd"]."</a></td>";
                 echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kdmo"]."</a></td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["da"]."</td>";

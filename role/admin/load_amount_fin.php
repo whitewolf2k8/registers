@@ -33,9 +33,9 @@
         $countUpdate=0;
         $countInsert=0;
         // чтение некотрых данных
-        $querySelectAmount = "SELECT * FROM `amount_workers` as t1 "
+        $querySelectAmount = "SELECT t1.id FROM `amount_workers` as t1 "
           ." left join  `organizations` as t2  on t1.id_org=t2.id ";
-        $querySelectProfit = "SELECT * FROM `profit_fin` as t1 "
+        $querySelectProfit = "SELECT t1.id FROM `profit_fin` as t1 "
           ." left join  `organizations` as t2  on t1.id_org=t2.id ";
 
         $queryUpdateAmount = "UPDATE `amount_workers` SET `type`=%d,`id_org`=%d,`id_year`=%d,`id_period`=%d,`amount`=%d WHERE `type`=%d AND `id_org`=%d AND `id_year`=%d AND `id_period`=%d";
