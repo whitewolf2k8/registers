@@ -10,6 +10,8 @@
   $filtr_kd=isset($_POST['filtr_kd']) ? stripslashes($_POST['filtr_kd']) : '';
   $filtr_kdmo=isset($_POST['filtr_kdmo']) ? stripslashes($_POST['filtr_kdmo']) : '';
 
+  //$filtr_type_deal=isset($_POST['type_deal']) ? stripslashes($_POST['type_deal']) : '';
+
   $paginathionLimitStart=isset($_POST['limitstart']) ? stripslashes($_POST['limitstart']) : 0;
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
 
@@ -32,24 +34,32 @@
   			if ($str == '') continue;
   			$fields = explode(",", $str);
   			$str_query = 'SELECT id'.' FROM organizations'
-  							.' WHERE kd="'.$fields[0].' and kdmo ='.$fields[0].''
+  							.' WHERE kd='.$fields[0].' and kdmo ='.$fields[0].'0001'
   							.' LIMIT 1';
-
+                //echo $str_query;
   			$resultOrg = mysqli_query($link,$str_query);
   			if ($resultOrg){
   				if (mysqli_num_rows($resultOrg) == 1)
           {
   					$row = mysqli_fetch_assoc($resultOrg);
-  					$res = mysqli_query($link,'SELECT id FROM bankrupts WHERE org="'.$row['id'].'" AND'
-            ." bankrupts like ('".$fields[1]."')");
+  					$res = mysqli_query($link,'SELECT id FROM bankrupts WHERE id_org="'.$row['id'].'" AND'
+              ." type_deal like ('".$fields[1]."')");
 
-          //  echo 'SELECT id FROM bankrupts WHERE id_org="'.$row['id'].'" AND'
-          //  ." bankrupts like ('".$fields[0]."')"."<br>";
+            //  echo 'SELECT id FROM bankrupts WHERE id_org="'.$row['id'].'" AND'
+          //   ." type_deal like ('".$fields[1]."')";
+
+           function data($fields = 'date_deal')
+           {
+             $date_deal = $fields[3];
+
+
+             return $fields[3];
+           }
 
   				 if (mysqli_num_rows($res) == 0)
   					{
             $query_str = 'INSERT INTO `bankrupts`(`id_org`, `maneger_deal`, `deal_number`, `date_deal`, `type_deal`)'
-              .' VALUES ('.$row[id].",'".$fields[1]."')";
+              .' VALUES ('.$row['id'].",'".$fields[1]."','".$fields[2]."','".$fields[3]."','".$fields[4]."')";
                mysqli_query($link,$query_str);
               $countIns++;
   					}
@@ -155,8 +165,8 @@
   $insert_year= getListYear($link,0,0);
   $insert_period= getListPeriod($link,0);
 
-  $select_year= getListYear($link,$filtr_year_select,1);
-  $select_period= getListPeriod($link,$filtr_period_select);
+  $select_type_deal= getListYear($link,$filtr_type_deal_select,1);
+  $select__maneger_deal= getListPeriod($link,$filtr_maneger_deal_select);
 
   require_once('template/load_bankrut.php');
 ?>

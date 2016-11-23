@@ -175,7 +175,7 @@ function changeAmountAction(id) {
             <div class="clr"></div>
             <p>
                <div class="navigation_left">Стадія провадження</div>
-               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:180px;text-align:center;" /></div>
+               <div class="navigation_right"><input align="right" type="text" id="type_deal"  name="type_deal" value="<?php echo $ftype_deal; ?>" style="width:180px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
             <p>
@@ -225,7 +225,8 @@ function changeAmountAction(id) {
                 //echo "<td style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck()\" /></td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["kd"]."</td>";
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["kdmo"]." ".$value[""]."</td>";
-                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["id_org"]." ".$value[""]."</td>";
+
+
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["maneger_deal"]." ".$value[""]."</td>";
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["deal_number"]." ".$value[""]."</td>";
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["data_deal"]." ".$value[""]."</td>";
