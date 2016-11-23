@@ -100,7 +100,7 @@
     if(nu!="" && nom!="" ){
       $.ajax({
        type: "POST",
-       url: "script\\processDepatmen.php",
+       url: "script\\processDepatment.php",
        data: {"mode":mode, "nu":nu ,"nom":nom },
        scriptCharset: "CP1251",
        success: function(data){

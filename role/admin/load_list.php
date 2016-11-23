@@ -30,16 +30,18 @@
 
   			$str_query = 'SELECT id FROM `organizations` '
   							.' WHERE kd='.$fields[0].' and kdmo ='.$fields[0].'0001 LIMIT 1';
-
   			$resultOrg = mysqli_query($link,$str_query);
       	if ($resultOrg){
   				if (mysqli_num_rows($resultOrg) == 1) {
   					$row = mysqli_fetch_assoc($resultOrg);
-  					$query_str = 'INSERT INTO `latter_base`(`id_org`, `label`, `type`)'
+  					$query_str = 'INSERT INTO `letter_base`(`id_org`, `label`, `type`)'
               .' VALUES ('.$row[id].",'".$fields[1]."',0)";
   						mysqli_query($link,$query_str);
+
+
   						$countIns++;
   				}else{
+
             if($fields[1]!=0){
               $ERROR_MSG .= 'Не знайдено підприємства з  kd '.$fields[0]."<br>";
             }

@@ -45,6 +45,7 @@
   					{
   						$query_str = 'INSERT INTO `amount_workers`(`type`, `id_org`, `id_year`, `id_period`, `amount`)'
                 .' VALUES (0,'.$row[id].','.$filtr_year_insert.','.$filtr_period_insert.','.($fields[2]+$fields[3]+$fields[4]).')';
+              
   						mysqli_query($link,$query_str);
   						$countIns++;
   					}

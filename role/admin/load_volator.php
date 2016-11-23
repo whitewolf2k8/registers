@@ -44,6 +44,7 @@
                 $rowManeger = mysqli_fetch_assoc($resManeger);
                 $query_str = sprintf($strInsert,$row["id"],$fields[2],delApostrophe($fields[3]),$rowManeger["id"]);
                 mysqli_query($link,$query_str);
+                  echo $query_str."<br>";
                 $countIns++;
               }else{
                 $rowManeger = mysqli_fetch_assoc($resManeger);
@@ -53,12 +54,14 @@
                     $flag=true;
                     $query_str =sprintf($strUpdate,$row["id"],$fields[2],delApostrophe($fields[3]),$rowManeger["id"],$r["id"]);
                     mysqli_query($link,$query_str);
+                      echo $query_str."<br>";
                     $countUpd++;
                   }
                 }
                 if($flag==false){
                   $query_str = sprintf($strInsert,$row["id"],$fields[2],delApostrophe($fields[3]),$rowManeger["id"]);
                   mysqli_query($link,$query_str);
+                    echo $query_str."<br>";
                   $countIns++;
                 }
                 mysqli_free_result($resManeger);
@@ -127,7 +130,7 @@
     ." left join  organizations as t2 on t2.id=t1.id_org"
     ." left join managers as t3 on t3.id=t1.id_maneger ".$whereStr;
 
-  
+
 
   $result = mysqli_query($link,$qeruStr);
   if($result){
