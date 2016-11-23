@@ -81,8 +81,10 @@
 
 
 
+
   function addAdres(mode){
     var pib = document.getElementById('text_pib').value;
+
     var idDep = document.getElementById('depatment_id');
     idDep=idDep.options[idDep.selectedIndex].value;
     if(pib!="" && idDep!=0){
