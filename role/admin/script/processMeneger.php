@@ -6,6 +6,7 @@
   if($action=="add"){
 
     $pib=iconv("utf-8","windows-1251",$_POST['pib']);
+    $pib=delApostrophe($pib);
     $dep=$_POST['dep'];
 
     $qeruStr="INSERT INTO `managers`(`nu`, `dead`, `depatment`) VALUES ('".$pib."',0,".$dep.")";
