@@ -436,5 +436,11 @@
 		return $result;
 	}
 
+	function delApostrophe($str){
+		return addslashes(stripslashes(str_replace("'","&#39;",$str)));
+	}
+
+
+
 
 ?>
