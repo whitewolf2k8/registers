@@ -31,6 +31,8 @@
           </li>
           <li class="mid"><a href="load_list.php">Порушення законодавства</a></li>
           <li class="mid"><a href="load_volator.php">Порушення адмінсправи</a></li>
+          <li class="mid"><a href="load_stop_activity.php">Призупинення діяльності</a></li>
+
           <li>
             <a href="" class="fly">Где заказывать?</a>
               <ul>
