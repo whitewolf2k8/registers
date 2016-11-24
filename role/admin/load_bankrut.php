@@ -1,16 +1,12 @@
 <?
   require_once('../../lib/start.php');
 
-  $filtr_year_insert=isset($_POST['filtr_year_insert']) ? stripslashes($_POST['filtr_year_insert']) : 0;
-  $filtr_period_insert=isset($_POST['filtr_period_insert']) ? stripslashes($_POST['filtr_period_insert']) : 0;
-
-  $filtr_type_deal_select=isset($_POST['filtr_type_deal_select']) ? stripslashes($_POST['filtr_type_deal_select']) : 0;
-  $filtr_maneger_deal_select=isset($_POST['filtr_maneger_deal_select']) ? stripslashes($_POST['filtr_maneger_deal_select']) : 0;
-
   $filtr_kd=isset($_POST['filtr_kd']) ? stripslashes($_POST['filtr_kd']) : '';
   $filtr_kdmo=isset($_POST['filtr_kdmo']) ? stripslashes($_POST['filtr_kdmo']) : '';
-
-  //$filtr_type_deal=isset($_POST['type_deal']) ? stripslashes($_POST['type_deal']) : '';
+  $filtr_manager_deal=isset($_POST['filtr_manager_deal']) ? stripslashes($_POST['filtr_manager_deal']) : '';
+  $filtr_deal_number=isset($_POST['filtr_deal_number']) ? stripslashes($_POST['filtr_deal_number']) : '';
+  $filtr_date_deal=isset($_POST['filtr_date_deal']) ? stripslashes($_POST['filtr_date_deal']) : '';
+  $filtr_type_deal=isset($_POST['filtr_type_deal']) ? stripslashes($_POST['filtr_type_deal']) : '';
 
   $paginathionLimitStart=isset($_POST['limitstart']) ? stripslashes($_POST['limitstart']) : 0;
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
@@ -36,7 +32,6 @@
   			$str_query = 'SELECT id'.' FROM organizations'
   							.' WHERE kd='.$fields[0].' and kdmo ='.$fields[0].'0001'
   							.' LIMIT 1';
-                //echo $str_query;
   			$resultOrg = mysqli_query($link,$str_query);
   			if ($resultOrg){
   				if (mysqli_num_rows($resultOrg) == 1)
@@ -44,17 +39,6 @@
   					$row = mysqli_fetch_assoc($resultOrg);
   					$res = mysqli_query($link,'SELECT id FROM bankrupts WHERE id_org="'.$row['id'].'" AND'
               ." type_deal like ('".$fields[1]."')");
-
-            //  echo 'SELECT id FROM bankrupts WHERE id_org="'.$row['id'].'" AND'
-          //   ." type_deal like ('".$fields[1]."')";
-
-           function data($fields = 'date_deal')
-           {
-             $date_deal = $fields[3];
-
-
-             return $fields[3];
-           }
 
   				 if (mysqli_num_rows($res) == 0)
   					{
@@ -107,28 +91,28 @@
 }
 
   $where = array();
-  //$where[]=' cn.type = 0';
   if($filtr_kd!=""){
     $where[]=" org.kd = '".$filtr_kd."'";
   }
   if($filtr_kdmo!=""){
     $where[]=" org.kdmo = '".$filtr_kdmo."'";
   }
-  if($filtr_type_deal_select!=""){
-    $where[]=" ba.type_deal = ".$filtr_type_deal_select;
+  if($filtr_deal_number!=""){
+    $where[]=" ba.deal_number = '".$filtr_deal_number."'";
   }
-  if($filtr_maneger_deal_select!=""){
-    $where[]=" ba.maneger_deal = ".$filtr_maneger_deal_select;
+  if($filtr_date_deal!=""){
+    $where[]=" ba.date_deal = '".$filtr_date_deal."'";
+  }
+  if($filtr_type_deal!=""){
+    $where[]=" ba.type_deal = '".$filtr_type_deal."'";
   }
 
 
   $whereStrPa = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
-  $qeruStrPaginathion="SELECT COUNT(ba.id)  FROM
-    . bankrupts as ba
-    . left join organizations as org on org.id=ba.id_org
-    WHERE
-    . kd,kdmo,id_org,maneger_deal,deal_number,data_deal,type_deal"
-    .$whereStrPa;
+  $qeruStrPaginathion="SELECT COUNT(ba.id)  FROM bankrupts as ba"
+    ." left join organizations as org on org.id=ba.id_org" .$whereStrPa;
+    //echo $qeruStrPaginathion;
+
   $resultPa = mysqli_query($link,$qeruStrPaginathion);
   if($resultPa){
     $r=mysqli_fetch_array($resultPa, MYSQLI_ASSOC);
@@ -149,10 +133,7 @@
    $qeruStr="SELECT org.kd,org.kdmo, ba.* FROM "
    ." bankrupts as ba "
    ." left join organizations as org on org.id=ba.id_org".$whereStr;
-    //." left join year as y on y.id=cn.id_year "
-    //." left join period as p on p.id=cn.id_period ".$whereStr;
 
-  //echo $qeruStr;
   $result = mysqli_query($link,$qeruStr);
   if($result){
     $ListResult=array();

@@ -45,7 +45,12 @@
   }
 
 function cleanFiter() {
+  document.getElementById("filtr_deal_number").value="";
   document.getElementById("filtr_kd").value="";
+  document.getElementById("filtr_kdmo").value="";
+  document.getElementById("filtr_type_deal").value="";
+  document.getElementById("filtr_date_deal").value="";
+  document.getElementById("filtr_manager_deal").value="";
 }
 
   function cleanFormImport() {
@@ -106,8 +111,6 @@ function changeAmountAction(id) {
     $("#filtr_kdmo").ForceNumericOnly();
   });
 </script>
-
-
 </head>
 
 <body>
@@ -169,22 +172,21 @@ function changeAmountAction(id) {
 
             <div class="clr"></div>
             <p>
+               <div class="navigation_left">№ справи</div>
+               <div class="navigation_right"><input align="right" type="text" id="filtr_deal_number"  name="filtr_deal_number" value="<?php echo $filtr_deal_number; ?>" style="width:180px;text-align:center;" /></div>
+            </p>
+            <div class="clr"></div>
+            <p>
                <div class="navigation_left">Дата порушення</div>
-               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:180px;text-align:center;" /></div>
+               <div class="navigation_right"><input align="right" type="text" id="filtr_date_deal"  name="filtr_date_deal" value="<?php echo $filtr_date_deal; ?>" style="width:180px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
             <p>
                <div class="navigation_left">Стадія провадження</div>
-               <div class="navigation_right"><input align="right" type="text" id="type_deal"  name="type_deal" value="<?php echo $ftype_deal; ?>" style="width:180px;text-align:center;" /></div>
+               <div class="navigation_right"><input align="right" type="text" id="filtr_type_deal"  name="filtr_type_deal" value="<?php echo $filtr_type_deal; ?>" style="width:180px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
             <p>
-               <div class="navigation_left">№ справи</div>
-               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:180px;text-align:center;" /></div>
-            </p>
-            <div class="clr"></div>
-            <p>
-
                <div class="navigation_right">
 
                </div>
@@ -200,9 +202,6 @@ function changeAmountAction(id) {
             <p align="center">
               <input type="button" value="Пошук" class="button" onclick="submitForm('')" />
               <input type="button" value="Очистити" class="button" onclick="cleanFiter()" />
-            <!--  <input type="button" value="Додати" id="addBtn" class="button" onclick="submitForm('')" /> -->
-            <!--  <input type="button" value="Зберегти" id="saveBtn" class="button" disabled=true onclick="submitForm('edit')" />-->
-            <!--  <input type="button" value="Видалити" id="delBtn" class="button" disabled  onclick="submitForm('del')" /> -->
   	        </p>
   	    	</div>
 
@@ -222,16 +221,12 @@ function changeAmountAction(id) {
               </tr>
             <? foreach ($ListResult as $key => $value) {
                 echo "<tr>";
-                //echo "<td style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck()\" /></td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["kd"]."</td>";
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["kdmo"]." ".$value[""]."</td>";
-
-
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["maneger_deal"]." ".$value[""]."</td>";
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["deal_number"]." ".$value[""]."</td>";
-                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["data_deal"]." ".$value[""]."</td>";
+                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["date_deal"]." ".$value[""]."</td>";
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["type_deal"]." ".$value[""]."</td>";
-                //echo "<td style =\" overflow:hidden;\" ><input class=\"amo\"  type=\"text\" id=\"".$value['id']."\"  name=\"textAmount[".$value['']."]\" style=\"text-align:center;width:80px;\" value =\"".$value['']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
                 echo"</tr>";
               }
         } ?>
