@@ -183,7 +183,7 @@ function changeAmountAction(id) {
             <div class="clr"></div>
             <p>
                <div class="navigation_left">Стадія провадження</div>
-               <div class="navigation_right"><input align="right" type="text" id="filtr_type_deal"  name="filtr_type_deal" value="<?php echo $filtr_type_deal; ?>" style="width:180px;text-align:center;" /></div>
+               <div class="navigation_right"> <select name="filtr_type_deal"  id="filtr_type_deal" style="width:180px;text-align:center;" ><? echo $list_bankrupts; ?></select></div>
             </p>
             <div class="clr"></div>
             <p>

@@ -89,11 +89,16 @@
   }
   $ERROR_MSG .= "<br />Видалено: $countUpd запис(ів).";
 }
+  str_replace(" ","",$filtr_kd);
 
   $where = array();
   if($filtr_kd!=""){
-    $where[]=" org.kd = '".$filtr_kd."'";
+    $where[]="kd LIKE ('%".$filtr_kd."%')";
   }
+  /*if($filtr_kd!="")
+  {
+    $where[]=" org.kd = '".$filtr_kd."'";
+  }*/
   if($filtr_kdmo!=""){
     $where[]=" org.kdmo = '".$filtr_kdmo."'";
   }
@@ -103,7 +108,7 @@
   if($filtr_date_deal!=""){
     $where[]=" ba.date_deal = '".$filtr_date_deal."'";
   }
-  if($filtr_type_deal!=""){
+    if($filtr_type_deal!=""){
     $where[]=" ba.type_deal = '".$filtr_type_deal."'";
   }
 
@@ -111,7 +116,7 @@
   $whereStrPa = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
   $qeruStrPaginathion="SELECT COUNT(ba.id)  FROM bankrupts as ba"
     ." left join organizations as org on org.id=ba.id_org" .$whereStrPa;
-    //echo $qeruStrPaginathion;
+
 
   $resultPa = mysqli_query($link,$qeruStrPaginathion);
   if($resultPa){
@@ -138,16 +143,13 @@
   if($result){
     $ListResult=array();
     while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-      $ListResult[]=$row;
+       $ListResult[]=$row+array("Id"=>getListBankruts($link,$row["bankrupts"],1));
+       //$ListResult[]=$row;
     }
     mysqli_free_result($result);
   }
 
-  $insert_year= getListYear($link,0,0);
-  $insert_period= getListPeriod($link,0);
-
-  $select_type_deal= getListYear($link,$filtr_type_deal_select,1);
-  $select__maneger_deal= getListPeriod($link,$filtr_maneger_deal_select);
+  $list_bankrupts=getListBankruts($link,$filtr_t);
 
   require_once('template/load_bankrut.php');
 ?>
