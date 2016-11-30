@@ -103,7 +103,7 @@
     $str="<option value='0'".(($id=="0")?"selected":"''").">".$mes."</option>";
     if($result){
       while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-       $str.="<option value='".$row['type_deal']."' ".(($id===$row['type_deal'])?"selected":"").">".$row['type_deal']."</option>";
+       $str.="<option value='".$row['type_deal']."' ".(($id==$row['type_deal'])?"selected":"").">".$row['type_deal']."</option>";
       }
     }
     return $str;

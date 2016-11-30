@@ -89,11 +89,11 @@
   }
   $ERROR_MSG .= "<br />Видалено: $countUpd запис(ів).";
 }
-  str_replace(" ","",$filtr_kd);
+  $filtr_kd = str_replace(" ","",$filtr_kd);
 
   $where = array();
   if($filtr_kd!=""){
-    $where[]="kd LIKE ('%".$filtr_kd."%')";
+    $where[]="org.kd LIKE ('".$filtr_kd."')";
   }
   /*if($filtr_kd!="")
   {
@@ -109,8 +109,11 @@
     $where[]=" ba.date_deal = '".$filtr_date_deal."'";
   }
     if($filtr_type_deal!=""){
-    $where[]=" ba.type_deal = '".$filtr_type_deal."'";
+    $where[]=" ba.type_deal LIKE ('".$filtr_type_deal."')";
   }
+  /*if($filtr_type_deal!=0){
+    $where[]=" `ba.date_deal`=".$filtr_type_deal ;
+  }*/
 
 
   $whereStrPa = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
