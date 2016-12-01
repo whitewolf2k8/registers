@@ -22,19 +22,6 @@
         document.getElementById('errorMes').innerHTML="<p>Будь ласка оберіть файл для імпорту.</p>";
       }
     }
-
-    if(mode=='edit'){
-      correct= confirm("Ви впевнені в змінах ??");
-      if(correct){
-        var arrCheck=document.getElementsByName("checkList[]");
-        for(var i=0;i<arrCheck.length;i++){
-          arrCheck[i].disabled=false;
-        }
-      }
-    }
-    if(mode=='del'){
-      correct= confirm("Ви що хочете видалити відмічені записи??");
-    }
     if (correct) {
       document.getElementById('lo').innerHTML='<div id="preloader"></div>';
       form.mode.value = mode;
@@ -44,68 +31,18 @@
     }
   }
 
-function cleanFiter() {
-  document.getElementById("filtr_deal_number").value="";
-  document.getElementById("filtr_kd").value="";
-  document.getElementById("filtr_kdmo").value="";
-  document.getElementById("filtr_type_deal").value="";
-  document.getElementById("filtr_date_deal").value="";
-  document.getElementById("filtr_manager_deal").value="";
-}
+  function cleanFiter() {
+    document.getElementById("filtr_deal_number").value="";
+    document.getElementById("filtr_kd").value="";
+    document.getElementById("filtr_kdmo").value="";
+    var lists= document.getElementById("filtr_type_deal");
+    lists.selectedIndex=0;
+    document.getElementById("filtr_date_deal").value="";
+  }
 
   function cleanFormImport() {
     document.getElementById("fileImp").value="";
-    $.ajax({
-     type: "POST",
-     url: "script/process_amount_pv.php",
-     data: {mode:'getList'},
-     scriptCharset: "CP1251",
-     success: function(data){
-         var res = JSON.parse(data);
-         formCleanList(res);
-      }
-   });
   }
-
-  function formCleanList(arr) {
-    document.getElementById("filtr_year_insert").innerHTML=arr.insert_year;
-    document.getElementById("filtr_period_insert").innerHTML=arr.insert_period;
-  }
-
-  function chacheCheck(){
-    var arrText=document.getElementsByClassName("amo");
-    var arrCheck=document.getElementsByName("checkList[]");
-    var cnt=0;
-    for(var i=0;i<arrCheck.length;i++){
-      if(arrCheck[i].checked)
-        cnt++;
-    }
-    var flag=true;
-    if(cnt==0)
-    {
-      flag=false;
-      document.getElementById("delBtn").disabled=true;
-      document.getElementById("addBtn").disabled=false;
-    }else{
-      document.getElementById("delBtn").disabled=false;
-      document.getElementById("addBtn").disabled=true;
-    }
-
-    for(var i=0;i<arrText.length;i++){
-      arrText[i].disabled = flag;
-    }
-  }
-
-
-function changeAmountAction(id) {
-  var arrCheck=document.getElementsByName("checkList[]");
-  for(var i=0;i<arrCheck.length;i++){
-    arrCheck[i].disabled="disabled";
-    if(id==arrCheck[i].value) arrCheck[i].checked=true;
-  }
-  document.getElementById("saveBtn").disabled=false;
-}
-
   $(document).ready(function() {
     $("#filtr_kd").ForceNumericOnly();
     $("#filtr_kdmo").ForceNumericOnly();
@@ -186,19 +123,6 @@ function changeAmountAction(id) {
                <div class="navigation_right"> <select name="filtr_type_deal"  id="filtr_type_deal" style="width:180px;text-align:center;" ><? echo $list_bankrupts; ?></select></div>
             </p>
             <div class="clr"></div>
-            <p>
-               <div class="navigation_right">
-
-               </div>
-            </p>
-            <div class="clr"></div>
-            <p>
-
-               <div class="navigation_right">
-
-               </div>
-            </p>
-            <div class="clr"></div>
             <p align="center">
               <input type="button" value="Пошук" class="button" onclick="submitForm('')" />
               <input type="button" value="Очистити" class="button" onclick="cleanFiter()" />
@@ -213,7 +137,7 @@ function changeAmountAction(id) {
             <table>
               <tr>
                 <th>ЄДРПО</th>
-                <th>Kdmo</th>
+                <th>КДМО</th>
                 <th>Арбітражний керуючий</th>
                 <th>№ справи</th>
                 <th>Дата порушення</th>
@@ -228,13 +152,13 @@ function changeAmountAction(id) {
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["date_deal"]." ".$value[""]."</td>";
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["type_deal"]." ".$value[""]."</td>";
                 echo"</tr>";
-              }
-        } ?>
-          </table>
-        </div>
+              } ?>
+              </table>
+            </div>
+        <? } ?>
+
         </form>
      </div>
-
 	  </div>
 
 </div><!-- .wrapper -->

@@ -98,7 +98,7 @@
 
   function getListBankruts($link, $id,$type=0,$mes=" - не обрано - ")
   {
-    $qeruStr="SELECT DISTINCT type_deal FROM `bankrupts`".(($type==0)?"  ":"");
+    $qeruStr="SELECT DISTINCT type_deal FROM `bankrupts`";
     $result = mysqli_query($link,$qeruStr);
     $str="<option value='0'".(($id=="0")?"selected":"''").">".$mes."</option>";
     if($result){
