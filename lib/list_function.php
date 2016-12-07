@@ -96,6 +96,19 @@
     return $str;
   }
 
+  function getListBankruts($link, $id,$type=0,$mes=" - не обрано - ")
+  {
+    $qeruStr="SELECT DISTINCT type_deal FROM `bankrupts`";
+    $result = mysqli_query($link,$qeruStr);
+    $str="<option value='0'".(($id=="0")?"selected":"''").">".$mes."</option>";
+    if($result){
+      while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+       $str.="<option value='".$row['type_deal']."' ".(($id==$row['type_deal'])?"selected":"").">".$row['type_deal']."</option>";
+      }
+    }
+    return $str;
+  }
+
   function getListDepatmentByKod($link, $kod,$type=0,$mes=" - не обрано - ")
   {
     $qeruStr="SELECT * FROM `depatment`".(($type==0)?" WHERE dead = 0 ":"");
