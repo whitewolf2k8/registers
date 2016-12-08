@@ -328,7 +328,11 @@
           $countUpdate=0;
           $countInsert=0;
           // чтение некотрых данных
-          $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? and`kdmo`=?";
+
+      /*  $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? , `kdmo`=? , `OT`=? , `DT`=? ,`OF`=? and `EMAIL`=?";
+          $queryInsert = "INSERT INTO `organizations`(`kd`,`kdmo`,`OT`,`DT`,`OF`,`EMAIL`) VALUES (?,?,?,?,?,?)"; */
+
+          $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? and `kdmo`=?";
           $queryUpdate = "UPDATE `organizations` SET `kd`=?,`kdmo`=?,`kdg`=?,`nu`=?,"
             ."`ad`=?,`pi`=?,`te`=?,`tea`=?,`vdf10`=?,`pr`=?, `dz`=?  WHERE `kd`=? and `kdmo`=?";
           $queryInsert = "INSERT INTO `organizations`(`kd`,`kdmo`,`kdg`,`nu`,"
@@ -402,6 +406,14 @@
                 if(isset($kdmo_old))unset($kdmo_old);
               }
             }
+
+            if (!empty($tmpFile=$_FILES["fileImp"]['tmp_name'])) {
+              $ERROR_MSG .= 'Даних у файлі не найдено! <br/>';
+            }else{
+              $db = dbase_open($tmpFile);
+            };
+
+
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtInsert);
           mysqli_stmt_close($stmtUpdate);

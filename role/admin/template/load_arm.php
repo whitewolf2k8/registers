@@ -49,7 +49,6 @@ function submitForm(mode) {
 
         <form name="adminForm" action="load_arm.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" />
-    			<div class="item_blue" style="float:left;margin-left:5%; width:265px;">
             <h2>Іморт файлу АРМ</h2>
             <p>Оберіть файл з розширення dbf</p>
             <p><input type="file" id="fileImp"  accept="db" name="fileImp" style="width:256px" /></p>
@@ -84,7 +83,7 @@ function submitForm(mode) {
             <p>Оберіть файл з розширення dbf</p>
             <p><input type="file" id="fileImpKd"  accept="db" name="fileImpKd" style="width:2256px" /></p>
             <p align="center">
-              <input type="button" value="Імпортувати" class="button" onclick="submitForm('importContact')" />
+              <input type="button" value="Імпортувати" class="button" onclick="submitForm('importContact)" />
               <input type="button" value="Експорт" class="button" onclick="submitForm('export')" />
             </p>
           </div>
