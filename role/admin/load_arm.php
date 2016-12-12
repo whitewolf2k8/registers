@@ -320,37 +320,25 @@
   if($action=="importContact"){
     $start = microtime(true);
     set_time_limit(90000);
-    if (!file_exists($tmpFile=$_FILES["fileImpKd"]['tmp_name'])) {
+    if (!file_exists($tmpFile=$_FILES["fileContact"]['tmp_name'])) {
       $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
     }else {
       $db = dbase_open($tmpFile, 0);
       if ($db) {
-          $countUpdate=0;
           $countInsert=0;
-          // чтение некотрых данных
-
-      /*  $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? , `kdmo`=? , `OT`=? , `DT`=? ,`OF`=? and `EMAIL`=?";
-          $queryInsert = "INSERT INTO `organizations`(`kd`,`kdmo`,`OT`,`DT`,`OF`,`EMAIL`) VALUES (?,?,?,?,?,?)"; */
-
-          $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? and `kdmo`=?";
-          $queryUpdate = "UPDATE `organizations` SET `kd`=?,`kdmo`=?,`kdg`=?,`nu`=?,"
-            ."`ad`=?,`pi`=?,`te`=?,`tea`=?,`vdf10`=?,`pr`=?, `dz`=?  WHERE `kd`=? and `kdmo`=?";
-          $queryInsert = "INSERT INTO `organizations`(`kd`,`kdmo`,`kdg`,`nu`,"
-            ."`ad`,`pi`,`te`,`tea`,`vdf10`,`pr`,`dz`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+          $querySelect = "SELECT  `kd`, `kdmo` FROM `organizations`";
+          $querySelectContact = "SELECT  `type` FROM `contact`";
+          $queryInsert = "INSERT INTO `organizations`(`kd`,`kdmo`,`OT`,`DT`,`EMAIL`) VALUES (?,?,?,?,?)";
           $stmtSelect = mysqli_stmt_init($link);
-          $stmtUpdate = mysqli_stmt_init($link);
           $stmtInsert = mysqli_stmt_init($link);
 
           $rowCount=dbase_numrecords ($db);
-          if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtUpdate, $queryUpdate)))
+          if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert)))
           {
             echo " Помилка Підготовки запиту \n <br>";
           } else {
-            mysqli_stmt_bind_param($stmtInsert, "iisssssssss",$kd,$kdmo,$kdg,$nu,
-              $ad,$pi,$te,$tea,$vdf10,$pr,$dz);
+            mysqli_stmt_bind_param($stmtInsert, "iiss",$kd,$kdmo,$OT,$DT,$EMAIL);
             mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
-            mysqli_stmt_bind_param($stmtUpdate, "iisssssssssii",$kdU,$kdmoU,$kdgU,
-              $nuU,$adU,$piU,$teU,$teaU,$vdf10U,$prU,$dzU,$kdUS,$kdmoUS);
             for($i=1;$i<=$rowCount;$i++){
               $row= dbase_get_record_with_names ( $db , $i);
               if($row["KO"]==48){
@@ -364,7 +352,7 @@
                 }else{
                   $kdmoGet=$row["KDMO"];
                 }
-                //print_r($row);
+                print_r($row);
                 $kdS=$row["KD"];
                 $kdmoS=((isset($kdmo_old))?($kdmo_old):($kdmoGet));
                 mysqli_stmt_execute($stmtSelect);
@@ -406,18 +394,8 @@
                 if(isset($kdmo_old))unset($kdmo_old);
               }
             }
-
-            if (!empty($tmpFile=$_FILES["fileImp"]['tmp_name'])) {
-              $ERROR_MSG .= 'Даних у файлі не найдено! <br/>';
-            }else{
-              $db = dbase_open($tmpFile);
-            };
-
-
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtInsert);
-          mysqli_stmt_close($stmtUpdate);
-          $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
           $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
           $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
           $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
