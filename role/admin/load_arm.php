@@ -312,7 +312,7 @@
           $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
           $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
           $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
-          $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
+               $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
           dbase_close($db);
         }
       }
@@ -326,67 +326,60 @@
       $db = dbase_open($tmpFile, 0);
       if ($db) {
           $countInsert=0;
-          $querySelect = "SELECT  `kd`, `kdmo` FROM `organizations`";
-          $querySelectContact = "SELECT  `type` FROM `contact`";
-          $queryInsert = "INSERT INTO `organizations`(`kd`,`kdmo`,`OT`,`DT`,`EMAIL`) VALUES (?,?,?,?,?)";
+          $querySelect = "SELECT 'id' FROM `organizations` WHERE 'kd'=? and 'kdmo'=?";
+          $querySelectContact = "SELECT 'id' FROM `contact` WHERE 'id_org'=? and 'data' LIKE (?) and 'type'=?";
+          $queryInsert = "INSERT INTO `contact`(`id_org`, `data`, `type`) VALUES (?,?,?)";
           $stmtSelect = mysqli_stmt_init($link);
+          $stmtSelectContact = mysqli_stmt_init($link);
           $stmtInsert = mysqli_stmt_init($link);
 
           $rowCount=dbase_numrecords ($db);
-          if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert)))
+          if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtSelectContact, $querySelectContact)))
           {
             echo " Помилка Підготовки запиту \n <br>";
           } else {
-            mysqli_stmt_bind_param($stmtInsert, "iiss",$kd,$kdmo,$OT,$DT,$EMAIL);
             mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
+            mysqli_stmt_bind_param($stmtSelectContact, "iis", $org_idS, $dataS,$typeS);
+            mysqli_stmt_bind_param($stmtInsert, "isi",$id_org,$data,$type);
+            $contactArray = array();
             for($i=1;$i<=$rowCount;$i++){
               $row= dbase_get_record_with_names ( $db , $i);
-              if($row["KO"]==48){
-                if($row["KDMO_ST"]!=0){
-                  if($row["KDMO_NEW"]==0){
-                    $kdmoGet=$row["KDMO_ZAM"];
-                  }else{
-                    $kdmoGet=$row["KDMO_NEW"];
-                  }
-                  $kdmo_old=$row["KDMO_ST"];
-                }else{
-                  $kdmoGet=$row["KDMO"];
-                }
+                if($row["OT"]=='0'){
+                 if($row["DT"]=='1'){
+                   if($row["OF"]=='2'){
+                     if($row["EMAIL"]=='3'){
+                         $kdmoGet=$row["EMAIL"];
+                      }else{
+                         $kdmoGet=$row["OF"];
+                       }
+                         $kdmo_old=$row["DT"];
+                       }else{
+                          $kdmoGet=$row["OT"];
+                       }
                 print_r($row);
                 $kdS=$row["KD"];
                 $kdmoS=((isset($kdmo_old))?($kdmo_old):($kdmoGet));
                 mysqli_stmt_execute($stmtSelect);
+                mysqli_stmt_execute($stmtSelectContact);
                 $result = mysqli_stmt_get_result($stmtSelect);
+                $result = mysqli_stmt_get_result($stmtSelectContact);
                 if(mysqli_num_rows($result)>0)
                 {
                   $kdU = $row["KD"];
                   $kdmoU = $kdmoGet;
-                  $kdgU = $row["KDG"];
-                  $nuU = changeCodingPage($row['NU']);
-                  $adU = changeCodingPage($row['ADF']);
-                  $piU = $row['PIF'];
-                  $teU = $row['TEF'];
-                  $teaU = getTea($row['TEF']);
-                  $vdf10U = changeCodingPageShort($row['VDF10']);
-                  $pr = $row['PR'];
-                  $drU = $row['DR'];
-                  $dzU = $row['DZ'];
+                  $otU = $row["OT"];
+                  $dtU = $row["DT"];
+                  $ofU = $row["OF"];
+                  $emailU = $row["EMAIL"];
                   $kdUS = $row["KD"];
                   $kdmoUS = ((isset($kdmo_old))?($kdmo_old):($kdmoGet));
-                  mysqli_stmt_execute($stmtUpdate);
-                  $countUpdate+=1;
                 } else {
                   $kd = $row["KD"];
                   $kdmo = $row["KDMO"];
-                  $kdg = $row["KDG"];
-                  $nu = changeCodingPage($row['NU']);
-                  $ad = changeCodingPage($row['ADF']);
-                  $pi = $row['PIF'];
-                  $te = $row['TEF'];
-                  $tea = getTea($row['TEF']);
-                  $vdf10 = changeCodingPageShort($row['VDF10']);
-                  $pr = $row['PR'];
-                  $dz = $row['DZ'];
+                  $ot = $row["OT"];
+                  $dt = $row["DT"];
+                  $of = $row["OF"];
+                  $email = $row["EMAIL"];
                   mysqli_stmt_execute($stmtInsert);
                   $countInsert+=1;
                 }
@@ -395,6 +388,7 @@
               }
             }
           mysqli_stmt_close($stmtSelect);
+          mysqli_stmt_close($stmtSelectContact);
           mysqli_stmt_close($stmtInsert);
           $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
           $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
@@ -404,7 +398,7 @@
       }
     }
   }
-
+}
   closeConnect($link);
   require_once('template/load_arm.php');
 ?>
