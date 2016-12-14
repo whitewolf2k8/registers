@@ -341,7 +341,7 @@
             mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
             mysqli_stmt_bind_param($stmtSelectContact, "iis", $org_idS, $dataS,$typeS);
             mysqli_stmt_bind_param($stmtInsert, "isi",$id_org,$data,$type);
-            $contactArray = array();
+            $rows = array();
             for($i=1;$i<=$rowCount;$i++){
               $row= dbase_get_record_with_names ( $db , $i);
                 if($row["OT"]=='0'){
@@ -356,6 +356,8 @@
                        }else{
                           $kdmoGet=$row["OT"];
                        }
+
+                //array_push($rows, $row);
                 print_r($row);
                 $kdS=$row["KD"];
                 $kdmoS=((isset($kdmo_old))?($kdmo_old):($kdmoGet));
