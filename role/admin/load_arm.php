@@ -326,9 +326,10 @@
       $db = dbase_open($tmpFile, 0);
       if ($db) {
           $countInsert=0;
-          $querySelect = "SELECT 'id' FROM `organizations` WHERE 'kd'=? and 'kdmo'=?";
-          $querySelectContact = "SELECT 'id' FROM `contact` WHERE 'id_org'=? and 'data' LIKE (?) and 'type'=?";
-          $queryInsert = "INSERT INTO `contact`(`id_org`, `data`, `type`) VALUES (?,?,?)";
+          $querySelect = "SELECT id FROM `organizations` WHERE 'kd'=? and 'kdmo'=?";
+          $querySelectContact = "SELECT id FROM `contact` WHERE 'id_org'=? and 'data' LIKE (?) and 'type'=?";
+          $queryInsert = "INSERT INTO `contact`(`id_org`, `data`,"
+          ." `type`) VALUES (?,?,?)";
           $stmtSelect = mysqli_stmt_init($link);
           $stmtSelectContact = mysqli_stmt_init($link);
           $stmtInsert = mysqli_stmt_init($link);
@@ -341,7 +342,7 @@
             mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
             mysqli_stmt_bind_param($stmtSelectContact, "iis", $org_idS, $dataS,$typeS);
             mysqli_stmt_bind_param($stmtInsert, "isi",$id_org,$data,$type);
-            $rows = array();
+            //$rows = array();
             for($i=1;$i<=$rowCount;$i++){
               $row= dbase_get_record_with_names ( $db , $i);
                 if($row["OT"]=='0'){
@@ -352,18 +353,17 @@
                       }else{
                          $kdmoGet=$row["OF"];
                        }
-                         $kdmo_old=$row["DT"];
+                         $kdmoGet=$row["DT"];
                        }else{
                           $kdmoGet=$row["OT"];
                        }
-
-                //array_push($rows, $row);
-                print_r($row);
+                // array_push($row);
+                //print_r($row);
                 $kdS=$row["KD"];
                 $kdmoS=((isset($kdmo_old))?($kdmo_old):($kdmoGet));
                 mysqli_stmt_execute($stmtSelect);
                 mysqli_stmt_execute($stmtSelectContact);
-                $result = mysqli_stmt_get_result($stmtSelect);
+                //$result = mysqli_stmt_get_result($stmtSelect);
                 $result = mysqli_stmt_get_result($stmtSelectContact);
                 if(mysqli_num_rows($result)>0)
                 {
@@ -385,6 +385,7 @@
                   mysqli_stmt_execute($stmtInsert);
                   $countInsert+=1;
                 }
+
                 mysqli_free_result($result);
                 if(isset($kdmo_old))unset($kdmo_old);
               }
