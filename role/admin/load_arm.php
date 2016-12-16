@@ -320,7 +320,7 @@
   if($action=="importContact"){
     $start = microtime(true);
     set_time_limit(90000);
-    if (!file_exists($tmpFile=$_FILES["fileContact"]['tmp_name'])) {
+    if (!file_exists($tmpFile=$_FILES["fileImpContact"]['tmp_name'])) {
       $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
     }else {
       $db = dbase_open($tmpFile, 0);
@@ -328,12 +328,10 @@
           $countInsert=0;
           $querySelect = "SELECT id FROM `organizations` WHERE 'kd'=? and 'kdmo'=?";
           $querySelectContact = "SELECT id FROM `contact` WHERE 'id_org'=? and 'data' LIKE (?) and 'type'=?";
-          $queryInsert = "INSERT INTO `contact`(`id_org`, `data`,"
-          ." `type`) VALUES (?,?,?)";
+          $queryInsert = "INSERT INTO `contact`(`id_org`,`data`,`type`) VALUES (?,?,?)";
           $stmtSelect = mysqli_stmt_init($link);
           $stmtSelectContact = mysqli_stmt_init($link);
           $stmtInsert = mysqli_stmt_init($link);
-
           $rowCount=dbase_numrecords ($db);
           if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtSelectContact, $querySelectContact)))
           {
@@ -342,39 +340,43 @@
             mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
             mysqli_stmt_bind_param($stmtSelectContact, "iis", $org_idS, $dataS,$typeS);
             mysqli_stmt_bind_param($stmtInsert, "isi",$id_org,$data,$type);
-            //$rows = array();
+
             for($i=1;$i<=$rowCount;$i++){
               $row= dbase_get_record_with_names ( $db , $i);
-                if($row["OT"]=='0'){
+                if($row["OT"]!='0'){
                  if($row["DT"]=='1'){
                    if($row["OF"]=='2'){
                      if($row["EMAIL"]=='3'){
-                         $kdmoGet=$row["EMAIL"];
+                         $kdmoGet=$row(["EMAIL => 3 "]);
                       }else{
-                         $kdmoGet=$row["OF"];
+                         $kdmoGet=$row["OF => 2 "];
                        }
-                         $kdmoGet=$row["DT"];
+                         $kdmoGet=$row["DT => 1 "];
                        }else{
-                          $kdmoGet=$row["OT"];
+                          $kdmoGet=$row["OT => 0 "];
                        }
-                // array_push($row);
-                //print_r($row);
-                $kdS=$row["KD"];
-                $kdmoS=((isset($kdmo_old))?($kdmo_old):($kdmoGet));
+
+                print_r($link);
+
+                //$otS = $row["OT"];
+                //$dtS = $row["DT"];
+                //$ofS = $row["OF"];
+                //$emailS = $row["EMAIL"];
+
                 mysqli_stmt_execute($stmtSelect);
                 mysqli_stmt_execute($stmtSelectContact);
-                //$result = mysqli_stmt_get_result($stmtSelect);
+                $result = mysqli_stmt_get_result($stmtSelect);
                 $result = mysqli_stmt_get_result($stmtSelectContact);
+
                 if(mysqli_num_rows($result)>0)
                 {
                   $kdU = $row["KD"];
-                  $kdmoU = $kdmoGet;
+                  $kdmoU = $row["KDMO"];
                   $otU = $row["OT"];
                   $dtU = $row["DT"];
                   $ofU = $row["OF"];
                   $emailU = $row["EMAIL"];
                   $kdUS = $row["KD"];
-                  $kdmoUS = ((isset($kdmo_old))?($kdmo_old):($kdmoGet));
                 } else {
                   $kd = $row["KD"];
                   $kdmo = $row["KDMO"];
@@ -385,23 +387,23 @@
                   mysqli_stmt_execute($stmtInsert);
                   $countInsert+=1;
                 }
-
                 mysqli_free_result($result);
-                if(isset($kdmo_old))unset($kdmo_old);
               }
             }
+          }
+
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtSelectContact);
           mysqli_stmt_close($stmtInsert);
           $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
-          $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
+          $ERROR_MSG.= " З файлу зчитано  ".$rowCount." записів. <br>";
           $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
           dbase_close($db);
         }
       }
     }
   }
-}
+
   closeConnect($link);
   require_once('template/load_arm.php');
 ?>
