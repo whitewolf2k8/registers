@@ -343,25 +343,25 @@
 
             for($i=1;$i<=$rowCount;$i++){
               $row= dbase_get_record_with_names ( $db , $i);
-                if($row["OT"]!='0'){
+                if($row["OT"]=='0'){
                  if($row["DT"]=='1'){
                    if($row["OF"]=='2'){
                      if($row["EMAIL"]=='3'){
-                         $kdmoGet=$row(["EMAIL => 3 "]);
+                         $kdmoGet=$row["EMAIL"];
                       }else{
-                         $kdmoGet=$row["OF => 2 "];
+                         $kdmoGet=$row["OF"];
                        }
-                         $kdmoGet=$row["DT => 1 "];
+                         $kdmoGet=$row["DT"];
                        }else{
-                          $kdmoGet=$row["OT => 0 "];
+                          $kdmoGet=$row["OT"];
                        }
 
-                print_r($link);
+                print_r($LINK);
 
-                //$otS = $row["OT"];
-                //$dtS = $row["DT"];
-                //$ofS = $row["OF"];
-                //$emailS = $row["EMAIL"];
+                $otS = $row["type => 0"];
+                $dtS = $row["type => 1"];
+                $ofS = $row["type => 2"];
+                $emailS = $row["type => 3"];
 
                 mysqli_stmt_execute($stmtSelect);
                 mysqli_stmt_execute($stmtSelectContact);
@@ -376,7 +376,6 @@
                   $dtU = $row["DT"];
                   $ofU = $row["OF"];
                   $emailU = $row["EMAIL"];
-                  $kdUS = $row["KD"];
                 } else {
                   $kd = $row["KD"];
                   $kdmo = $row["KDMO"];
@@ -391,7 +390,6 @@
               }
             }
           }
-
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtSelectContact);
           mysqli_stmt_close($stmtInsert);
