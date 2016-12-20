@@ -338,7 +338,7 @@
             echo " Помилка Підготовки запиту \n <br>";
           } else {
             mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
-            mysqli_stmt_bind_param($stmtSelectContact, "iis", $org_idS, $dataS,$typeS);
+            mysqli_stmt_bind_param($stmtSelectContact, "isi", $id_orgS, $dataS,$typeS);
             mysqli_stmt_bind_param($stmtInsert, "isi",$id_org,$data,$type);
 
             for($i=1;$i<=$rowCount;$i++){
@@ -356,18 +356,17 @@
                           $kdmoGet=$row["OT"];
                        }
 
-                print_r($LINK);
 
-                $otS = $row["type => 0"];
-                $dtS = $row["type => 1"];
-                $ofS = $row["type => 2"];
-                $emailS = $row["type => 3"];
+                //$otS = $row["OT"];
+                //$dtS = $row["DT"];
+                //$ofS = $row["OF"];
+                //$emailS = $row["EMAIL"];
 
                 mysqli_stmt_execute($stmtSelect);
                 mysqli_stmt_execute($stmtSelectContact);
                 $result = mysqli_stmt_get_result($stmtSelect);
                 $result = mysqli_stmt_get_result($stmtSelectContact);
-
+                print_r($link);
                 if(mysqli_num_rows($result)>0)
                 {
                   $kdU = $row["KD"];
@@ -376,6 +375,8 @@
                   $dtU = $row["DT"];
                   $ofU = $row["OF"];
                   $emailU = $row["EMAIL"];
+                  //mysqli_stmt_execute($stmtInsert);
+                  $countInsert+=1;
                 } else {
                   $kd = $row["KD"];
                   $kdmo = $row["KDMO"];
@@ -401,7 +402,6 @@
       }
     }
   }
-
   closeConnect($link);
   require_once('template/load_arm.php');
 ?>
