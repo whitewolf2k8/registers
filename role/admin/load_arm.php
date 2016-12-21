@@ -347,21 +347,21 @@
                  if($row["DT"]=='1'){
                    if($row["OF"]=='2'){
                      if($row["EMAIL"]=='3'){
-                         $kdmoGet=$row["EMAIL"];
+                         $kdmoGet=$row["EMAIL => type(3)"];
                       }else{
-                         $kdmoGet=$row["OF"];
+                         $kdmoGet=$row["OF => type(2)"];
                        }
-                         $kdmoGet=$row["DT"];
+                         $kdmoGet=$row["DT => type(1)"];
                        }else{
-                          $kdmoGet=$row["OT"];
+                          $kdmoGet=$row["OT => type(0)"];
                        }
 
-
-                //$otS = $row["OT"];
-                //$dtS = $row["DT"];
-                //$ofS = $row["OF"];
-                //$emailS = $row["EMAIL"];
-
+                    //print_r($link);
+                /*$ot = $row["OT => type(0)"];
+                $dt = $row["DT => type(1)"];
+                $of = $row["OF => type(2)"];
+                $email = $row["EMAIL => type(3)"];
+                */
                 mysqli_stmt_execute($stmtSelect);
                 mysqli_stmt_execute($stmtSelectContact);
                 $result = mysqli_stmt_get_result($stmtSelect);
