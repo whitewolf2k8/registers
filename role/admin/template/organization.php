@@ -241,25 +241,23 @@
             <div class="clr"></div>
             <div id ="contact">
               <? if(isset($contact)){
+
                   $count=0;
                   foreach ($contact as $key => $value) {
                     if($count==0){
                       echo "<p>";
                       $count+=1;
                     }
-                    switch ($value["type"]) {
-                      case "0":
+                    if($value["type"]==0) {
                         echo "<text>Телефон: ".$value["data"].";</text>"
                           ."<input type=\"button\" class=\"btn_edit\" onclick=\"contactChange(".$value['id'].",".$value['id_org'].",'".$value['data']."',".$value['type'].");\" />";
-                        break;
-                      case "1":
-                        $text="<text>Факс: ".$value["data"].";</text>"
+                    } else if($value["type"]==1) {
+
+                        echo"<text>Факс: ".$value["data"].";</text>"
                           ."<input type=\"button\" class=\"btn_edit\" onclick=\"contactChange(".$value['id'].",".$value['id_org'].",'".$value['data']."',".$value['type'].");\" />";
-                        break;
-                      case "2":
-                        $text="<text>Email: ".$value["data"].";</text>"
+                    } else {
+                        echo"<text>Email: ".$value["data"].";</text>"
                           ."<input type=\"button\" class=\"btn_edit\" onclick=\"contactChange(".$value['id'].",".$value['id_org'].",'".$value['data']."',".$value['type'].");\" />";
-                        break;
                     }
                     if ($count==3){
                       echo "</p>";
