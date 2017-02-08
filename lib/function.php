@@ -440,6 +440,9 @@
 		return addslashes(stripslashes(str_replace("'","&#39;",$str)));
 	}
 
+	function delSpace($str){
+		return str_replace(' ','',$str);
+	}
 
 
 

@@ -10,6 +10,18 @@
     }
   }
 
+  function getTypeCon($i)
+  {
+    if($i<2){
+      $type=0;
+    }else if($i==2){
+      $type=1;
+    }else {
+      $type=2;
+    }
+    return $type;
+  }
+
 
 
   $action = isset($_POST['mode']) ? $_POST['mode'] : '';
@@ -162,7 +174,7 @@
           $rowCount=dbase_numrecords ($db);
           if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtUpdate, $queryUpdate)))
           {
-            echo " Помилка Пыдготовки запиту \n <br>";
+            echo " Помилка Підготовки запиту \n <br>";
           } else {
             mysqli_stmt_bind_param($stmtInsert, "iisssssssss",$kd,$kdmo,$kdg,$nu,
               $ad,$pi,$te,$tea,$vdf10,$pr,$dz);
@@ -312,12 +324,30 @@
           $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
           $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
           $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
-          $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
+               $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
           dbase_close($db);
         }
       }
   }
+  if($action=="importContact"){
+    $start = microtime(true);
+    set_time_limit(90000);
+    if (!file_exists($tmpFile=$_FILES["fileImpContact"]['tmp_name'])) {
+      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
+    }else {
+      $db = dbase_open($tmpFile, 0);
+      if ($db) {
+          $countInsrt=0;
+          $countUpdate=0;
+          $nameRow=array(0=>"OT",1=>"DT",2=>"OF",3=>"EMAIL" );
 
+<<<<<<< HEAD
+          $rowCount=dbase_numrecords ($db);
+          for($i=1;$i<=$rowCount;$i++){
+            $row= dbase_get_record_with_names ( $db , $i);
+            $strSelectOrg="SELECT id FROM `organizations` WHERE `kd`=".$row['KD']."  and `kdmo`=".$row['KDMO'];
+            $result=mysqli_query($link,$strSelectOrg);
+=======
   
   
 if($action=="importContact"){
@@ -424,7 +454,39 @@ if($action=="importContact"){
 	}
 }
   
+>>>>>>> master
 
+            if(mysqli_error($link)==''){
+              if(mysqli_num_rows($result)>0){
+                $rowOrg= mysqli_fetch_assoc($result);
+                for ($j=0; $j <4; $j++) {
+                  if(str_replace(' ','',$row[$nameRow[$j]])!=""&&str_replace(' ','',$row[$nameRow[$j]])!="0"){
+                    $queryGetFild="SELECT id FROM `contact` WHERE `id_org`=".$rowOrg["id"]." AND `data` like('".$row[$nameRow[$j]]."') AND `type`=".getTypeCon($j);
+                    $resultCont=mysqli_query($link,$queryGetFild);
+                    if(mysqli_num_rows($resultCont)==0){
+                      $queryUpdate="INSERT INTO `contact`(`id_org`, `data`, `type`)"
+                        ."VALUES (".$rowOrg["id"].",'".$row[$nameRow[$j]]."',".getTypeCon($j).")";
+                      mysqli_query($link,$queryUpdate);
+                      $countInsrt+=1;
+                    }else {
+                      $countUpdate+=1;
+                    }
+                    mysqli_free_result($resultCont);
+                  }
+                }
+                mysqli_free_result($result);
+              }else{
+                $ERROR_MSG.="Підприємство з кодом єдрпоу -".$row['KD']."  та кдмо - ".$row['KDMO']." не знайдено. <br>";
+              }
+            }else{
+              $ERROR_MSG.="При виконанні запиту сталася помилка ".mysqli_error($link)."<br>";
+            }
+          }
+          $ERROR_MSG.="Під час імпорту контактів було додано ".$countInsrt." та оновлено ".$countUpdate." контактів (Не підприємст, для одного підприємства може бути делкіка контактів) <br>";
+          dbase_close($db);
+      }
+    }
+  }
   closeConnect($link);
   require_once('template/load_arm.php');
 ?>
