@@ -78,6 +78,7 @@ function submitForm(mode) {
   	          <input type="button" value="Експорт" class="button" onclick="submitForm('export')" />
   	        </p>
   	    	</div>
+<<<<<<< HEAD
 
           <div class="item_blue" style="float:left;margin-left:5%; width:265px;">
             <h2>Іморт файлу Контактів підприємства</h2>
@@ -88,6 +89,17 @@ function submitForm(mode) {
               <input type="button" value="Експорт" class="button" onclick="submitForm('export')" />
             </p>
           </div>
+=======
+			<div class="item_blue" style="float:left;margin-left:5%; width:300px;">
+				<h2>Іморт файлу "Контакти"</h2>
+				<p>Оберіть файл з розширення dbf</p>
+				<p><input type="file" id="fileImpContact"  accept="db" name="fileImpContact" style="width:256px" /></p>
+				<p align="center">
+					<input type="button" value="Імпортувати" class="button" onclick="submitForm('importContact')" />
+					<input type="button" value="Експорт" class="button" onclick="submitForm('export')" />
+				</p>
+  	    	</div>
+>>>>>>> master
         <div class="clr"></div>
 				<div id="lo"></div>
         </form>
