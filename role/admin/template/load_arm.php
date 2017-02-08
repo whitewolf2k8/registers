@@ -80,7 +80,7 @@ function submitForm(mode) {
   	    	</div>
 
           <div class="item_blue" style="float:left;margin-left:5%; width:265px;">
-            <h2>Іморт файлу Contact</h2>
+            <h2>Іморт файлу Контактів підприємства</h2>
             <p>Оберіть файл з розширення dbf</p>
             <p><input type="file" id="fileImpContact"  accept="db" name="fileImpContact" style="width:256px" /></p>
             <p align="center">

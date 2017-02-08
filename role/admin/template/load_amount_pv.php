@@ -154,12 +154,12 @@ function changeAmountAction(id) {
           <div class="item_blue" style="float:right;margin-right:15%; width:320px;">
   	        <h2>Пошук</h2>
             <p>
-          	   <div class="navigation_left">Пошук по "Kd"</div>
-               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:180px;text-align:center;" /></div>
+          	   <div class="navigation_left">Пошук по ЄДРПОУ</div>
+               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:170px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
             <p>
-          	   <div class="navigation_left">Пошук по "Kdmo"</div>
+          	   <div class="navigation_left">Пошук по КДМО</div>
                <div class="navigation_right"><input align="right" type="text" id="filtr_kdmo" name="filtr_kdmo" value="<?php echo $filtr_kdmo; ?>" style="width:180px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>

@@ -24,7 +24,7 @@
             <a href="load_arm.php">Завантаження АРМ</a>
           </li>
           <li>
-            <a href="load_bankrut.php">Завантаження даних про банкрутів</a>
+            <a href="load_bankrut.php">Дані про банкрутів</a>
           </li>
           <li><a href="" class="fly">Завантаження чисельності</a>
               <ul>
@@ -37,7 +37,7 @@
           <li class="mid"><a href="load_stop_activity.php">Призупинення діяльності</a></li>
 
           <li>
-            <a href="load_arm.php">Завантаження даних про справи </a>
+            <a href="load_volator.php">Адмінсправи справи </a>
           </li>
           <li>
             <a href="" class="fly">Где заказывать?</a>

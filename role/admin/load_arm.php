@@ -10,6 +10,18 @@
     }
   }
 
+  function getTypeCon($i)
+  {
+    if($i<2){
+      $type=0;
+    }else if($i==2){
+      $type=1;
+    }else {
+      $type=2;
+    }
+    return $type;
+  }
+
 
 
   $action = isset($_POST['mode']) ? $_POST['mode'] : '';
@@ -325,80 +337,44 @@
     }else {
       $db = dbase_open($tmpFile, 0);
       if ($db) {
-          $countInsert=0;
-          $querySelect = "SELECT id FROM `organizations` WHERE 'kd'=? and 'kdmo'=?";
-          $querySelectContact = "SELECT id FROM `contact` WHERE 'id_org'=? and 'data' LIKE (?) and 'type'=?";
-          $queryInsert = "INSERT INTO `contact`(`id_org`,`data`,`type`) VALUES (?,?,?)";
-          $stmtSelect = mysqli_stmt_init($link);
-          $stmtSelectContact = mysqli_stmt_init($link);
-          $stmtInsert = mysqli_stmt_init($link);
+          $countInsrt=0;
+          $countUpdate=0;
+          $nameRow=array(0=>"OT",1=>"DT",2=>"OF",3=>"EMAIL" );
+
           $rowCount=dbase_numrecords ($db);
-          if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtSelectContact, $querySelectContact)))
-          {
-            echo " Помилка Підготовки запиту \n <br>";
-          } else {
-            mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
-            mysqli_stmt_bind_param($stmtSelectContact, "isi", $id_orgS, $dataS,$typeS);
-            mysqli_stmt_bind_param($stmtInsert, "isi",$id_org,$data,$type);
+          for($i=1;$i<=$rowCount;$i++){
+            $row= dbase_get_record_with_names ( $db , $i);
+            $strSelectOrg="SELECT id FROM `organizations` WHERE `kd`=".$row['KD']."  and `kdmo`=".$row['KDMO'];
+            $result=mysqli_query($link,$strSelectOrg);
 
-            for($i=1;$i<=$rowCount;$i++){
-              $row= dbase_get_record_with_names ( $db , $i);
-                if($row["OT"]=='0'){
-                 if($row["DT"]=='1'){
-                   if($row["OF"]=='2'){
-                     if($row["EMAIL"]=='3'){
-                         $kdmoGet=$row["EMAIL => type(3)"];
-                      }else{
-                         $kdmoGet=$row["OF => type(2)"];
-                       }
-                         $kdmoGet=$row["DT => type(1)"];
-                       }else{
-                          $kdmoGet=$row["OT => type(0)"];
-                       }
-
-                    //print_r($link);
-                /*$ot = $row["OT => type(0)"];
-                $dt = $row["DT => type(1)"];
-                $of = $row["OF => type(2)"];
-                $email = $row["EMAIL => type(3)"];
-                */
-                mysqli_stmt_execute($stmtSelect);
-                mysqli_stmt_execute($stmtSelectContact);
-                $result = mysqli_stmt_get_result($stmtSelect);
-                $result = mysqli_stmt_get_result($stmtSelectContact);
-                print_r($link);
-                if(mysqli_num_rows($result)>0)
-                {
-                  $kdU = $row["KD"];
-                  $kdmoU = $row["KDMO"];
-                  $otU = $row["OT"];
-                  $dtU = $row["DT"];
-                  $ofU = $row["OF"];
-                  $emailU = $row["EMAIL"];
-                  //mysqli_stmt_execute($stmtInsert);
-                  $countInsert+=1;
-                } else {
-                  $kd = $row["KD"];
-                  $kdmo = $row["KDMO"];
-                  $ot = $row["OT"];
-                  $dt = $row["DT"];
-                  $of = $row["OF"];
-                  $email = $row["EMAIL"];
-                  mysqli_stmt_execute($stmtInsert);
-                  $countInsert+=1;
+            if(mysqli_error($link)==''){
+              if(mysqli_num_rows($result)>0){
+                $rowOrg= mysqli_fetch_assoc($result);
+                for ($j=0; $j <4; $j++) {
+                  if(str_replace(' ','',$row[$nameRow[$j]])!=""&&str_replace(' ','',$row[$nameRow[$j]])!="0"){
+                    $queryGetFild="SELECT id FROM `contact` WHERE `id_org`=".$rowOrg["id"]." AND `data` like('".$row[$nameRow[$j]]."') AND `type`=".getTypeCon($j);
+                    $resultCont=mysqli_query($link,$queryGetFild);
+                    if(mysqli_num_rows($resultCont)==0){
+                      $queryUpdate="INSERT INTO `contact`(`id_org`, `data`, `type`)"
+                        ."VALUES (".$rowOrg["id"].",'".$row[$nameRow[$j]]."',".getTypeCon($j).")";
+                      mysqli_query($link,$queryUpdate);
+                      $countInsrt+=1;
+                    }else {
+                      $countUpdate+=1;
+                    }
+                    mysqli_free_result($resultCont);
+                  }
                 }
                 mysqli_free_result($result);
+              }else{
+                $ERROR_MSG.="Підприємство з кодом єдрпоу -".$row['KD']."  та кдмо - ".$row['KDMO']." не знайдено. <br>";
               }
+            }else{
+              $ERROR_MSG.="При виконанні запиту сталася помилка ".mysqli_error($link)."<br>";
             }
           }
-          mysqli_stmt_close($stmtSelect);
-          mysqli_stmt_close($stmtSelectContact);
-          mysqli_stmt_close($stmtInsert);
-          $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
-          $ERROR_MSG.= " З файлу зчитано  ".$rowCount." записів. <br>";
-          $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
+          $ERROR_MSG.="Під час імпорту контактів було додано ".$countInsrt." та оновлено ".$countUpdate." контактів (Не підприємст, для одного підприємства може бути делкіка контактів) <br>";
           dbase_close($db);
-        }
       }
     }
   }
