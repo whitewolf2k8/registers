@@ -35,60 +35,8 @@
           <li class="mid"><a href="load_list.php">Порушення законодавства</a></li>
           <li class="mid"><a href="load_volator.php">Порушення адмінсправи</a></li>
           <li class="mid"><a href="load_stop_activity.php">Призупинення діяльності</a></li>
-
-          <li>
-            <a href="load_volator.php">Адмінсправи справи </a>
-          </li>
-          <li>
-            <a href="" class="fly">Где заказывать?</a>
-              <ul>
-                <li>
-                  <a href="ссылка">Стили</a>
-                </li>
-                  <li>
-                    <a href="ссылка" class="fly">Элементы стиля</a>
-                   <ul>
-                       <li>
-                        <a href="ссылка">Шапки</a>
-                       </li>
-                  <li><a href="ссылка">Картинки для меп-карт</a></li>
-                  <li><a href="ссылка">Картинки</a></li>
-                  <li><a href="ссылка">Фоны</a></li>
-                  <li><a href="ссылка">Иконки</a></li>
-                  <li><a href="ссылка">Смайлы</a></li>
-                  <li><a href="ссылка">Награды</a></li>
-                  <li><a href="ссылка">Кнопки</a></li>
-                  <li><a href="ссылка">Заголовки</a></li>
-                  <li><a href="ссылка">Курсоры</a></li>
-                        <li><a href="ссылка">Tro lo lo </a></li>
-              </ul>
-                                                                        </li>
-              <li><a href="ссылка" class="fly">Рекламные элементы</a>
-              <ul>
-                  <li><a href="ссылка">Картинки</a></li>
-                  <li><a href="ссылка">Логотипы</a></li>
-                  <li><a href="ссылка">Баннеры</a></li>
-              </ul>
-                                                                       </li>
-
-              <li><a href="ссылка" class="fly">Элементы профиля</a>
-              <ul>
-                  <li><a href="ссылка">Аватарки</a></li>
-                  <li><a href="ссылка">Юзербары</a></li>
-                  <li><a href="ссылка">Подписи</a></li>
-                  <li><a href="ссылка">Комплекты</a></li>
-              </ul>
-                                                                       </li>
-              <li><a href="ссылка" class="fly">HTML-заказы</a>
-              <ul>
-                  <li><a href="ссылка">Таблицы</a></li>
-                  <li><a href="ссылка">Мэп-карты</a></li>
-              </ul>
-                                                                       </li>
-          </ul>
-      </li>
-      <li class="mid"><a href="ссылка">Навигация</a>
-      </li>
+          <li><a href="load_volator.php">Адмінсправи справи </a></li>
+          <li><a href="load_activity.php">Активність за даними ДФС</a></li>
 
       </ul>
   </li>
