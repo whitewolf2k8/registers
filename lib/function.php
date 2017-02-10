@@ -437,7 +437,8 @@
 	}
 
 	function delApostrophe($str){
-		return addslashes(stripslashes(str_replace("'","&#39;",$str)));
+		return str_replace("'","&#39;",$str);
+		//return addslashes(stripslashes(str_replace("'","&#39;",$str)));
 	}
 
 	function delSpace($str){
