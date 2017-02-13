@@ -10,6 +10,7 @@
 
 <script src="../../../js/jquery-1.7.2.js"></script>
 <script src="../../../js/scripts.js"></script>
+<script src="../../../js/knob.js"></script>
 <script src="../../../js/script_activity_process.js"></script>
 <script type="text/javascript">
 function submitForm(mode) {
@@ -31,7 +32,24 @@ function submitForm(mode) {
     form.submit();
   }
 }
+function tryRadius() {
+  var x=  document.getElementById("cerc");
+  var autoVal = 0;
+  timer = setInterval(function() {
+  $(".knob").val(autoVal);
+  $(".knob").trigger('change');
+    autoVal+=0.1;
+    if(autoVal==101){
+      clearInterval(timer);
+    }
+  }, 100);
+}
 
+function clicks() {
+  document.getElementById('lo').innerHTML='<div id="preloader"></div>';
+  document.getElementById('centered').removeAttribute("hidden");
+  tryRadius();
+}
 
   $(document).ready(function() {
     $("#filtr_kd_opf").ForceNumericOnly();
@@ -57,11 +75,12 @@ function submitForm(mode) {
 
         <h2>Ознака активності за даними ДФС</h2>
 
-        <form name="adminForm" action="load_opf.php" method="post" enctype="multipart/form-data">
+        <form name="adminForm" action="load_activity.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" />
           <input type="hidden" name="limitstart" value="0"/>
           <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
-    			<div class="item_blue" style="float:left;margin-left:15%; width:300px;">
+
+          <div class="item_blue" style="float:left;margin-left:15%; width:300px;">
             <h2>Іморт файлу</h2>
             <p><input type="file" id="fileImp"  accept=".dbf" name="fileImp" style="width:256px" /></p>
             <p style="text-align:center">Період за який  імпортується</p>
@@ -81,32 +100,56 @@ function submitForm(mode) {
             <div class="clr"></div>
             <p align="center">
               <input type="button" value="Імпортувати" class="button" onclick="submitForm('import')" />
+              <input type="button" value="Очистити" class="button" onclick="cleanImport();" />
             </p>
         	</div>
 
           <div class="item_blue" style="float:right;margin-right:15%; width:320px;">
-  	        <h2>Пошук по довіднику ОПФ</h2>
+  	        <h2>Пошук по </h2>
             <p align="center">
-              <p>
-            	   <div class="navigation_left">Пошук по "Kd"</div>
+            	   <div class="navigation_left">Коду ЭДРПОУ</div>
                  <div class="navigation_right"><input align="right" type="text" id="filtr_kd_opf" maxlength="3" name="filtr_kd_opf" value="<?php echo $filtr_kd; ?>" style="width:130px;text-align:center;" /></div>
-              </p>
               <div class="clr"></div>
             </p>
-              <div class="clr"></div>
             <p align="center">
-  	          <input type="button" value="Пошук" class="button" onclick="submitForm('')" />
-  	        </p>
-  	    	</div>
+            	   <div class="navigation_left">Коду КДМО</div>
+                 <div class="navigation_right"><input align="right" type="text" id="filtr_kd_opf" maxlength="3" name="filtr_kd_opf" value="<?php echo $filtr_kd; ?>" style="width:130px;text-align:center;" /></div>
+              <div class="clr"></div>
+            </p>
+            <p style="text-align:center">Періоду за який  імпортувалося</p>
+            <p>
+               <div class="navigation_left">рік</div>
+               <div class="navigation_right">
+                  <select id="filtr_year_select" name="filtr_year_select" style="width:200px;text-align:center;"><? echo $insert_year; ?></select>
+               </div>
+            </p>
+            <div class="clr"></div>
+            <p>
+              <div class="navigation_left">період</div>
+              <div class="navigation_right">
+                <select id="filtr_period_select" name="filtr_period_select" style="width:200px;text-align:center;"><? echo $insert_period; ?></select>
+              </div>
+            </p>
+            <div class="clr"></div>
+            <p align="center">
+    	        <input type="button" value="Пошук" class="button" onclick="submitForm('')"/>
+    	      </p>
+          </div>
           <div class="clr"></div>
           <div id="lo"></div>
-
+          <div id="centered" hidden>
+            <input class="knob"   readonly  data-width="150" data-displayPrevious=true data-fgColor="#0d932e" data-skin="tron" data-thickness=".2" value="75">
+          </div>
         <? if(isset($ListResult)){ ?>
           <div align="center">
             <table>
               <tr>
-                <th>Код</th>
+                <th>&nbsp;</th>
+                <th>ЄДРПОУ</th>
+                <th>КДМО</th>
                 <th>Назва</th>
+                <th>Період</th>
+                <th>Ознака активності</th>
               </tr>
 
             <? foreach ($ListResult as $key => $value) {
