@@ -21,9 +21,6 @@
       </a>
         <ul class="sub">
           <li>
-            <a href="load_arm.php">Завантаження АРМ</a>
-          </li>
-          <li>
             <a href="el_signatures.php">Електронні підписи</a>
           </li>
           <li>
@@ -39,9 +36,9 @@
           <li class="mid"><a href="load_volator.php">Порушення адмінсправи</a></li>
           <li class="mid"><a href="load_stop_activity.php">Призупинення діяльності</a></li>
 
-          <li>
+          <!-- <li>
             <a href="load_arm.php">Завантаження даних про справи </a>
-          </li>
+          </li> -->
           <li>
             <a href="" class="fly">Где заказывать?</a>
               <ul>
@@ -121,12 +118,12 @@
         </li>
     </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">Акти</span></a>
+  <!-- <li class="top"><a href="" id="" class="top_link"><span class="down">Акти</span></a>
       <ul class="sub">
       <li><a href="act_process.php">АКТ введення</a></li>
       <li><a href="act_show.php">АКТ пошук</a></li>
       </ul>
-  </li>
+  </li> -->
   <li class="top"><a href="" id="" class="top_link"><span class="down">ПОМОЩЬ ФОРУМУ</span></a>
       <ul class="sub">
       <li><a href="ссылка">Вакансии</a></li>

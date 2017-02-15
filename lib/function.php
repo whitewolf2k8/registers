@@ -440,7 +440,26 @@
 		return addslashes(stripslashes(str_replace("'","&#39;",$str)));
 	}
 
-
-
+	function getYear($link, $id , $t)
+  {
+    $str="";
+    $qeruStr="SELECT * FROM `year` ";
+    $result = mysqli_query($link,$qeruStr);
+    if($t==1){
+      $str="<option value='' "."selected"."> - Âñ³ - </option>";
+    }
+    if($result){
+      while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+        $select="";
+        if($id==$row['id']){
+          $select="selected";
+        }else if(date('Y')==$row["nu"] && $t!=1){
+          $select="selected";
+        }
+        $str.="<option value='".$row['id']."' ".$select.">".$row['nu']."</option>";
+      }
+    }
+    return $str;
+  }
 
 ?>
