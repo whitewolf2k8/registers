@@ -445,6 +445,13 @@
 		return str_replace(' ','',$str);
 	}
 
+	function setMaxSession($max) {
+    if(isset($_SESSION)){
+      session_start();
+    }
+    $_SESSION['max'] = $max;
+    session_write_close();
+	}
 
 
 ?>

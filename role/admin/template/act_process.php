@@ -75,7 +75,7 @@
 
             <p class="act_add">
               <span>Дата складання акту <input type="text" id='dateS'  value=""></span>
-              <span style="float:right">Дата ліквідації по рішенню арбітражного суду
+              <span style="float:right">Дата рішення арбітражного суду
                  <input type="text" id='dateEnd'  value="">
               </span>
             </p>
