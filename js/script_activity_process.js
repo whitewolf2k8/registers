@@ -44,81 +44,96 @@ function cleanStrNom(str) {
 
 function printErr(str) {
   if(str===""){
-     document.getElementById("errorM").innerHTML='';
+    document.getElementById("errorMes").innerHTML='';
   }else{
-    document.getElementById("errorM").innerHTML='<p class="error">'+str+'</p>';
+    document.getElementById("errorMes").innerHTML='<p class="error">'+str+'</p>';
   }
 }
 
+function showWindowLoad(type) {
+  document.getElementById("lo").innerHTML='<div id="preloader"></div>';
+  if(type>0){
+      document.getElementById('centered').removeAttribute("hidden");
+  }
+}
+
+function closeWindowLoad() {
+  document.getElementById("lo").innerHTML='';
+  document.getElementById('centered').setAttribute("hidden","");
+}
+
+function getElementList(id){
+  var list=document.getElementById(id);
+  return list.options[list.selectedIndex].value;
+}
+
+
 
 function inmportInformathion() {
-  var forms= new FormData(document.getElementById("adminForm"));
-  	forms.append("action","load");
-  	showPopup("progressDisplay");
-  	var myVar = setInterval(function() {
-  			ls_ajax_progress();
-  	}, 1000);
+  printErr('');
+  var fileName= document.getElementById("fileImp").files.name;
+  var period=getElementList("filtr_period_insert");
+  var year= getElementList("filtr_year_insert");
+
+  if(fileName!="" && period!="" && year!=""){
+    var forms= new FormData(document.getElementById("adminForm"));
+    	forms.append("action","load");
+    	showWindowLoad(1);
+    	var myVar = setInterval(function() {
+    			ls_ajax_progress();
+    	}, 1000);
       $.ajax({
   			 type: "POST",
-  			 url: "\\logic\\jsonScript\\kved10Function.php",
+  			 url: "script/processActivityFin.php",
   			 data: forms,
   			 scriptCharset: "CP1251",
   			 processData: false,
     	 	 contentType: false ,
   			 success: function(data){
-  				clearInterval(myVar);
-  				showOffPopup("progressDisplay");
-  				}
+          var res = JSON.parse(data);
+          console.log(res);
+          updateTable(res.table);
+          document.getElementById("paginatorT").innerHTML=res.paginator;
+          var str="";
+          str+=res.ERROR_MSG+"<br>";
+          str+=res.INFO_MSG+"<br>";
+          printErr(str);
+  			  clearInterval(myVar);
+          cleanImport();
+  				closeWindowLoad();
+  			 }
   		});
-
+  }else{
+    var str='';
+    if(fileName==""){
+      str+="Необхідно обрати файл для імпорту!! <br>";
+    }
+    if(period==""){
+      str+="Необхідно обрати період за який проводиться імпорт!!<br>";
+    }
+    if(year==""){
+      str+="Необхідно обрати рік за який проводиться імпорт!!<br>";
+    }
+    printErr(str);
+  }
 }
 
 
 function ls_ajax_progress() {
-	var progress = document.getElementById('progressbar');
-	var progressStr = document.getElementById('progress_value');
 		$.ajax({
 				type: 'POST',
-				url: "\\logic\\jsonScript\\readLoad.php",
+				url: "..\\..\\lib\\readLoad.php",
 				success: function(data) {
-					progress.value=Math.round(data);
-					progressStr.innerHTML=data+"%";
+          $(".knob").val(Math.round(data));
+          $(".knob").trigger('change');
 				},
 		});
 }
 
+
+
 function searhOrg(){
-  var kd = document.getElementById("kd");
-  var kdmo = document.getElementById("kdmo");
 
-  kdStr=cleanStrNom(kd.value);
-  kdmoStr=cleanStrNom(kdmo.value);
-
-  printErr("");
-  document.getElementById("orgid").value="";
-  document.getElementById("nuOrg").value="";
-
-  if(kdStr!="" || kdmoStr!=""){
-    $.ajax({
-     type: "POST",
-     url: "script/processAct.php",
-     data: {mode:'getOrg',"kd": kdStr, "kdmo" : kdmoStr },
-     scriptCharset: "CP1251",
-     success: function(data){
-         var res = JSON.parse(data);
-         if(res==null){
-           printErr("Підприємство не знайдено в довіднику!!");
-         }else{
-           document.getElementById("orgid").value=res[0].id;
-           document.getElementById("nuOrg").value=res[0].nu;
-           kd.value=res[0].kd;
-           kdmo.value=res[0].kdmo;
-         }
-      }
-   });
-  }else{
-    printErr("Не введено ні одного параметру!!");
-  }
 }
 
 
@@ -128,23 +143,16 @@ function updateTable(arr) {
   var table =document.getElementById('table_id');
   table.innerHTML="";
 
-  str+="<tr><th rowspan=\"2\">&nbsp;</th> <th rowspan=\"2\">ЄДРПОУ</th>"+
-    "<th rowspan=\"2\">КДМО</th><th colspan=\"2\">Дата </th>"+
-    "<th rowspan=\"2\">Номер рішення</th><th rowspan=\"2\">Тип акту</th>"+
-    "<th rowspan=\"2\">Галузевий відділ</th><th rowspan=\"2\">Адреса складання</th>"+
-    "</tr><tr class=\"second_level\"><th> складання акту</th>"+
-    "<th>ліквідації по рішенню суду</th></tr>";
+  str+="<tr><th>ЄДРПОУ</th><th>КДМО</th>"
+    +"<th>Назва</th><th>Період</th>"
+    +" <th>Ознака активності</th></tr>";
   for (var i = 0; i < arr.length; i++) {
-    str+="<tr id=\""+arr[i].id+"\">";
-    str+="<td  style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\""+arr[i].id+"\" onchange=\"chacheCheck('"+arr[i].id+"');\" /></td>";
-    str+="<td style =\" overflow:hidden;\" >"+arr[i].kd+"</td>";
-    str+="<td style =\" overflow:hidden;\" >"+arr[i].kdmo+"</td>";
-    str+="<td style =\" overflow:hidden;\" >"+arr[i].da+"</td>";
-    str+="<td style =\" overflow:hidden;\" >"+arr[i].dl+"</td>";
-    str+="<td style =\" overflow:hidden;\" >"+arr[i].rnl+"</td>";
-    str+="<td style =\" overflow:hidden;\" >"+arr[i].types+"</td>";
-    str+="<td style =\" overflow:hidden;\" >"+arr[i].dep+"</td>";
-    str+="<td style =\" overflow:hidden;\" >"+arr[i].ad+"</td>";
+    str+="<tr>";
+    str+="<td>"+arr[i].kd+"</td>";
+    str+="<td>"+arr[i].kdmo+"</td>";
+    str+="<td>"+arr[i].nu+"</td>";
+    str+="<td>"+arr[i].Nuperiod+arr[i].short_nu+"</td>";
+    str+="<td>"+arr[i].sign+"</td>";
     str+="</tr>";
   }
   table.innerHTML=str;
