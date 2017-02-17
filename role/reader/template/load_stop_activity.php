@@ -73,11 +73,16 @@
 
         <h2>Інформація про призупинення діяльності</h2>
 
+        <form name="adminForm" action="load_stop_activity.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="mode" />
+          <input type="hidden" name="limitstart" value="0"/>
+          <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
+
           <div class="item_blue" style="float:right;margin-right:39%; width:320px;">
   	        <h2>Пошук</h2>
             <p>
-          	   <div class="navigation_left">Пошук по "Kd"</div>
-               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:180px;text-align:center;" /></div>
+          	   <div class="navigation_left">Пошук по ЄДРПОУ</div>
+               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:177px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
             <p>

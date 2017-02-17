@@ -50,6 +50,79 @@
         <div id='errorMes' style='display="none"'  <? if($ERROR_MSG!=""){echo "class='error'";}?> >
       		    <?php if ($ERROR_MSG != '') echo '<p class="error">'.$ERROR_MSG.'</p>';?>
       	</div>
+
+        <div id="add_adress" class="parent_popup" >
+          <div id="popup" class="popup" style="width:400px;left:40%;">
+            <div id='errorMesAdd' style='display="none";'>
+            </div>
+            <h2>Внесення фактичної адреси</h2>
+            <div class="clr"></div>
+            <p>
+              <div class="navigation_left"  style="margin-left:10px;">Область</div>
+              <div class="navigation_right">
+                <select id='obl_add' onchange="updateLists(this.options[this.selectedIndex].value,'','ray_add')" style="text-align:center; width:250px;"></select>
+              </div>
+            </p>
+            <div class="clr"></div>
+            <p>
+              <div class="navigation_left"  style="margin-left:10px;">Район</div>
+              <div class="navigation_right"><select id='ray_add' onchange="generateTeLists('1',getIndexObl('obl_add'),getIndexObl('ray_add'),'ter_add')" style="width:250px;text-align:center;"></select></div>
+            </p>
+            <div class="clr"></div>
+            <p>
+              <div class="navigation_left"  style="margin-left:10px;">Місто/Село</div>
+              <div class="navigation_right"><select id='ter_add' style="width:250px;text-align:center;"></select></div>
+            </p>
+            <div class="clr"></div>
+            <p>
+              <div class="navigation_left"  style="margin-left:10px;">Поштовий індекс</div>
+              <div class="navigation_right"><input align="right" type="text" id="postCode" maxlength="5" name="postCode" style="width:250px;text-align:center;" /></div>
+            </p>
+            <div class="clr"></div>
+            <p>
+              <div class="navigation_left"  style="margin-left:10px;">Адреса</div>
+              <div class="navigation_right"><input align="right" type="text" id="adressAdd" maxlength="150" name="adressAdd" style="width:250px;text-align:center;" /></div>
+            </p>
+            <div class="clr"></div>
+
+            <div>
+              <p align="center">
+    	          <input type="button" value="Скасувати" class="button" onclick="showHide('add_adress');" />
+                <input type="button" value="Зберегти" class="button" onclick="addAdres('add','<? echo $org['id'];?>')" />
+    	        </p>
+            </div>
+          </div>
+        </div>
+
+        <div id="contactAdd" class="parent_popup" >
+          <div id="popup" class="popup" style="width:400px;left:40%;">
+            <div id='errorMesCon' style='display="none";'></div>
+            <h2>Додати контактні дані</h2>
+            <div class="clr"></div>
+            <p>
+              <div class="navigation_left"  style="margin-left:10px;">Тип даних</div>
+              <div class="navigation_right">
+                <select id='type_contact' onchange="" style="text-align:center; width:250px;">
+                  <option value="0" selected>Телефон</option>
+                  <option value="1">Факс</option>
+                  <option value="2">Email</option>
+                </select>
+              </div>
+            </p>
+            <div class="clr"></div>
+            <p>
+              <div class="navigation_right"><input align="right" type="text" id="contactData" maxlength="250" name="contactData" style="width:400px;text-align:center;" /></div>
+            </p>
+            <div class="clr"></div>
+            <div>
+              <p align="center">
+                <input type="button" value="Скасувати" class="button" onclick="showHide('contactAdd');" />
+                <input type="button" value="Зберегти" class="button" onclick="addContact(<? echo $org['id']; ?>)" />
+              </p>
+            </div>
+          </div>
+        </div>
+
         <form name="adminForm" action="index.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" />
           <h2>Облікова картка підприємства</h2>
@@ -79,6 +152,7 @@
             <div class="clr"></div>
             <p>
               <text > <b> Фактична адреса: </b></text>
+              <input type="button" value="" class="btn_add"  onclick="callAddWindow('add');"/>
             </p>
             <div class="clr"></div>
             <div id ="ur_adres">
@@ -94,9 +168,45 @@
               } ?>
             </div>
             <div class="clr"></div>
+
             <p>
               <text> <b> Контактні дані: </b></text>
+              <input type="button" value="" class="btn_add"  onclick="showHide('contactAdd');"/>
             </p>
+
+            <div class="clr"></div>
+            <div id ="contact">
+              <? if(isset($contact)){
+                  $count=0;
+                  foreach ($contact as $key => $value) {
+                    if($count==0){
+                      echo "<p>";
+                      $count+=1;
+                    }
+                    switch ($value["type"]) {
+                      case "0":
+                        echo "<text>Телефон: ".$value["data"].";</text>";
+
+                        break;
+                      case "1":
+                        $text="<text>Факс: ".$value["data"].";</text>";
+
+                      case "2":
+                        $text="<text>Email: ".$value["data"].";</text>";
+
+                        break;
+                    }
+                    if ($count==3){
+                      echo "</p>";
+                      $count=0;
+                    }else{
+                      $count+=1;
+                    }
+                  }
+                  if($count!=0){echo "</p>";}
+                }?>
+            </div>
+
           <p>
             <text> <b>Основний вид економічної діяльності:</b></text>
             <text id="vdf10"><? echo $org["vdf10"]."(".$org['vdf10N'].")";?></<text>

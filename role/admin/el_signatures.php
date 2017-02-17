@@ -48,8 +48,11 @@
   					else
   					{
               $r = mysqli_fetch_assoc($res);
-              $query_str = 'UPDATE `add_information` SET `id_org`=?,`year`=? WHERE `id_org`=? AND `year`=?';
+              $query_str = 'UPDATE `add_information` SET `id_org`=?,`year`=? ';
+              
+
                 mysqli_query($link,$query_str);
+                echo mysqli_error($link);
   						 $countUpd++;
              }
   					@mysql_free_result($res);

@@ -5,22 +5,7 @@
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
   $filtr_nu= isset($_POST['filtr_nu']) ? stripslashes(trim($_POST['filtr_nu'])) :"";
 
-
-  $action = isset($_POST['mode']) ? $_POST['mode'] : '';
   $ERROR_MSG="";
-
-  if($action=="edit"){
-    $arrCheck=$_POST["checkList"];
-    $arrChange=$_POST["checkDead"];
-    foreach ($arrCheck as $key => $value) {
-      if(isset($arrChange[$value])){
-        $qeruStr="UPDATE `depatment` SET `dead`= 1 WHERE id=".$value;
-      }else{
-        $qeruStr="UPDATE `depatment` SET `dead`= 0 WHERE id=".$value;
-      }
-      mysqli_query($link,$qeruStr);
-    }
-  }
 
   $where = array();
 

@@ -30,18 +30,13 @@ function submitForm(mode) {
     form.submit();
   }
 }
-
-
   $(document).ready(function() {
     $("#filtr_kd_opf").ForceNumericOnly();
   });
 </script>
 
-
 </head>
-
 <body>
-
   <div class="wrapper">
 
 	  <div class="header">
@@ -56,11 +51,16 @@ function submitForm(mode) {
 
         <h2>Довідник OПФ </h2>
 
+        <form name="adminForm" action="load_opf.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="mode" />
+          <input type="hidden" name="limitstart" value="0"/>
+          <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
+
         <div class="item_blue" style="float:right;margin-right:37%; width:320px;">
   	        <h2>Пошук по довіднику ОПФ</h2>
             <p align="center">
               <p>
-            	   <div class="navigation_left">Пошук по "Kd"</div>
+            	   <div class="navigation_left">Пошук по Коду</div>
                  <div class="navigation_right"><input align="right" type="text" id="filtr_kd_opf" maxlength="3" name="filtr_kd_opf" value="<?php echo $filtr_kd; ?>" style="width:130px;text-align:center;" /></div>
               </p>
               <div class="clr"></div>
@@ -82,14 +82,12 @@ function submitForm(mode) {
               </tr>
 
             <? foreach ($ListResult as $key => $value) {
-              # code...
                 echo "<tr>";
                 echo "<td>".$value["kd"]."</td>";
                 echo "<td>".$value["nu"]."</td>";
                 echo"</tr>";
               }
         } ?>
-
           </table>
         </div>
 

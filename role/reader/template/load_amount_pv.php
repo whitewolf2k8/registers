@@ -43,71 +43,14 @@
       form.submit();
     }
   }
-
-  function cleanFormImport() {
-    document.getElementById("fileImp").value="";
-    $.ajax({
-     type: "POST",
-     url: "script/process_amount_pv.php",
-     data: {mode:'getList'},
-     scriptCharset: "CP1251",
-     success: function(data){
-         var res = JSON.parse(data);
-         formCleanList(res);
-      }
-   });
-  }
-
   function formCleanList(arr) {
     document.getElementById("filtr_year_insert").innerHTML=arr.insert_year;
     document.getElementById("filtr_period_insert").innerHTML=arr.insert_period;
   }
-
-  function chacheCheck(){
-    var arrText=document.getElementsByClassName("amo");
-    var arrCheck=document.getElementsByName("checkList[]");
-    var cnt=0;
-    for(var i=0;i<arrCheck.length;i++){
-      if(arrCheck[i].checked)
-        cnt++;
-    }
-    var flag=true;
-    if(cnt==0)
-    {
-      flag=false;
-      document.getElementById("delBtn").disabled=true;
-      document.getElementById("addBtn").disabled=false;
-    }else{
-      document.getElementById("delBtn").disabled=false;
-      document.getElementById("addBtn").disabled=true;
-    }
-
-    for(var i=0;i<arrText.length;i++){
-      arrText[i].disabled = flag;
-    }
-  }
-
-
-function changeAmountAction(id) {
-  var arrCheck=document.getElementsByName("checkList[]");
-  for(var i=0;i<arrCheck.length;i++){
-    arrCheck[i].disabled="disabled";
-    if(id==arrCheck[i].value) arrCheck[i].checked=true;
-  }
-  document.getElementById("saveBtn").disabled=false;
-}
-
-  $(document).ready(function() {
-    $("#filtr_kd").ForceNumericOnly();
-    $("#filtr_kdmo").ForceNumericOnly();
-  });
 </script>
 
-
 </head>
-
 <body>
-
   <div class="wrapper">
 
 	  <div class="header">
@@ -122,11 +65,16 @@ function changeAmountAction(id) {
 
         <h2>Середня кількість працівників із форми 1-ПВ по періодах</h2>
 
-          <div class="item_blue" style="float:right;margin-right:38%; width:320px;">
+        <form name="adminForm" action="load_amount_pv.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="mode" />
+          <input type="hidden" name="limitstart" value="0"/>
+          <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
+
+          <div class="item_blue" style="float:right;margin-right:39%; width:320px;">
   	        <h2>Пошук</h2>
             <p>
-          	   <div class="navigation_left">Пошук по "Kd"</div>
-               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:180px;text-align:center;" /></div>
+          	   <div class="navigation_left">Пошук по ЄДРПОУ</div>
+               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:177px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
             <p>
@@ -150,9 +98,6 @@ function changeAmountAction(id) {
             <div class="clr"></div>
             <p align="center">
   	          <input type="button" value="Пошук" class="button" onclick="submitForm('')" />
-            <!--  <input type="button" value="Додати" id="addBtn" class="button" onclick="submitForm('')" /> -->
-              <!-- <input type="button" value="Зберегти" id="saveBtn" class="button" disabled=true onclick="submitForm('edit')" />
-              <input type="button" value="Видалити" id="delBtn" class="button" disabled  onclick="submitForm('del')" /> -->
   	        </p>
   	    	</div>
 
@@ -163,18 +108,15 @@ function changeAmountAction(id) {
           <div id="table_id" align="center">
             <table>
               <tr>
-                <th>&nbsp;</th>
                 <th>Підприємство</th>
                 <th>Період</th>
                 <th>Чисельність</th>
               </tr>
             <? foreach ($ListResult as $key => $value) {
                 echo "<tr>";
-                echo "<td style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck()\" /></td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["nu_org"]."</td>";
                 echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["nu_period"]." ".$value["nu_year"]."</td>";
-                echo "<td style =\" overflow:hidden;white-space:nowrap;\" >".$value["amount"]."</td>";
-                // echo "<td style =\" overflow:hidden;white-space:nowrap;\" ><input class=\"amo\"   id=\"".$value['id']."\"  name=\"textAmount[".$value['id']."]\" style=\"text-align:center;width:80px;\" value =\"".$value['amount']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["amount"]."</td>";
                 echo"</tr>";
               }
         } ?>

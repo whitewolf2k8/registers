@@ -10,67 +10,7 @@
   $paginathionLimitStart=isset($_POST['limitstart']) ? stripslashes($_POST['limitstart']) : 0;
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
 
-  $action = isset($_POST['mode']) ? $_POST['mode'] : '';
   $ERROR_MSG="";
-
-
-  if($action=="import") {
-  	$countIns = 0;
-  	$countUpd = 0;
-
-  	if (!file_exists($tmpFile=$_FILES["fileImp"]['tmp_name'])) {
-  		$ERROR_MSG .= '<br />Помилка завантаження файлу.';
-  	}
-  	$d = @fopen($tmpFile, "r");
-
-  	if ($d != false) {
-      $strInsert="INSERT INTO `letter_base`(`id_org`, `label`, `type`) VALUES (%d,'%s',1)";
-      $strUpdate="UPDATE `letter_base` SET `id_org`=%d,`label`='%s' WHERE `id`= %d";
-
-  		while (!feof($d)) {
-  			$str = chop(fgets($d)); //считываем очередную строку из файла до \n включительно
-  			if ($str == '') continue;
-  			$fields = explode(",", $str);
-  			$str_query = 'SELECT id'.' FROM organizations'
-  							.' WHERE kd="'.$fields[0].'" and kdmo ="'.$fields[0]."0001".'"'
-  							.' LIMIT 1';
-
-  			$resultOrg = mysqli_query($link,$str_query);
-
-  			if ($resultOrg){
-  				if (mysqli_num_rows($resultOrg) == 1) {
-
-  					$row = mysqli_fetch_assoc($resultOrg);
-
-  					$res = mysqli_query($link,'SELECT id FROM `letter_base` WHERE id_org="'.$row['id'].'" AND'
-              ." type = 1 AND `label` LIKE ('%".$fields[1]."%')".'   LIMIT 1');
-
-  					if (mysqli_num_rows($res) == 0)
-  					{
-  					  mysqli_query($link,sprintf($strInsert,$row["id"],delApostrophe($fields[1])));
-  						$countIns++;
-  					}
-  					else
-  					{
-              $r = mysqli_fetch_assoc($res);
-              mysqli_query($link,sprintf($strUpdate,$row["id"],delApostrophe($fields[1]),$r["id"]));
-  						 $countUpd++;
-  					}
-  					@mysql_free_result($res);
-  				}else{
-              $ERROR_MSG .= 'Не знайдено підприємства з  kd '.$fields[0]."<br>";
-          }
-  				@mysql_free_result($resultOrg);
-  			} else {
-  				$ERROR_MSG .= 'Помилка виконання запиту для підприємства kd '.$fields[0]."<br>";
-  				continue;
-  			}
-  		}
-  		fclose($d);
-  		$ERROR_MSG .= "<br />Імпорт завершено. Оновлених: $countUpd. Додано: $countIns.  Всього: ".($countIns+$countUpd);
-  	} else
-  		$ERROR_MSG .= "<br />Неможливо відкрити файл імпорта";
-}
 
   $where = array();
   $where[]=' t1.type = 1';

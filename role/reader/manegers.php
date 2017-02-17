@@ -6,29 +6,11 @@
   $filtr_pib= isset($_POST['filtr_pib']) ? stripslashes(trim($_POST['filtr_pib'])) :"";
   $filtr_d=isset($_POST['filtr_dep'])?$_POST['filtr_dep']:0;
 
-  $action = isset($_POST['mode']) ? $_POST['mode'] : '';
   $ERROR_MSG="";
-
-  if($action=="edit"){
-
-
-    $arrCheck=$_POST["checkList"];
-    $arrChange=$_POST["checkDead"];
-    $arrDepartment=$_POST["depSelect"];
-
-    foreach ($arrCheck as $key => $value) {
-      if(isset($arrChange[$value])){
-        $qeruStr="UPDATE `managers` SET `dead`= 1 ".((isset($arrDepartment[$value]))?(", `depatment`=".$arrDepartment[$value]):"")."	 WHERE id=".$value;
-      }else{
-        $qeruStr="UPDATE `managers` SET `dead`= 0  ".((isset($arrDepartment[$value]))?(", `depatment`=".$arrDepartment[$value]):"")." WHERE id=".$value;
-      }
-      mysqli_query($link,$qeruStr);
-    }
-  }
 
   $where = array();
   if($filtr_pib!=""){
-    $where[]=" nu  Like ('%".$filtr_pib."%')";
+    $where[]=" managers.nu  Like ('%".$filtr_pib."%')";
   }
 
   if($filtr_d!=0){
@@ -52,12 +34,12 @@
     $whereStr.=' LIMIT '.$paginathionLimitStart.','.$paginathionLimit;
   }
 
-  $qeruStr="SELECT * FROM `managers` ".$whereStr;
+  $qeruStr="SELECT dep.nu as depnu,managers.* FROM `managers`left join depatment as dep on dep.id=managers.depatment ".$whereStr;
   $result = mysqli_query($link,$qeruStr);
   if($result){
     $ListResult=array();
     while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-      $ListResult[]=$row+array("ld"=>getListDepatment($link,$row["depatment"],1));
+      $ListResult[]=$row;
     }
     mysqli_free_result($result);
   }

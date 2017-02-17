@@ -32,11 +32,8 @@ function submitForm(mode) {
 
 </script>
 
-
-
 </head>
 <body>
-
   <div class="wrapper">
 
 	  <div class="header">
@@ -48,8 +45,13 @@ function submitForm(mode) {
         <?php if ($ERROR_MSG != '') echo '<p class="error">'.$ERROR_MSG.'</p>';?>
         <h2>Довідник КВЕД - 2010 </h2>
 
+        <form name="adminForm" action="load_kved.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="mode" />
+          <input type="hidden" name="limitstart" value="0"/>
+          <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
+
           <div class="item_blue" style="float:right;margin-right:39%; width:320px;">
-  	        <h2>Пошук по довыднику КВЕД 2010</h2>
+  	        <h2>Пошук по довіднику КВЕД 2010</h2>
             <p align="center">
               <p>
             	   <div class="navigation_left">Пошук по коду КВЕД:</div>

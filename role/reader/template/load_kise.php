@@ -28,7 +28,6 @@ function submitForm(mode) {
     form.submit();
   }
 }
-
 </script>
 <script src="../../../js/scripts.js"></script>
 </head>
@@ -46,11 +45,16 @@ function submitForm(mode) {
         <?php if ($ERROR_MSG != '') echo '<p class="error">'.$ERROR_MSG.'</p>';?>
         <h2>Довідник КІСЕ - 2014 </h2>
 
+        <form name="adminForm" action="load_kise.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="mode" />
+          <input type="hidden" name="limitstart" value="0"/>
+          <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
+
           <div class="item_blue" style="float:right;margin-right:38%; width:320px;">
   	        <h2>Пошук по довіднику КІСЕ 2014</h2>
             <p align="center">
               <p>
-            	   <div class="navigation_left">Пошук по "Kd" КІСЕ:</div>
+            	   <div class="navigation_left">Пошук по ЄДРПОУ КІСЕ:</div>
                  <div class="navigation_right"><input type="text" name="filtr_kise_kd" value="<?php echo $filtr_kise_kd; ?>" style="width:130px" /></div>
               </p>
               <div class="clr"></div>
@@ -87,12 +91,9 @@ function submitForm(mode) {
         } ?>
           </table>
         </div>
-
         </form>
      </div>
-
 	  </div>
-
 </div><!-- .wrapper -->
   <div id="paginatorT">
 

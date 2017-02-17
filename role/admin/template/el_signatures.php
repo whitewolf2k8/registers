@@ -98,8 +98,8 @@ function changeAmountAction(id) {
 }
 
   $(document).ready(function() {
-    $("#filtr_kd").ForceNumericOnly();
-    $("#filtr_kdmo").ForceNumericOnly();
+    /*$("#filtr_kd").ForceNumericOnly();
+    $("#filtr_kdmo").ForceNumericOnly();*/
   });
 </script>
 
@@ -181,7 +181,7 @@ function changeAmountAction(id) {
                 echo "<td style =\" overflow:hidden;\" >".$value["kd"]."</td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["kdmo"]."</td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["el_info"]."</td>";
-                echo "<td style =\" overflow:hidden;\" >".$value["year"]."</td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["nu"]."</td>";
                 echo"</tr>";
               }
         } ?>

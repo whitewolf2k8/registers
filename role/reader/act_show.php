@@ -29,7 +29,6 @@
   $paginathionLimitStart=isset($_POST['limitstart']) ? stripslashes($_POST['limitstart']) : 0;
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
 
-  $action = isset($_POST['mode']) ? $_POST['mode'] : '';
   $ERROR_MSG="";
 
   $where = array();
@@ -144,7 +143,6 @@
   $qeruStr="SELECT organ.kd, organ.kdmo, ac.* FROM `acts`  as ac "
     ." left join  organizations as organ on organ.id=ac.org".$whereStr;
 
-  //echo $qeruStr;
   $result = mysqli_query($link,$qeruStr);
   if($result){
     $ListResult=array();

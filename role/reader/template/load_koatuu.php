@@ -104,6 +104,11 @@ function updateLists(mode) {
         <?php if ($ERROR_MSG != '') echo '<p class="error">'.$ERROR_MSG.'</p>';?>
         <h2>Довідник територій України</h2>
 
+        <form name="adminForm" action="load_koatuu.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="mode" />
+          <input type="hidden"  name="limitstart" <? echo "value='".(($paginathionLimitStart==0)?"0":$paginathionLimitStart)."'"; ?>/>
+          <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
+
           <div class="item_blue" style="float:right;margin-right:39%; width:320px;">
   	        <h2>Пошук по довіднику територій</h2>
             <p align="center">
@@ -140,7 +145,7 @@ function updateLists(mode) {
                 <th colspan="2">Найменування</th>
               </tr>
               <tr>
-                <th>Українмькою</th>
+                <th>Українською</th>
                 <th>Російською</th>
               </tr>
             <? foreach ($ListResult as $key => $value) {

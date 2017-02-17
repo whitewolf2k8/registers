@@ -118,12 +118,11 @@
         </li>
     </ul>
   </li>
-  <!-- <li class="top"><a href="" id="" class="top_link"><span class="down">Акти</span></a>
+  <li class="top"><a href="" id="" class="top_link"><span class="down">Акти</span></a>
       <ul class="sub">
-      <li><a href="act_process.php">АКТ введення</a></li>
       <li><a href="act_show.php">АКТ пошук</a></li>
       </ul>
-  </li> -->
+  </li>
   <li class="top"><a href="" id="" class="top_link"><span class="down">ПОМОЩЬ ФОРУМУ</span></a>
       <ul class="sub">
       <li><a href="ссылка">Вакансии</a></li>

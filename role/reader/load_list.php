@@ -7,57 +7,7 @@
   $paginathionLimitStart=isset($_POST['limitstart']) ? stripslashes($_POST['limitstart']) : 0;
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
 
-  $action = isset($_POST['mode']) ? $_POST['mode'] : '';
-
   $ERROR_MSG="";
-
-
-  if($action=="import") {
-  	$countIns = 0;
-  	$countUpd = 0;
-    $countKdmoNull = 0;
-
-  	if (!file_exists($tmpFile=$_FILES["fileImp"]['tmp_name'])) {
-  		$ERROR_MSG .= '<br />Помилка завантаження файлу.';
-  	}
-
-    $d = @fopen($tmpFile, "r");
-  	if ($d != false) {
-  		while (!feof($d)) {
-  			$str = chop(fgets($d)); //считываем очередную строку из файла до \n включительно
-  			if ($str == '') continue;
-  			$fields = explode(",", $str);
-
-  			$str_query = 'SELECT id FROM `organizations` '
-  							.' WHERE kd='.$fields[0].' and kdmo ='.$fields[0].'0001 LIMIT 1';
-  			$resultOrg = mysqli_query($link,$str_query);
-      	if ($resultOrg){
-  				if (mysqli_num_rows($resultOrg) == 1) {
-  					$row = mysqli_fetch_assoc($resultOrg);
-  					$query_str = 'INSERT INTO `letter_base`(`id_org`, `label`, `type`)'
-              .' VALUES ('.$row[id].",'".$fields[1]."',0)";
-  						mysqli_query($link,$query_str);
-
-
-  						$countIns++;
-  				}else{
-
-            if($fields[1]!=0){
-              $ERROR_MSG .= 'Не знайдено підприємства з  kd '.$fields[0]."<br>";
-            }
-          }
-  				@mysql_free_result($resultOrg);
-  			} else {
-  				$ERROR_MSG .= 'Помилка виконання запиту для підприємства kd '.$fields[0]."<br>";
-  				continue;
-  			}
-  		}
-  		fclose($d);
-  		$ERROR_MSG .= "<br />Імпорт завершено. Додано: $countIns.";
-  	} else{
-  		$ERROR_MSG .= "<br />Неможливо відкрити файл імпорта";
-    }
-  }
 
   $where = array();
   $where[]=' letter.type = 0';
@@ -67,7 +17,6 @@
   if($filtr_kdmo!=""){
     $where[]=" org.kdmo = '".$filtr_kdmo."'";
   }
-
 
   $whereStrPa = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
   $qeruStrPaginathion="SELECT COUNT(letter.id) as resC   FROM  letter_base as letter"

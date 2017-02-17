@@ -42,72 +42,15 @@
         x[0].value=0;
       form.submit();
     }
-  }
-
-  function cleanFormImport() {
-    document.getElementById("fileImp").value="";
-    $.ajax({
-     type: "POST",
-     url: "script/process_amount_pv.php",
-     data: {mode:'getList'},
-     scriptCharset: "CP1251",
-     success: function(data){
-         var res = JSON.parse(data);
-         formCleanList(res);
-      }
-   });
-  }
-
+  }і
   function formCleanList(arr) {
     document.getElementById("filtr_year_insert").innerHTML=arr.insert_year;
     document.getElementById("filtr_period_insert").innerHTML=arr.insert_period;
   }
-
-  function chacheCheck(){
-    var arrText=document.getElementsByClassName("amo");
-    var arrCheck=document.getElementsByName("checkList[]");
-    var cnt=0;
-    for(var i=0;i<arrCheck.length;i++){
-      if(arrCheck[i].checked)
-        cnt++;
-    }
-    var flag=true;
-    if(cnt==0)
-    {
-      flag=false;
-      document.getElementById("delBtn").disabled=true;
-      document.getElementById("addBtn").disabled=false;
-    }else{
-      document.getElementById("delBtn").disabled=false;
-      document.getElementById("addBtn").disabled=true;
-    }
-
-    for(var i=0;i<arrText.length;i++){
-      arrText[i].disabled = flag;
-    }
-  }
-
-
-function changeAmountAction(id) {
-  var arrCheck=document.getElementsByName("checkList[]");
-  for(var i=0;i<arrCheck.length;i++){
-    arrCheck[i].disabled="disabled";
-    if(id==arrCheck[i].value) arrCheck[i].checked=true;
-  }
-  document.getElementById("saveBtn").disabled=false;
-}
-
-  $(document).ready(function() {
-    $("#filtr_kd").ForceNumericOnly();
-    $("#filtr_kdmo").ForceNumericOnly();
-  });
 </script>
 
-
 </head>
-
 <body>
-
   <div class="wrapper">
 
 	  <div class="header">
@@ -122,11 +65,16 @@ function changeAmountAction(id) {
 
         <h2>Кількість працівників/дохід з форми "Фінансова звітність" </h2>
 
+        <form name="adminForm" action="load_amount_fin.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="mode" />
+          <input type="hidden" name="limitstart" value="0"/>
+          <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
+
           <div class="item_blue" style="float:right;margin-right:39%; width:320px;">
   	        <h2>Пошук</h2>
             <p>
-          	   <div class="navigation_left">Пошук по "Kd"</div>
-               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:180px;text-align:center;" /></div>
+          	   <div class="navigation_left">Пошук по ЄДРПОУ</div>
+               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:177px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
             <p>

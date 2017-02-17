@@ -24,7 +24,6 @@
         document.getElementById('errorMes').innerHTML="<p>Будь ласка оберіть файл для імпорту.</p>";
       }
     }
-
     if(mode=='edit'){
       correct= confirm("Ви впевнені в змінах ??");
       if(correct){
@@ -34,7 +33,6 @@
         }
       }
     }
-
     if (correct) {
       document.getElementById('lo').innerHTML='<div id="preloader"></div>';
       form.mode.value = mode;
@@ -43,126 +41,6 @@
       form.submit();
     }
   }
-
-  function chacheCheck(id){
-
-    var  chDead =  document.getElementById('ch_'+id);
-    var arrCheck=document.getElementsByName("checkList[]");
-    var cnt=0;
-    for(var i=0;i<arrCheck.length;i++){
-      if(arrCheck[i].value==id){
-        arrCheck[i].checked=true;
-        document.getElementById(id).className="changeData";
-        var flag = ((chDead.checked)? true:false);
-        document.getElementById('li_'+id).disabled=flag;
-      }
-    }
-    checkButton();
-  }
-
-  function checkButton() {
-    var arrCheck=document.getElementsByName("checkList[]");
-    var cnt=0;
-    for(var i=0;i<arrCheck.length;i++){
-      if(arrCheck[i].checked)
-        cnt++;
-    }
-    var flag=true;
-    if(cnt==0)
-    {
-      flag=false;
-      document.getElementById("saveBtn").disabled=true;
-      document.getElementById("addBtn").disabled=false;
-    }else{
-      document.getElementById("saveBtn").disabled=false;
-      document.getElementById("addBtn").disabled=true;
-    }
-  }
-
-
-
-
-  function addAdres(mode){
-    var pib = document.getElementById('text_pib').value;
-
-    var idDep = document.getElementById('depatment_id');
-    idDep=idDep.options[idDep.selectedIndex].value;
-    if(pib!="" && idDep!=0){
-      $.ajax({
-       type: "POST",
-       url: "script\\processMeneger.php",
-       data: {"mode":mode, "pib":pib, "dep":idDep },
-       scriptCharset: "CP1251",
-       success: function(data){
-          var res = JSON.parse(data);
-          pib.value="";
-          updateTable(res);
-          showHide('add_maneger');
-        }
-     });
-   }else{
-     var er="";
-     if(pib==""){
-       er+="Прізвище та ініціали повинні бути заповнені<br>";
-     }
-     if(idDep==0){
-       er+="Необхідно обрати відділ в якому працює<br>";
-     }
-     document.getElementById("errorMesAdd").innerHTML="<p class=\"error\">"+er+"</p>   <div class=\"clr\"></div>";
-   }
-  }
-
-
-  function openAddMeneget() {
-    $.ajax({
-     type: "POST",
-     url: "script\\processMeneger.php",
-     data: {"mode":"getList"},
-     scriptCharset: "CP1251",
-     success: function(data){
-        var res = JSON.parse(data);
-        addLists(res);
-        showHide('add_maneger');
-      }
-    });
-   }
-
-
-  function addLists(arr) {
-    var x= document.getElementById("depatment_id");
-    x.innerHTML = "";
-    var opt = document.createElement('option');
-    opt.value = "0";
-    opt.selected = true;
-    opt.innerHTML = " - не обрано - ";
-    x.appendChild(opt);
-    for(var i = 0; i < arr.length; i++)
-    {
-      var opt = document.createElement('option');
-      opt.value = arr[i].id;
-      opt.innerHTML = arr[i].nu;
-      x.appendChild(opt);
-    }
-  }
-
-
-  function updateTable( arr ){
-    var table = document.getElementById("table_id");
-    var text='';
-    table.innerHTML="";
-    if(arr.length>0) text+="<tr><th>&nbsp;</th><th>П.І.Б.</th><th>Не активний</th></tr>"
-    for(var i=0; i<arr.length;i++){
-      text+="<tr id=\""+arr[i].id+"\" "+((arr[i].dead==1)?"class=\"notactive\"":"")+">";
-      text+="<td style =\" overflow:visible\" ><input type=\"checkbox\"  name=\"checkList[]\" value=\""+arr[i].id+"\" onclick=\"return false\" /></td>";
-      text+="<td style =\" overflow:hidden;\" >"+arr[i].nu+"</td>";
-      text+="<td style =\" overflow:hidden;\" > <select id=\"li_"+arr[i].id+"\" name=\"depSelect["+arr[i].id+"]\" "+((arr[i].dead==1)?"disabled":"")+" onchange=\"chacheCheck("+arr[i].id+");\">"+arr[i].ld+"</select></td>";
-      text+="<td style =\" overflow:hidden;\" > <input type=\"checkbox\" id=\"ch_"+arr[i].id+"\" name=\"checkDead["+arr[i].id+"]\"  onchange=\"chacheCheck("+arr[i].id+");\" "+((arr[i].dead==1)?"checked":"")+"/></td>";
-      text+="</tr>";
-    }
-    table.innerHTML=text;
-  }
-
-
 </script>
 
 
@@ -183,7 +61,6 @@
       	</div>
 
         <h2>Перелік керівників відділів</h2>
-
 
         <form name="adminForm" action="manegers.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" />
@@ -215,12 +92,12 @@
             <table id="table_id">
               <tr>
                 <th>П.І.Б.</th>
-                <th>відділ</th>
+                <th>Відділ</th>
                 <th>Не активний</th>
               </tr>
             <? foreach ($ListResult as $key => $value) {
                 echo "<td style =\" overflow:hidden;\" >".$value["nu"]."</td>";
-                echo "<td style =\" overflow:hidden;\" > <select id=\"li_".$value['id']."\" name=\"depSelect[".$value['id']."]\" ".(($value['dead']==1)?"disabled":"")." onchange=\"chacheCheck(".$value['id'].");\">".$value["ld"]."</select></td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["depnu"]." </td>";
                 echo "<td style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onclick=\"return false\" /></td>";
                 echo"</tr>";
               }

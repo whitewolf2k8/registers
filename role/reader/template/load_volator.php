@@ -32,18 +32,14 @@
     }
   }
 
-
   $(document).ready(function() {
     $("#filtr_kd").ForceNumericOnly();
     $("#filtr_kdmo").ForceNumericOnly();
   });
 </script>
 
-
 </head>
-
 <body>
-
   <div class="wrapper">
 
 	  <div class="header">
@@ -58,11 +54,16 @@
 
         <h2>Інформація про порушення адмінсправ</h2>
 
+        <form name="adminForm" action="load_volator.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="mode" />
+          <input type="hidden" name="limitstart" value="0"/>
+          <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
+
           <div class="item_blue" style="float:right;margin-right:39%; width:320px;">
   	        <h2>Пошук</h2>
             <p>
-          	   <div class="navigation_left">Пошук по "Kd"</div>
-               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:180px;text-align:center;" /></div>
+          	   <div class="navigation_left">Пошук по ЄДРПОУ</div>
+               <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:177px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
             <p>
@@ -101,7 +102,6 @@
                 <th>Номер/Дата адмінсправи</th>
                 <th>Відповыдальна особа</th>
                 <th>Керівник відділу ініціатора</th>
-
               </tr>
             <? foreach ($ListResult as $key => $value) {
                 echo "<tr>";

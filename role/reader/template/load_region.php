@@ -45,7 +45,13 @@ function submitForm(mode) {
 	  <div class="content">
       <div class="mainConteiner">
         <?php if ($ERROR_MSG != '') echo '<p class="error">'.$ERROR_MSG.'</p>';?>
-        <h2>Довідник областей та районів України</h2></br>
+        <h2>Довідник областей та районів України</h2><br>
+
+        <form name="adminForm" action="load_region.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="mode" />
+          <input type="hidden" name="limitstart" value="0"/>
+          <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
+
           <div id="lo"></div>
             <div class="clr"></div>
         <? if(isset($ListResult)){ ?>
