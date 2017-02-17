@@ -87,7 +87,7 @@
   }
 
   if($yearSelect!=0){
-    $where[]=" t1.id_year = ".$yearSelect;  
+    $where[]=" t1.id_year = ".$yearSelect;
   }
 
 
