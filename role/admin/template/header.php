@@ -3,147 +3,99 @@
 </div>
 
 <div id="infolist">
-      <p class="leftSide">Ви аторизувалися як:<font style="font-weight:bold;"> <? echo $_SESSION['name']." ( ".$typeUsers[$_SESSION[type]]." )"; ?></font></p>
-      <p class="rightSide">Поточна дата: <font style="font-weight:bold;"><? echo date("m.d.y");?> </font> </p>
+      <p class="leftSide">Г‚ДЌ Е•Е€Г®Д‘ДЌГ§ГіГўЕ•Г«ДЌЕ„Л™ Л™Д™:<font style="font-weight:bold;"> <? echo $_SESSION['name']." ( ".$typeUsers[$_SESSION[type]]." )"; ?></font></p>
+      <p class="rightSide">ДЋГ®Е€Г®Г·Г­Е• Г¤Е•Е€Е•: <font style="font-weight:bold;"><? echo date("m.d.y");?> </font> </p>
 </div>
 
 <div id=menu>
 <ul id="nav">
     <li class="top">
       <a href="index.php" class="top_link">
-        <span>На головну</span>
+        <span>ГЌЕ• ДѓГ®Г«Г®ГўГ­Гі</span>
       </a>
     </li>
 
     <li class="top">
       <a id="" class="top_link">
-        <span class="down">Вхідні дані</span>
+        <span class="down">Г‚Е‘Е‚Г¤Г­Е‚ Г¤Е•Г­Е‚</span>
       </a>
         <ul class="sub">
           <li>
-            <a href="load_arm.php">Завантаження АРМ</a>
+            <a href="load_arm.php">Г‡Е•ГўЕ•Г­Е€Е•Д‡ДєГ­Г­Л™ Е”ДђДљ</a>
           </li>
           <li>
-            <a href="load_el_signatures.php">Електронні підписи</a>
-          </li>
-          <li>
-            <a href="load_bankrut.php">Завантаження даних про банкрутів</a>
-          </li>
-          <li><a href="" class="fly">Завантаження чисельності</a>
-              <ul>
-                  <li><a href="load_amount_pv.php">з 1-ПВ</a></li>
-                  <li><a href="load_amount_fin.php">з фінансів</a></li>
-              </ul>
-          </li>
-          <li class="mid"><a href="load_list.php">Порушення законодавства</a></li>
-          <li class="mid"><a href="load_volator.php">Порушення адмінсправи</a></li>
-          <li class="mid"><a href="load_stop_activity.php">Призупинення діяльності</a></li>
 
-          <li>
-            <a href="load_arm.php">Завантаження даних про справи </a>
+            <a href="load_el_signatures.php">Д№Г«ДєД™Е€Д‘Г®Г­Г­Е‚ ДЏЕ‚Г¤ДЏДЌЕ„ДЌ</a>
           </li>
           <li>
-            <a href="" class="fly">Где заказывать?</a>
-              <ul>
-                <li>
-                  <a href="ссылка">Стили</a>
-                </li>
-                  <li>
-                    <a href="ссылка" class="fly">Элементы стиля</a>
-                   <ul>
-                       <li>
-                        <a href="ссылка">Шапки</a>
-                       </li>
-                  <li><a href="ссылка">Картинки для меп-карт</a></li>
-                  <li><a href="ссылка">Картинки</a></li>
-                  <li><a href="ссылка">Фоны</a></li>
-                  <li><a href="ссылка">Иконки</a></li>
-                  <li><a href="ссылка">Смайлы</a></li>
-                  <li><a href="ссылка">Награды</a></li>
-                  <li><a href="ссылка">Кнопки</a></li>
-                  <li><a href="ссылка">Заголовки</a></li>
-                  <li><a href="ссылка">Курсоры</a></li>
-                        <li><a href="ссылка">Tro lo lo </a></li>
-              </ul>
-                                                                        </li>
-              <li><a href="ссылка" class="fly">Рекламные элементы</a>
-              <ul>
-                  <li><a href="ссылка">Картинки</a></li>
-                  <li><a href="ссылка">Логотипы</a></li>
-                  <li><a href="ссылка">Баннеры</a></li>
-              </ul>
-                                                                       </li>
 
-              <li><a href="ссылка" class="fly">Элементы профиля</a>
+            <a href="load_bankrut.php">Г„Е•Г­Е‚ ДЏД‘Г® ГЎЕ•Г­Д™Д‘ГіЕ€Е‚Гў</a>
+
+          </li>
+          <li><a href="" class="fly">Г‡Е•ГўЕ•Г­Е€Е•Д‡ДєГ­Г­Л™ Г·ДЌЕ„ДєГ«ГјГ­Г®Е„Е€Е‚</a>
               <ul>
-                  <li><a href="ссылка">Аватарки</a></li>
-                  <li><a href="ссылка">Юзербары</a></li>
-                  <li><a href="ссылка">Подписи</a></li>
-                  <li><a href="ссылка">Комплекты</a></li>
+                  <li><a href="load_amount_pv.php">Г§ 1-ДЋГ‚</a></li>
+                  <li><a href="load_amount_fin.php">Г§ ГґЕ‚Г­Е•Г­Е„Е‚Гў</a></li>
               </ul>
-                                                                       </li>
-              <li><a href="ссылка" class="fly">HTML-заказы</a>
-              <ul>
-                  <li><a href="ссылка">Таблицы</a></li>
-                  <li><a href="ссылка">Мэп-карты</a></li>
-              </ul>
-                 </li>
-          </ul>
-      </li>
-      <li class="mid"><a href="ссылка">Навигация</a>
-      </li>
+          </li>
+          <li class="mid"><a href="load_list.php">ДЋГ®Д‘ГіЕ™ДєГ­Г­Л™ Г§Е•Д™Г®Г­Г®Г¤Е•ГўЕ„Е€ГўЕ•</a></li>
+          <li class="mid"><a href="load_volator.php">ДЋГ®Д‘ГіЕ™ДєГ­Г­Л™ Е•Г¤Д›Е‚Г­Е„ДЏД‘Е•ГўДЌ</a></li>
+          <li class="mid"><a href="load_stop_activity.php">ДЋД‘ДЌГ§ГіДЏДЌГ­ДєГ­Г­Л™ Г¤Е‚Л™Г«ГјГ­Г®Е„Е€Е‚</a></li>
+
+          <li><a href="load_volator.php">Е”Г¤Д›Е‚Г­Е„ДЏД‘Е•ГўДЌ Е„ДЏД‘Е•ГўДЌ </a></li>
+          <li><a href="load_activity.php">Е”Д™Е€ДЌГўГ­Е‚Е„Е€Гј Г§Е• Г¤Е•Г­ДЌД›ДЌ Г„Г”Еѓ</a></li>
 
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">Довідники</span></a>
+  <li class="top"><a href="" id="" class="top_link"><span class="down">Г„Г®ГўЕ‚Г¤Г­ДЌД™ДЌ</span></a>
       <ul class="sub">
-      <li><a href="load_kved.php">Квед 2010</a></li>
+      <li><a href="load_kved.php">ДГўДєГ¤ 2010</a></li>
       <li><a href="load_kise.php">KICE 2014</a></li>
 
-      <li><a href="" class="fly">Території</a>
+      <li><a href="" class="fly">Е‡ДєД‘ДЌЕ€Г®Д‘Е‚Еј</a>
           <ul>
               <li><a href="load_koatuu.php">KOATUU</a></li>
-              <li><a href="load_region.php">Регіони</a></li>
+              <li><a href="load_region.php">ДђДєДѓЕ‚Г®Г­ДЌ</a></li>
           </ul>
       </li>
-      <li><a href="load_opf.php">ОПФ</a></li>
-      <li><a href="load_management.php">Органи управління</a></li>
-      <li><a href="department.php">Відділи</a></li>
-      <li><a href="manegers.php">Керівники</a></li>
-        <li><a href="ссылка" class="fly">Галерея</a>
+      <li><a href="load_opf.php">ГЋДЋГ”</a></li>
+      <li><a href="load_management.php">ГЋД‘ДѓЕ•Г­ДЌ ГіДЏД‘Е•ГўГ«Е‚Г­Г­Л™</a></li>
+      <li><a href="department.php">Г‚Е‚Г¤Г¤Е‚Г«ДЌ</a></li>
+      <li><a href="manegers.php">ДДєД‘Е‚ГўГ­ДЌД™ДЌ</a></li>
+        <li><a href="Е„Е„Е±Г«Д™Е•" class="fly">Д‚Е•Г«ДєД‘ДєЛ™</a>
           <ul>
-              <li><a href="ссылка">Стили</a></li>
-              <li><a href="ссылка">Шапки</a></li>
-              <li><a href="ссылка">Картинки</a></li>
-              <li><a href="ссылка">Баннеры</a></li>
-              <li><a href="ссылка">Аватарки</a></li>
+              <li><a href="Е„Е„Е±Г«Д™Е•">ЕѓЕ€ДЌГ«ДЌ</a></li>
+              <li><a href="Е„Е„Е±Г«Д™Е•">ЕЕ•ДЏД™ДЌ</a></li>
+              <li><a href="Е„Е„Е±Г«Д™Е•">ДЕ•Д‘Е€ДЌГ­Д™ДЌ</a></li>
+              <li><a href="Е„Е„Е±Г«Д™Е•">ГЃЕ•Г­Г­ДєД‘Е±</a></li>
+              <li><a href="Е„Е„Е±Г«Д™Е•">Е”ГўЕ•Е€Е•Д‘Д™ДЌ</a></li>
           </ul>
         </li>
     </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">Акти</span></a>
+  <li class="top"><a href="" id="" class="top_link"><span class="down">Е”Д™Е€ДЌ</span></a>
       <ul class="sub">
-      <li><a href="act_process.php">АКТ введення</a></li>
-      <li><a href="act_show.php">АКТ пошук</a></li>
+      <li><a href="act_process.php">Е”ДЕ‡ ГўГўДєГ¤ДєГ­Г­Л™</a></li>
+      <li><a href="act_show.php">Е”ДЕ‡ ДЏГ®Е™ГіД™</a></li>
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">ПОМОЩЬ ФОРУМУ</span></a>
+  <li class="top"><a href="" id="" class="top_link"><span class="down">ДЋГЋДљГЋЕ®Гњ Г”ГЋДђГ“ДљГ“</span></a>
       <ul class="sub">
-      <li><a href="ссылка">Вакансии</a></li>
-      <li><a href="ссылка">Продвижение</a></li>
-      <li><a href="">Финансовая помощь</a></li>
+      <li><a href="Е„Е„Е±Г«Д™Е•">Г‚Е•Д™Е•Г­Е„ДЌДЌ</a></li>
+      <li><a href="Е„Е„Е±Г«Д™Е•">ДЋД‘Г®Г¤ГўДЌД‡ДєГ­ДЌДє</a></li>
+      <li><a href="">Г”ДЌГ­Е•Г­Е„Г®ГўЕ•Л™ ДЏГ®Д›Г®ЕЇГј</a></li>
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">ВАЖНОЕ</span></a>
+  <li class="top"><a href="" id="" class="top_link"><span class="down">Г‚Е”Д†ГЌГЋД№</span></a>
       <ul class="sub">
-      <li><a href="ссылка">Объявления</a></li>
-      <li><a href="ссылка">Конкурсы</a></li>
-      <li><a href="ссылка">Новости</a></li>
+      <li><a href="Е„Е„Е±Г«Д™Е•">ГЋГЎГєЛ™ГўГ«ДєГ­ДЌЛ™</a></li>
+      <li><a href="Е„Е„Е±Г«Д™Е•">ДГ®Г­Д™ГіД‘Е„Е±</a></li>
+      <li><a href="Е„Е„Е±Г«Д™Е•">ГЌГ®ГўГ®Е„Е€ДЌ</a></li>
       </ul>
   </li>
     <li class="top_l">
       <a href="../../lib/logout.php" class="top_li">
-        <span>Вихід</span>
+        <span>Г‚ДЌЕ‘Е‚Г¤</span>
       </a>
     </li>
   </ul>

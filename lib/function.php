@@ -6,7 +6,7 @@
     global $bdusername, $bdpassword, $bdname;
     $link = new mysqli('localhost', $bdusername , $bdpassword, $bdname);
     if (!$link) {
-        die('Ошибка подключения (' . mysqli_connect_errno() . ') ');
+        die('ГЋГёГЁГЎГЄГ  ГЇГ®Г¤ГЄГ«ГѕГ·ГҐГ­ГЁГї (' . mysqli_connect_errno() . ') ');
     }
     return $link;
   }
@@ -22,7 +22,7 @@
     $stmt = mysqli_stmt_init($link);
     if(!mysqli_stmt_prepare($stmt, $query))
     {
-      echo "Ошибка подготовки запроса\n";
+      echo "ГЋГёГЁГЎГЄГ  ГЇГ®Г¤ГЈГ®ГІГ®ГўГЄГЁ Г§Г ГЇГ°Г®Г±Г \n";
     }
     else
     {
@@ -70,25 +70,25 @@
 		$enc=((mb_detect_encoding($string)==false)?"cp866":mb_detect_encoding($string));
 		if($enc!="cp866"){
 			$result=$string;
-			$result=replace_symvol($result,"ї","Є","є");
-			$result=replace_symvol($result,"ў","І","і");
-			$result=replace_symvol($result,"Ў","i","І");
-			$result=replace_symvol($result,"°","Ї","ї");
-			$result=replace_symvol($result,"•","Ї","ї");
+			$result=replace_symvol($result,"Вї","ВЄ","Вє");
+			$result=replace_symvol($result,"Вў","ВІ","Ві");
+			$result=replace_symvol($result,"ВЎ","i","ВІ");
+			$result=replace_symvol($result,"В°","ВЇ","Вї");
+			$result=replace_symvol($result,"вЂў","ВЇ","Вї");
 			return  $result;
 		}else{
 					$result=$string;
-					$result=replace_symvol($result,"ї","Є","є");
-					$result=replace_symvol($result,"ў","І","і");
-					$result=replace_symvol($result,"Ў","i","І");
-					$result=replace_symvol($result,"°","Ї","ї");
-					$result=replace_symvol($result,"•","Ї","ї");
+					$result=replace_symvol($result,"Вї","ВЄ","Вє");
+					$result=replace_symvol($result,"Вў","ВІ","Ві");
+					$result=replace_symvol($result,"ВЎ","i","ВІ");
+					$result=replace_symvol($result,"В°","ВЇ","Вї");
+					$result=replace_symvol($result,"вЂў","ВЇ","Вї");
 					return $result;
 		}
 	}
 
 	function isCyrilic($text) {
-	    return preg_match('/[А-Яа-яЁёЇїҐґ0-9]/', $text);
+	    return preg_match('/[ГЂ-ГџГ -ГїВЁВёВЇВїВҐВґ0-9]/', $text);
 	}
   function changeCodingPageShort($string)
   {
@@ -100,7 +100,7 @@
     $result=$string;
     $pos=stripos($result, $sherch);
     while ($pos!==false){
-			if("°"==$sherch||"•"==$sherch){
+			if("В°"==$sherch||"вЂў"==$sherch){
 				$s="";
 				if($pos==0){
 					$s=$replaceU;
@@ -121,7 +121,7 @@
     $hours = floor($time/3600);
     $minutes = floor(($time/3600 - $hours)*60);
     $seconds =ceil(((($time/3600 - $hours)*60) - floor(($time/3600 - $hours)*60))*60);
-    return "<br> Виконання скрипта зайняло  $hours годин $minutes хвилин $seconds секунд";
+    return "<br> Г‚ГЁГЄГ®Г­Г Г­Г­Гї Г±ГЄГ°ГЁГЇГІГ  Г§Г Г©Г­ГїГ«Г®  $hours ГЈГ®Г¤ГЁГ­ $minutes ГµГўГЁГ«ГЁГ­ $seconds Г±ГҐГЄГіГ­Г¤";
   }
 
 	function formatKodKved10($string){
@@ -175,7 +175,7 @@
 		}
 	}
 	function errorMesKodKved10(){
-		return "Введений код КВЕД не відповідає шаюлону чч.чч. Неможливо виконати пошук.";
+		return "Г‚ГўГҐГ¤ГҐГ­ГЁГ© ГЄГ®Г¤ ГЉГ‚Г…Г„ Г­ГҐ ГўВіГ¤ГЇГ®ГўВіГ¤Г Вє ГёГ ГѕГ«Г®Г­Гі Г·Г·.Г·Г·. ГЌГҐГ¬Г®Г¦Г«ГЁГўГ® ГўГЁГЄГ®Г­Г ГІГЁ ГЇГ®ГёГіГЄ.";
 	}
 
 	function formatKdKise14($string){
@@ -186,24 +186,24 @@
 					if(preg_match("/\d\d\d\d/", $string)){
 						return $string;
 					}
-					return "Введене чило не відповідає формату чччч";
+					return "Г‚ГўГҐГ¤ГҐГ­ГҐ Г·ГЁГ«Г® Г­ГҐ ГўВіГ¤ГЇГ®ГўВіГ¤Г Вє ГґГ®Г°Г¬Г ГІГі Г·Г·Г·Г·";
         	break;
 			case 1:
 					if($string==0){
 						return $string;
 					}
-					return "Введене чило не відповідає формату чччч";
+					return "Г‚ГўГҐГ¤ГҐГ­ГҐ Г·ГЁГ«Г® Г­ГҐ ГўВіГ¤ГЇГ®ГўВіГ¤Г Вє ГґГ®Г°Г¬Г ГІГі Г·Г·Г·Г·";
 					break;
 
 			default:
-	        return "Введене чило не відповідає формату чччч";
+	        return "Г‚ГўГҐГ¤ГҐГ­ГҐ Г·ГЁГ«Г® Г­ГҐ ГўВіГ¤ГЇГ®ГўВіГ¤Г Вє ГґГ®Г°Г¬Г ГІГі Г·Г·Г·Г·";
 					break;
 		}
 	}
 	function formatKodKise14($string){
 		$string=str_replace(" ","",$string);
 		$result="";
-		$errorM= "Введене чило не відповідає формату S.ччччч";
+		$errorM= "Г‚ГўГҐГ¤ГҐГ­ГҐ Г·ГЁГ«Г® Г­ГҐ ГўВіГ¤ГЇГ®ГўВіГ¤Г Вє ГґГ®Г°Г¬Г ГІГі S.Г·Г·Г·Г·Г·";
 		switch (iconv_strlen($string, "Windows-1251")) {
 			case 3:
 					if(preg_match("/S\.\d/", $string)){
@@ -249,7 +249,7 @@
 
 	function getPaginator($total,$count=10,$now){
 		$arrayCount= array(0,10,20,30,40,50,100);
-		//проверка на нулевое количество страниц в выборе при первой загрузке пагинатора
+		//ГЇГ°Г®ГўГҐГ°ГЄГ  Г­Г  Г­ГіГ«ГҐГўГ®ГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г±ГІГ°Г Г­ГЁГ¶ Гў ГўГ»ГЎГ®Г°ГҐ ГЇГ°ГЁ ГЇГҐГ°ГўГ®Г© Г§Г ГЈГ°ГіГ§ГЄГҐ ГЇГ ГЈГЁГ­Г ГІГ®Г°Г 
 		$count=($count=="")?50:$count;
 		$result.="" ;
 		if($count==0){
@@ -257,11 +257,11 @@
 		}else {
 			$pageCount=round($total/$count, 0, PHP_ROUND_HALF_UP);
 		}
-		$result.="<div class='pagination'><p> В таблицю вибрано ".
-		$total." записів. Показати в таблиці по "
+		$result.="<div class='pagination'><p> Г‚ ГІГ ГЎГ«ГЁГ¶Гѕ ГўГЁГЎГ°Г Г­Г® ".
+		$total." Г§Г ГЇГЁГ±ВіГў. ГЏГ®ГЄГ Г§Г ГІГЁ Гў ГІГ ГЎГ«ГЁГ¶Ві ГЇГ® "
 			.'<select name="limits" size="1" onchange="submitFormLim(this.value)">';
 		foreach($arrayCount as $v) {
-			$result .= '<option value="'.$v.'"'.($count==$v ? ' selected="selected"' : '').'>'.($v==0 ? 'Все' : $v).'</option>';
+			$result .= '<option value="'.$v.'"'.($count==$v ? ' selected="selected"' : '').'>'.($v==0 ? 'Г‚Г±ГҐ' : $v).'</option>';
 		}
  		$result.= '</select></p>';
 		if($total>$count && $count!=0){
@@ -437,29 +437,21 @@
 	}
 
 	function delApostrophe($str){
-		return addslashes(stripslashes(str_replace("'","&#39;",$str)));
+		return str_replace("'","&#39;",$str);
+		//return addslashes(stripslashes(str_replace("'","&#39;",$str)));
 	}
 
-	function getYear($link, $id , $t)
-  {
-    $str="";
-    $qeruStr="SELECT * FROM `year` ";
-    $result = mysqli_query($link,$qeruStr);
-    if($t==1){
-      $str="<option value='' "."selected"."> - Всі - </option>";
+
+	function delSpace($str){
+		return str_replace(' ','',$str);
+	}
+
+	function setMaxSession($max) {
+    if(isset($_SESSION)){
+      session_start();
     }
-    if($result){
-      while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        $select="";
-        if($id==$row['id']){
-          $select="selected";
-        }else if(date('Y')==$row["nu"] && $t!=1){
-          $select="selected";
-        }
-        $str.="<option value='".$row['id']."' ".$select.">".$row['nu']."</option>";
-      }
-    }
-    return $str;
-  }
+    $_SESSION['max'] = $max;
+    session_write_close();
+	}
 
 ?>

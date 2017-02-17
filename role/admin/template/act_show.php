@@ -148,12 +148,12 @@
                 <span> Область
                   <select id='obl_select' name="obl_select" onchange="updateLists();" style="text-align:center; width:170px;"><? echo $select_obl; ?></select>
                 </span>
-                <span>Район
+                <span>Район/Місто
                   <select id='ray_select' name='ray_select' onchange="generateTeLists();" <? echo (($select_ray["anabled"]==0)?"disabled":""); ?> style="width:170px;text-align:center;">
                     <? echo $select_ray["data"]; ?>
                   </select>
                 </span>
-                <span> Місто/Село
+                <span>Село
                   <select id='ter_select' name="ter_select" <? echo (($select_ter["anabled"]==0)?"disabled":""); ?> style="width:170px;text-align:center;">
                     <? echo $select_ter["data"]; ?>
                   </select>

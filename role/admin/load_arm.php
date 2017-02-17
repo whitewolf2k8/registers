@@ -10,6 +10,18 @@
     }
   }
 
+  function getTypeCon($i)
+  {
+    if($i<2){
+      $type=0;
+    }else if($i==2){
+      $type=1;
+    }else {
+      $type=2;
+    }
+    return $type;
+  }
+
 
 
   $action = isset($_POST['mode']) ? $_POST['mode'] : '';
@@ -20,13 +32,13 @@
     $start = microtime(true);
     set_time_limit(90000);
     if (!file_exists($tmpFile=$_FILES["fileImp"]['tmp_name'])) {
-      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
+      $ERROR_MSG .= 'ГЏГ®Г¬ГЁГ«ГЄГ  Г§Г ГўГ Г­ГІГ Г¦ГҐГ­Г­Гї ГґГ Г©Г«Гі! <br/>';
     }else {
       $db = dbase_open($tmpFile, 0);
       if ($db) {
           $countUpdate=0;
           $countInsert=0;
-          // чтение некотрых данных
+          // Г·ГІГҐГ­ГЁГҐ Г­ГҐГЄГ®ГІГ°Г»Гµ Г¤Г Г­Г­Г»Гµ
           $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? and `kdmo`=?";
           $queryUpdate = "UPDATE `organizations` SET `kd`=?,`kdmo`=?,`kdg`=?,`nu`=?,"
             ."`pk`=?,`ad`=?,`pi`=?,`te`=?,`tea`=?,`e1_10`=?,`e2_10`=?,`e3_10`=?,"
@@ -45,7 +57,7 @@
           $rowCount=dbase_numrecords ($db);
           if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtUpdate, $queryUpdate)))
           {
-            echo " Помилка Пыдготовки запиту \n <br>";
+            echo " ГЏГ®Г¬ГЁГ«ГЄГ  ГЏГ»Г¤ГЈГ®ГІГ®ГўГЄГЁ Г§Г ГЇГЁГІГі \n <br>";
           } else{
             mysqli_stmt_bind_param($stmtInsert, "iisssssssssssssssssssssssssss",$kd,$kdmo,$kdg,$nu,$pk,$ad,$pi,$te,$tea,$e1_10,$e2_10,$e3_10,$e4_10,$e5_10,$e6_10,$uo,$vdf10,$iz,$pf,$kice,$gu,$os,$rik,$sn,$rn,$dr,$pr,$dz,$dl);
             mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
@@ -130,10 +142,10 @@
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtInsert);
           mysqli_stmt_close($stmtUpdate);
-          $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
-          $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
-          $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
-          $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
+          $ERROR_MSG.=" Г‡Г ГЇГЁГ±ВіГў Г®Г­Г®ГўГ«ГҐГ­Г® ".$countUpdate." . <br>";
+          $ERROR_MSG.= " Г„Г®Г¤Г Г­Г® Г§Г ГЇГЁГ±ВіГў ".$countInsert." . <br>";
+          $ERROR_MSG.= " Г‡ ГґГ Г©Г«Гі Г§ГЁГІГ Г­Г®  ".$rowCount." Г§Г ГЇГЁГ±ВіГў. <br>";
+          $ERROR_MSG.= "Г‘ГЄГ°ГЁГЇГІ ГўГЁГЄГ®Г­ГіГўГ ГўГ±Гї ГЇГ°Г®ГІГїГЈГ®Г¬ ".calcTimeRun($start,microtime(true))."<br>";
           dbase_close($db);
         }
       }
@@ -143,13 +155,13 @@
     $start = microtime(true);
     set_time_limit(90000);
     if (!file_exists($tmpFile=$_FILES["fileImpKd"]['tmp_name'])) {
-      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
+      $ERROR_MSG .= 'ГЏГ®Г¬ГЁГ«ГЄГ  Г§Г ГўГ Г­ГІГ Г¦ГҐГ­Г­Гї ГґГ Г©Г«Гі! <br/>';
     }else {
       $db = dbase_open($tmpFile, 0);
       if ($db) {
           $countUpdate=0;
           $countInsert=0;
-          // чтение некотрых данных
+          // Г·ГІГҐГ­ГЁГҐ Г­ГҐГЄГ®ГІГ°Г»Гµ Г¤Г Г­Г­Г»Гµ
           $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? and `kdmo`=?";
           $queryUpdate = "UPDATE `organizations` SET `kd`=?,`kdmo`=?,`kdg`=?,`nu`=?,"
             ."`ad`=?,`pi`=?,`te`=?,`tea`=?,`vdf10`=?,`pr`=?, `dz`=?  WHERE `kd`=? and `kdmo`=?";
@@ -162,7 +174,7 @@
           $rowCount=dbase_numrecords ($db);
           if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtUpdate, $queryUpdate)))
           {
-            echo " Помилка Підготовки запиту \n <br>";
+            echo " ГЏГ®Г¬ГЁГ«ГЄГ  ГЏВіГ¤ГЈГ®ГІГ®ГўГЄГЁ Г§Г ГЇГЁГІГі \n <br>";
           } else {
             mysqli_stmt_bind_param($stmtInsert, "iisssssssss",$kd,$kdmo,$kdg,$nu,
               $ad,$pi,$te,$tea,$vdf10,$pr,$dz);
@@ -227,10 +239,10 @@
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtInsert);
           mysqli_stmt_close($stmtUpdate);
-          $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
-          $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
-          $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
-          $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
+          $ERROR_MSG.=" Г‡Г ГЇГЁГ±ВіГў Г®Г­Г®ГўГ«ГҐГ­Г® ".$countUpdate." . <br>";
+          $ERROR_MSG.= " Г„Г®Г¤Г Г­Г® Г§Г ГЇГЁГ±ВіГў ".$countInsert." . <br>";
+          $ERROR_MSG.= " Г‡ ГґГ Г©Г«Гі Г§ГЁГІГ Г­Г®  ".$rowCount." Г§Г ГЇГЁГ±ВіГў. <br>";
+          $ERROR_MSG.= "Г‘ГЄГ°ГЁГЇГІ ГўГЁГЄГ®Г­ГіГўГ ГўГ±Гї ГЇГ°Г®ГІГїГЈГ®Г¬ ".calcTimeRun($start,microtime(true))."<br>";
           dbase_close($db);
         }
       }
@@ -241,13 +253,13 @@
     $start = microtime(true);
     set_time_limit(90000);
     if (!file_exists($tmpFile=$_FILES["fileImpKdFin"]['tmp_name'])) {
-      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
+      $ERROR_MSG .= 'ГЏГ®Г¬ГЁГ«ГЄГ  Г§Г ГўГ Г­ГІГ Г¦ГҐГ­Г­Гї ГґГ Г©Г«Гі! <br/>';
     }else {
       $db = dbase_open($tmpFile, 0);
       if ($db) {
           $countUpdate=0;
           $countInsert=0;
-          // чтение некотрых данных
+          // Г·ГІГҐГ­ГЁГҐ Г­ГҐГЄГ®ГІГ°Г»Гµ Г¤Г Г­Г­Г»Гµ
           $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? and `kdmo`=?";
           $queryUpdate = "UPDATE `organizations` SET `kd`=?,`kdmo`=?,`kdg`=?,`nu`=?,"
             ."`ad`=?,`pi`=?,`te`=?,`tea`=? WHERE `kd`=? and `kdmo`=?";
@@ -260,7 +272,7 @@
           $rowCount=dbase_numrecords ($db);
           if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtUpdate, $queryUpdate)))
           {
-            echo " Помилка Пыдготовки запиту \n <br>";
+            echo " ГЏГ®Г¬ГЁГ«ГЄГ  ГЏГ»Г¤ГЈГ®ГІГ®ГўГЄГЁ Г§Г ГЇГЁГІГі \n <br>";
           } else {
             mysqli_stmt_bind_param($stmtInsert, "iissssss",$kd,$kdmo,$kdg,$nu,
               $ad,$pi,$te,$tea);
@@ -309,10 +321,10 @@
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtInsert);
           mysqli_stmt_close($stmtUpdate);
-          $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
-          $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
-          $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
-               $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
+          $ERROR_MSG.=" Г‡Г ГЇГЁГ±ВіГў Г®Г­Г®ГўГ«ГҐГ­Г® ".$countUpdate." . <br>";
+          $ERROR_MSG.= " Г„Г®Г¤Г Г­Г® Г§Г ГЇГЁГ±ВіГў ".$countInsert." . <br>";
+          $ERROR_MSG.= " Г‡ ГґГ Г©Г«Гі Г§ГЁГІГ Г­Г®  ".$rowCount." Г§Г ГЇГЁГ±ВіГў. <br>";
+               $ERROR_MSG.= "Г‘ГЄГ°ГЁГЇГІ ГўГЁГЄГ®Г­ГіГўГ ГўГ±Гї ГЇГ°Г®ГІГїГЈГ®Г¬ ".calcTimeRun($start,microtime(true))."<br>";
           dbase_close($db);
         }
       }
@@ -321,81 +333,48 @@
     $start = microtime(true);
     set_time_limit(90000);
     if (!file_exists($tmpFile=$_FILES["fileImpContact"]['tmp_name'])) {
-      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
+      $ERROR_MSG .= 'ГЏГ®Г¬ГЁГ«ГЄГ  Г§Г ГўГ Г­ГІГ Г¦ГҐГ­Г­Гї ГґГ Г©Г«Гі! <br/>';
     }else {
       $db = dbase_open($tmpFile, 0);
       if ($db) {
-          $countInsert=0;
-          $querySelect = "SELECT id FROM `organizations` WHERE 'kd'=? and 'kdmo'=?";
-          $querySelectContact = "SELECT id FROM `contact` WHERE 'id_org'=? and 'data' LIKE (?) and 'type'=?";
-          $queryInsert = "INSERT INTO `contact`(`id_org`,`data`,`type`) VALUES (?,?,?)";
-          $stmtSelect = mysqli_stmt_init($link);
-          $stmtSelectContact = mysqli_stmt_init($link);
-          $stmtInsert = mysqli_stmt_init($link);
+          $countInsrt=0;
+          $countUpdate=0;
+          $nameRow=array(0=>"OT",1=>"DT",2=>"OF",3=>"EMAIL" );
           $rowCount=dbase_numrecords ($db);
-          if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtSelectContact, $querySelectContact)))
-          {
-            echo " Помилка Підготовки запиту \n <br>";
-          } else {
-            mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
-            mysqli_stmt_bind_param($stmtSelectContact, "isi", $id_orgS, $dataS,$typeS);
-            mysqli_stmt_bind_param($stmtInsert, "isi",$id_org,$data,$type);
 
-            for($i=1;$i<=$rowCount;$i++){
-              $row= dbase_get_record_with_names ( $db , $i);
-                if($row["OT"]=='0'){
-                 if($row["DT"]=='1'){
-                   if($row["OF"]=='2'){
-                     if($row["EMAIL"]=='3'){
-                         $kdmoGet=$row["EMAIL"];
-                      }else{
-                         $kdmoGet=$row["OF"];
-                       }
-                         $kdmoGet=$row["DT"];
-                       }else{
-                          $kdmoGet=$row["OT"];
-                       }
-              //print_r($link);
-                /*$ot = $row["OT => type(0)"];
-                $dt = $row["DT => type(1)"];
-                $of = $row["OF => type(2)"];
-                $email = $row["EMAIL => type(3)"];
-                */
-                mysqli_stmt_execute($stmtSelect);
-                mysqli_stmt_execute($stmtSelectContact);
-                $result = mysqli_stmt_get_result($stmtSelect);
-                $result = mysqli_stmt_get_result($stmtSelectContact);
+          for($i=1;$i<=$rowCount;$i++){
+            $row= dbase_get_record_with_names ( $db , $i);
+            $strSelectOrg="SELECT id FROM `organizations` WHERE `kd`=".$row['KD']."  and `kdmo`=".$row['KDMO'];
+            $result=mysqli_query($link,$strSelectOrg);
+            if(mysqli_error($link)==''){
+              if(mysqli_num_rows($result)>0){
+                $rowOrg= mysqli_fetch_assoc($result);
+                for ($j=0; $j <4; $j++) {
+                  if(str_replace(' ','',$row[$nameRow[$j]])!=""&&str_replace(' ','',$row[$nameRow[$j]])!="0"){
+                    $queryGetFild="SELECT id FROM `contact` WHERE `id_org`=".$rowOrg["id"]." AND `data` like('".$row[$nameRow[$j]]."') AND `type`=".getTypeCon($j);
+                    $resultCont=mysqli_query($link,$queryGetFild);
+                    if(mysqli_num_rows($resultCont)==0){
+                      $queryUpdate="INSERT INTO `contact`(`id_org`, `data`, `type`)"
+                        ."VALUES (".$rowOrg["id"].",'".$row[$nameRow[$j]]."',".getTypeCon($j).")";
+                      mysqli_query($link,$queryUpdate);
+                      $countInsrt+=1;
+                    }else {
+                      $countUpdate+=1;
+                    }
+                    mysqli_free_result($resultCont);
+                  }
 
-                if(mysqli_num_rows($result)>0)
-                {
-                  $kdU = $row["KD"];
-                  $kdmoU = $row["KDMO"];
-                  $otU = $row["OT"];
-                  $dtU = $row["DT"];
-                  $ofU = $row["OF"];
-                  $emailU = $row["EMAIL"];
-                } else {
-                  $kd = $row["KD"];
-                  $kdmo = $row["KDMO"];
-                  $ot = $row["OT"];
-                  $dt = $row["DT"];
-                  $of = $row["OF"];
-                  $email = $row["EMAIL"];
-                  mysqli_stmt_execute($stmtInsert);
-                  $countInsert+=1;
                 }
                 mysqli_free_result($result);
+              }else{
+                $ERROR_MSG.="ГЏВіГ¤ГЇГ°ГЁВєГ¬Г±ГІГўГ® Г§ ГЄГ®Г¤Г®Г¬ ВєГ¤Г°ГЇГ®Гі -".$row['KD']."  ГІГ  ГЄГ¤Г¬Г® - ".$row['KDMO']." Г­ГҐ Г§Г­Г Г©Г¤ГҐГ­Г®. <br>";
               }
+            }else{
+              $ERROR_MSG.="ГЏГ°ГЁ ГўГЁГЄГ®Г­Г Г­Г­Ві Г§Г ГЇГЁГІГі Г±ГІГ Г«Г Г±Гї ГЇГ®Г¬ГЁГ«ГЄГ  ".mysqli_error($link)."<br>";
             }
           }
-          mysqli_stmt_close($stmtSelect);
-          mysqli_stmt_close($stmtSelectContact);
-          mysqli_stmt_close($stmtInsert);
-          $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
-          $ERROR_MSG.= " З файлу зчитано  ".$rowCount." записів. <br>";
-          $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
+          $ERROR_MSG.="ГЏВіГ¤ Г·Г Г± ВіГ¬ГЇГ®Г°ГІГі ГЄГ®Г­ГІГ ГЄГІВіГў ГЎГіГ«Г® Г¤Г®Г¤Г Г­Г® ".$countInsrt." ГІГ  Г®Г­Г®ГўГ«ГҐГ­Г® ".$countUpdate." ГЄГ®Г­ГІГ ГЄГІВіГў (ГЌГҐ ГЇВіГ¤ГЇГ°ГЁВєГ¬Г±ГІ, Г¤Г«Гї Г®Г¤Г­Г®ГЈГ® ГЇВіГ¤ГЇГ°ГЁВєГ¬Г±ГІГўГ  Г¬Г®Г¦ГҐ ГЎГіГІГЁ Г¤ГҐГ«ГЄВіГЄГ  ГЄГ®Г­ГІГ ГЄГІВіГў) <br>";
           dbase_close($db);
-        }
       }
     }
   }

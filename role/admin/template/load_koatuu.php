@@ -69,7 +69,7 @@ function updateLists(mode) {
   {
     $.ajax({
      type: "POST",
-     url: "order.php",
+     url: "script/order.php",
      data: {id:mode},
      scriptCharset: "CP1251",
      success: function(data){
