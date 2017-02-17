@@ -44,63 +44,9 @@
     }
   }
 
-  function cleanFormImport() {
-    document.getElementById("fileImp").value="";
-    $.ajax({
-     type: "POST",
-     url: "script/process_amount_pv.php",
-     data: {mode:'getList'},
-     scriptCharset: "CP1251",
-     success: function(data){
-         var res = JSON.parse(data);
-         formCleanList(res);
-      }
-   });
-  }
-
   function formCleanList(arr) {
     document.getElementById("filtr_year_insert").innerHTML=arr.insert_year;
-    document.getElementById("filtr_period_insert").innerHTML=arr.insert_period;
   }
-
-  function chacheCheck(){
-    var arrText=document.getElementsByClassName("amo");
-    var arrCheck=document.getElementsByName("checkList[]");
-    var cnt=0;
-    for(var i=0;i<arrCheck.length;i++){
-      if(arrCheck[i].checked)
-        cnt++;
-    }
-    var flag=true;
-    if(cnt==0)
-    {
-      flag=false;
-      document.getElementById("delBtn").disabled=true;
-      document.getElementById("addBtn").disabled=false;
-    }else{
-      document.getElementById("delBtn").disabled=false;
-      document.getElementById("addBtn").disabled=true;
-    }
-
-    for(var i=0;i<arrText.length;i++){
-      arrText[i].disabled = flag;
-    }
-  }
-
-
-function changeAmountAction(id) {
-  var arrCheck=document.getElementsByName("checkList[]");
-  for(var i=0;i<arrCheck.length;i++){
-    arrCheck[i].disabled="disabled";
-    if(id==arrCheck[i].value) arrCheck[i].checked=true;
-  }
-  document.getElementById("saveBtn").disabled=false;
-}
-
-  $(document).ready(function() {
-    /*$("#filtr_kd").ForceNumericOnly();
-    $("#filtr_kdmo").ForceNumericOnly();*/
-  });
 </script>
 
 
@@ -121,7 +67,7 @@ function changeAmountAction(id) {
       	</div>
 
         <h2>Пошук електронних підписів</h2>
-        <form name="adminForm" action="el_signatures.php" method="post" enctype="multipart/form-data">
+        <form name="adminForm" action="load_el_signatures.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" />
           <input type="hidden" name="limitstart" value="0"/>
           <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
@@ -145,10 +91,10 @@ function changeAmountAction(id) {
           </div>
 
 
-          <div class="item_blue" style="float:left;margin-left:25%; width:320px;">
+          <div class="item_blue" style="float:left;margin-left:25%; width:330px;">
   	        <h2>Пошук</h2>
             <p>
-          	   <div class="navigation_left">Пошук по "Kd"</div>
+          	   <div class="navigation_left">Пошук по ЄДРПОУ</div>
                <div class="navigation_right"><input align="right" type="text" id="filtr_kd"  name="filtr_kd" value="<?php echo $filtr_kd; ?>" style="width:180px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
@@ -157,6 +103,11 @@ function changeAmountAction(id) {
                <div class="navigation_right"><input align="right" type="text" id="filtr_kdmo" name="filtr_kdmo" value="<?php echo $filtr_kdmo; ?>" style="width:180px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
+            <p>
+               <div class="navigation_left">рік</div>
+               <div class="navigation_right">
+                  <select id="filtr_year_select" name="filtry_year_select" style="width:200px;text-align:center;"><? echo $select_year; ?></select>
+               </div>
             </p>
             <div class="clr"></div>
             <p align="center">

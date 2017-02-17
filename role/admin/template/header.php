@@ -24,7 +24,7 @@
             <a href="load_arm.php">Завантаження АРМ</a>
           </li>
           <li>
-            <a href="el_signatures.php">Електронні підписи</a>
+            <a href="load_el_signatures.php">Електронні підписи</a>
           </li>
           <li>
             <a href="load_bankrut.php">Завантаження даних про банкрутів</a>
