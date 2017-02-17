@@ -99,7 +99,7 @@
             </p>
             <div class="clr"></div>
             <p>
-          	   <div class="navigation_left">Пошук по "Kdmo"</div>
+          	   <div class="navigation_left">Пошук по KDMO</div>
                <div class="navigation_right"><input align="right" type="text" id="filtr_kdmo" name="filtr_kdmo" value="<?php echo $filtr_kdmo; ?>" style="width:180px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
