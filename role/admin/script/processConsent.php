@@ -26,8 +26,14 @@ include_once('../../../lib/function.php');
         $i=0;
         while (!feof($d)) {
           $str = chop(fgets($d)); //считываем очередную строку из файла до \n включительно
-          if ($str == '') continue;
-          $fields = explode(",", $str);
+          if ($str == ''){
+            $i++;
+            session_start();
+            $_SESSION['ls_sleep_test'] = $i;
+            session_write_close();
+            continue;
+          }
+          $fields = explode(";", $str);
           $strSelectOrg="SELECT `id` FROM `organizations` WHERE `kd` like('".$fields[0]
             ."') and `kdmo` like ('".$fields[0]."%') ";
           $resOrg=mysqli_query($link,$strSelectOrg);
@@ -38,18 +44,19 @@ include_once('../../../lib/function.php');
               $rowOrg=mysqli_fetch_array($resOrg, MYSQLI_ASSOC);
               $strSelectExists="SELECT id FROM `consents` WHERE `id_org`='".$rowOrg['id']."'"
                 ." and `id_year` = ".$yearIns;
+
               $resTable=mysqli_query($link,$strSelectExists);
               if(mysqli_error($link)!=""){
                 $ERROR_MSG .="При виконані запиту виникла помилка: ". mysqli_error($link)."<br>";
               }else{
                 if(mysqli_num_rows($resTable)!=0){
                   $rowAct=mysqli_fetch_array($resTable, MYSQLI_ASSOC);
-                  $strUpdate="UPDATE `consents` SET `type`=".(isset($fields[1])?$fields[1]:"8")." WHERE `id`=".$rowAct['id'];
+                  $strUpdate="UPDATE `consents` SET `type`=".(($fields[1]!="")?$fields[1]:"8")." WHERE `id`=".$rowAct['id'];
                   mysqli_query($link,$strUpdate);
                   $countUpdate++;
                 }else{
-                  $strInsert="`consents`(`id_org`, `id_year`, `type`)"
-                    ."VALUES (".$rowOrg['id'].",".$yearIns.",".(isset($fields[1])?$fields[1]:"8").")";
+                  $strInsert="INSERT INTO `consents`(`id_org`, `id_year`, `type`)"
+                    ."VALUES (".$rowOrg['id'].",".$yearIns.",".(($fields[1]!="")?$fields[1]:"8").")";
                   mysqli_query($link,$strInsert);
                   $countInsert++;
                 }
@@ -57,7 +64,7 @@ include_once('../../../lib/function.php');
               }
               mysqli_free_result($resOrg);
             }else{
-              $ERROR_MSG .="У базі не знайдено підприємство з кодом ЄДРПОУ: ".$row['KD'].". <br>";
+              $ERROR_MSG .="У базі не знайдено підприємство з кодом ЄДРПОУ: ".$fields[0].". <br>";
             }
           }
           $i++;

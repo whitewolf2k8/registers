@@ -83,11 +83,12 @@
   }
 
   if($yearSelect!=0){
+
     $where[]=" t1.id_year = ".$yearSelect;
   }
 
   $whereStrPa = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
-  $qeruStrPaginathion="SELECT COUNT(t1.id) as resC  FROM `activity_tax` as t1"
+  $qeruStrPaginathion="SELECT COUNT(t1.id) as resC  FROM  `consents` as t1 "
     ." left join organizations as t2 on t2.id=t1.id_org "
     ." left join `year` as t3 on t3.id=t1.id_year ".$whereStrPa;
 

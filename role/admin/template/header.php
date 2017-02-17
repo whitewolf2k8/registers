@@ -37,6 +37,7 @@
           <li class="mid"><a href="load_stop_activity.php">Призупинення діяльності</a></li>
           <li><a href="load_volator.php">Адмінсправи справи </a></li>
           <li><a href="load_activity.php">Активність за даними ДФС</a></li>
+          <li><a href="load_consent.php">Згоди ОДА</a></li>
 
       </ul>
   </li>

@@ -40,7 +40,7 @@ function submitForm(mode) {
 
 	  <div class="content">
       <div class="mainConteiner">
-        <h2>Ознака активності за даними ДФС</h2>
+        <h2>Відомості про надання згоди на надання інформаці, отриманої за результатами проведення ДСС, органам державної влади.</h2>
         <div id='errorMes' style='display="none"'  <? if($ERROR_MSG!=""){echo "class='error'";}?> >
       		    <?php if ($ERROR_MSG != '') echo '<p class="error">'.$ERROR_MSG.'</p>';?>
       	</div>
