@@ -62,16 +62,12 @@
       <li><a href="load_management.php">Органи управління</a></li>
       <li><a href="department.php">Відділи</a></li>
       <li><a href="manegers.php">Керівники</a></li>
-        <li><a href="ссылка" class="fly">Галерея</a>
-          <ul>
-              <li><a href="ссылка">Стили</a></li>
-              <li><a href="ссылка">Шапки</a></li>
-              <li><a href="ссылка">Картинки</a></li>
-              <li><a href="ссылка">Баннеры</a></li>
-              <li><a href="ссылка">Аватарки</a></li>
-          </ul>
-        </li>
     </ul>
+  </li>
+  <li class="top"><a href="" id="" class="top_link"><span class="down">Запити</span></a>
+      <ul class="sub">
+        <li><a href="picks_organizations.php">Вибірка підприємств</a></li>
+      </ul>
   </li>
   <li class="top"><a href="" id="" class="top_link"><span class="down">Акти</span></a>
       <ul class="sub">

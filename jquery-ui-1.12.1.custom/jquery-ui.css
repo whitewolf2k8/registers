@@ -53,7 +53,7 @@
 }
 
 .ui-front {
-	z-index: 100;
+	z-index: 998;
 }
 
 
@@ -170,7 +170,7 @@
 }
 .ui-selectable-helper {
 	position: absolute;
-	z-index: 100;
+	z-index: 998;
 	border: 1px dotted black;
 }
 .ui-sortable-handle {
