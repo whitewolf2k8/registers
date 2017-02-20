@@ -85,7 +85,7 @@ function inmportInformathion() {
   			 type: "POST",
   			 url: "script/processConsent.php",
   			 data: forms,
-  			 scriptCharset: "CP1251",
+  			 scriptCharset:"CP1251",
   			 processData: false,
     	 	 contentType: false ,
   			 success: function(data){

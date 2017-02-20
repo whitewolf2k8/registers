@@ -134,6 +134,7 @@ include_once('../../../lib/function.php');
   if($result){
     $ListResult=array();
     while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+      $row['nu']=iconv("windows-1251","utf-8",$row['nu']);
       $ListResult[]=$row;
     }
     mysqli_free_result($result);
@@ -142,9 +143,10 @@ include_once('../../../lib/function.php');
   $resultArr=array();
 
   $resultArr['table']=$ListResult;
-  $resultArr['paginator']=$pagination;
-  $resultArr['ERROR_MSG']=$ERROR_MSG;
-  $resultArr['INFO_MSG']=$INFO_MSG;
+  $resultArr['paginator']=iconv("windows-1251","utf-8",$pagination);
+  $resultArr['ERROR_MSG']=iconv("windows-1251","utf-8",$ERROR_MSG);
+  $resultArr['INFO_MSG']=iconv("windows-1251","utf-8",$INFO_MSG);
+
 
   echo php2js($resultArr);
 ?>

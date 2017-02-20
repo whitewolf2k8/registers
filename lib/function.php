@@ -458,7 +458,8 @@
 		$n = 0;
 		while (($c = fgetc($handle)) !== FALSE)
 		{
-        $n ++;
+			$bufer = fread($handle,1048576);
+      $n+=substr_count($bufer,"\n");
 		}
  		fclose($handle);
 		return $n;
