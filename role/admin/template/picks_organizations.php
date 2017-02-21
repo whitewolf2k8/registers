@@ -143,61 +143,75 @@
             <p class="act_add">
               <span>
                 <label>
-                  <input type="checkbox" id="cbox1" value="first_checkbox"> відокремлених підрозділів
+                  <input type="checkbox" id="check_1" value="first_checkbox"> відокремлених підрозділів
                 </label>
                 &nbsp;
                 <label>
-                  <input type="checkbox" id="cbox1" value="first_checkbox"> іноземного засновника
+                  <input type="checkbox" id="check_2" value="first_checkbox"> іноземного засновника
                 </label>
                 &nbsp;
                 <label>
-                  <input type="checkbox" id="cbox1" onchange='' value="first_checkbox"> Актів
+                  <input type="checkbox" id="check_3" onchange='showActElement();' value="first_checkbox"> Актів
                 </label>
                 &nbsp;
                 <label>
-                  <input type="checkbox" id="cbox1" value="first_checkbox"> ознаки вибуття в іншу область
+                  <input type="checkbox" id="check_4" value="first_checkbox"> ознаки вибуття в інший регіон
                 </label>
               </span>
             </p>
-            <p class="act_add" hidden>
+            <p class="act_add" id='act_block' hidden>
               <span>
                 Типу(ам) актів
                 <? echo $html_type; ?>
                 <input type="button" value="" name="add_type" class="btn_add"  onclick="addTypeSelect();"/> </span>
               </span>
             </p>
+            <p class="act_add">
+              <span id="kved"> Квед(и)
+                <input type="text" id="text_kved" style="width:130px" />
+                <input type="button" value="" name="add_kved" id="add_kved" class="btn_add"  onclick="checkInputDataKved();"/>
+                <? echo $html_kved; ?>
+              </span>
+            </p>
+            <p class="act_add">
+              <span id="kise"> Код(и) Кise
+                <input type="text" id="text_kise" style="width:105px" />
+                <input type="button" value="" name="add_kise" id="add_kise" class="btn_add"  onclick="checkInputDataKise();"/>
+                <? echo $html_kises; ?>
+              </span>
+            </p>
+            <p class="act_add">
+              <span id="opf">Організаційно правова форма
+                <? echo $html_opf; ?>
+                <input type="button" value="" name="add_opf" id="add_opf" class="btn_add"  onclick="addOpfSelect();"/>
+              </span>
+            </p>
+            <p class="act_add">
+              <span id="controls">Орган управління
+                <input type="text" id="text_controls" style="width:130px" />
+                <input type="button" value="" name="add_controls" id="add_controls" class="btn_add"  onclick="checkInputDataControls();"/>
+                <? echo $html_contol; ?>
+              </span>
+            </p>
 
             <div class="clr"></div>
             <p class="act_add">
-               <span>Період складання акту:
-                  З <input type="text" id='dateActS' name='dateActS'  value="<? echo $filtr_dateActS; ?>">
+               <span>Даті первинної реєстрації в межах :
+                  з <input type="text" id='dateActS' name='dateActS'  value="<? echo $filtr_dateActS; ?>">
                   по <input type="text" id='dateActE' name='dateActE'  value="<? echo $filtr_dateActE; ?>">
                </span>
             </p>
             <div class="clr"></div>
             <p class="act_add">
-               <span>Період ліквідації по рішенню суду:
-                  З <input type="text" id='dateDelS' name='dateDelS'  value="<? echo $filtr_dateDelS; ?>">
+               <span> даті ліквідації підприємства в межах:
+                  з <input type="text" id='dateDelS' name='dateDelS'  value="<? echo $filtr_dateDelS; ?>">
                   по <input type="text" id='dateDelE' name='dateDelE'  value="<? echo $filtr_dateDelE; ?>">
                </span>
             </p>
             <div class="clr"></div>
-            <h5 class="spoiler-title">Додадкові умови відбору</h5>
+            <h5 class="spoiler-title">Перлік полів для перегляду/експорту </h5>
             <div class="spoiler-body">
-              <p>
-                <span id="kved"> Квед(и)
-                  <input type="text" id="text_kved" style="width:130px" />
-                  <input type="button" value="" name="add_kved" id="add_kved" class="btn_add"  onclick="checkInputDataKved();"/>
-                  <? echo $html_kved; ?>
-                </span>
-              </p>
-              <p>
-                <span id="kise"> Код(и) Кise
-                  <input type="text" id="text_kise" style="width:105px" />
-                  <input type="button" value="" name="add_kise" id="add_kise" class="btn_add"  onclick="checkInputDataKise();"/>
-                  <? echo $html_kises; ?>
-                </span>
-              </p>
+
               <p>
                 <span> Область
                   <select id='obl_select' name="obl_select" onchange="updateLists();" style="text-align:center; width:170px;"><? echo $select_obl; ?></select>

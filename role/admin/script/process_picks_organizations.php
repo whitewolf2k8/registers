@@ -1,5 +1,6 @@
 <? header('Content-type: text/html; charset=windows-1251');
-  require_once('../../../lib/start.php');
+  include_once('../../../lib/start.php');
+  include_once('../../../lib/function.php');
 
   $action=$_POST['mode'];
 
@@ -187,6 +188,37 @@
     echo php2js($options);
   }
 
+  if ($action=="checkControls") {
+    $filtr_controls_kod=$_POST["info"];
+    $ERROR_MSG ="";
+    $options= array();
+    $filtr_controls_kod=delSpace($filtr_controls_kod);
+    if($filtr_controls_kod!=""){
+      $qeruStr="SELECT kd,nu FROM `managment_department` WHERE kd like ('".$filtr_controls_kod."')";
+      $result = mysqli_query($link,$qeruStr);
+      if($result){
+        $ListResult=array();
+        while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+          $row["kd"]=str_replace(" ","",$row["kd"]);
+          $ListResult[]=$row;
+        }
+        if(mysqli_num_rows($result)==0){
+          $ERROR_MSG="Органу управління з таким кодом не знайдено <br>";
+        }
+        mysqli_free_result($result);
+      }
+    }else{
+      $ERROR_MSG+="Пошук здіснити неможливо, не заповнено поле.";
+    }
+    $options['controls_kod']=((isset($ListResult))?$ListResult:"");
+    $options['erroMes']=$ERROR_MSG;
+    echo php2js($options);
+  }
+
+
+  if($action=="getOpf"){
+    echo php2js(getOpfHtml($link,array()));
+  }
 
 
   closeConnect($link);

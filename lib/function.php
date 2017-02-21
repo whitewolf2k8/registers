@@ -1,5 +1,4 @@
-<?
-	require_once("list_function.php");
+<?	include_once("list_function.php");
 
 	  function connectingDb()
 	  {
@@ -405,6 +404,8 @@
 			return $result;
 		}
 
+
+
 		function getKisedHtml($link,$arrKved)
 		{
 			$result="";
@@ -419,6 +420,36 @@
 				}
 			}
 			return $result;
+		}
+
+		function getControlsHtml($link,$arrContol)
+		{
+			$result="";
+			$fields = explode(",", $arrContol);
+			foreach ($fields as $key => $value) {
+				$kd =substr($value,7);
+				if($kd!=""){
+					$res = mysqli_query($link,"SELECT kd, nu FROM `managment_department` WHERE `kd`=".$kd);
+					$row = mysqli_fetch_assoc($res);
+					$result.="<abbr id=\"control_".$row["kd"]."\"  title=\"".$row["nu"]."\">".$row["kd"]."</abbr>"
+					."<input type=\"button\" id=\"control_b_".$row["kd"]."\" class=\"btn_del\"  onclick=\"delContol('".$row["kd"]."');\"/>";
+				}
+			}
+			return $result;
+		}
+
+		function getOpfHtml($link,$arrInput)
+		{
+				$result="";
+				$count=count($arrInput);
+
+				foreach ($arrInput as $key => $value) {
+						$result.="<select name=\"opf_S[]\" style=\"width:150px;\">".getListOPF($link,$value)."</select>&nbsp;";
+				}
+				if($count==0){
+					$result.="<select name=\"opf_S[]\" style=\"width:150px;\">".getListOPF($link,$value)."</select>&nbsp;";
+				}
+				return $result;
 		}
 
 		function getKveds($link,$strKveds)

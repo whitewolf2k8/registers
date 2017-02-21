@@ -161,6 +161,8 @@
   $html_type=getTypsHtml($typeAct,$filtr_arr_typse_act);
   $html_kved=getKvedHtml($link,$filtr_Kveds);
   $html_kises=getKisedHtml($link,$filtr_Kises);
+  $html_opf=getOpfHtml($link,array());
+  $html_control=getControlsHtml($link,'');
 
   $select_obl=getListObl($link, $filtr_Obl);
   $select_ray=getListRay($link, $filtr_Obl,$filtr_Ray);
