@@ -14,6 +14,37 @@
 <script src="../../../js/act_show.js"></script>
 <script src="../../../jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script type="text/javascript">
+function submitForm(mode) {
+  correct = true;
+  form = document.forms['adminForm'];
+  if(mode=='import'){
+    if (form.fileImp.value=="") {
+      correct = false;
+      document.getElementById('fileImp').className="error";
+      document.getElementById('errorMes').className="error";
+      document.getElementById('errorMes').innerHTML="<p>Будь ласка оберіть файл для імпорту.</p>";
+    }
+  }
+
+  if(mode=='edit'){
+    correct= confirm("Ви впевнені в змінах ??");
+    if(correct){
+      var arrCheck=document.getElementsByName("checkList[]");
+      for(var i=0;i<arrCheck.length;i++){
+        arrCheck[i].disabled=false;
+      }
+    }
+  }
+
+  if (correct) {
+    document.getElementById('lo').innerHTML='<div id="preloader"></div>';
+    form.mode.value = mode;
+    var x = document.getElementsByName("limitstart");
+      x[0].value=0;
+    form.submit();
+  }
+}
+
   function submitForm(mode) {
     correct = true;
     form = document.forms['adminForm'];
@@ -64,7 +95,6 @@
       $(this).next().slideToggle();
     });
   });
-
 
   function submitForm(mode) {
     correct = true;
@@ -162,8 +192,55 @@
     }
   }
 
+  function checkButton() {
+    var arrCheck=document.getElementsByName("checkList[]");
+    var cnt=0;
+    for(var i=0;i<arrCheck.length;i++){
+      if(arrCheck[i].checked)
+        cnt++;
+    }
+    var flag=true;
+    if(cnt==0)
+    {
+      flag=false;
+      document.getElementById("saveBtn").disabled=true;
+      document.getElementById("addBtn").disabled=false;
+    }else{
+      document.getElementById("saveBtn").disabled=false;
+      document.getElementById("addBtn").disabled=true;
+    }
+  }
 
+  function openAddMeneget() {
+    $.ajax({
+     type: "POST",
+     url: "script\\processMeneger.php",
+     data: {"mode":"getList"},
+     scriptCharset: "CP1251",
+     success: function(data){
+        var res = JSON.parse(data);
+        addLists(res);
+        showHide('add_maneger');
+      }
+    });
+   }
 
+   function addLists(arr) {
+     var x= document.getElementById("depatment_id");
+     x.innerHTML = "";
+     var opt = document.createElement('option');
+     opt.value = "0";
+     opt.selected = true;
+     opt.innerHTML = " - не обрано - ";
+     x.appendChild(opt);
+     for(var i = 0; i < arr.length; i++)
+     {
+       var opt = document.createElement('option');
+       opt.value = arr[i].id;
+       opt.innerHTML = arr[i].nu;
+       x.appendChild(opt);
+     }
+   }
 </script>
 </head>
 
@@ -207,43 +284,38 @@
 
         <? if(isset($ListResult)){ ?>
           <div id="table_id" align="center">
-            <table id="table_id" >
+            <table width=100%, id="table_id" >
               <tr>
                <th rowspan="2">&nbsp;</th>
                 <th rowspan="2">ЄДРПОУ</th>
                 <th rowspan="2">КДМО</th>
                 <th colspan="2">Дата </th>
                 <th rowspan="2">Номер рішення</th>
-                <th rowspan="2">Тип акту</th>
+                <th width=180px rowspan="2">Тип акту</th>
                 <th rowspan="2">Галузевий відділ</th>
                 <th rowspan="2">Адреса складання</th>
               </tr>
               <tr class="second_level">
-                <th width=150px> складання акту</th>
-                <th width=150px>ліквідації по рішенню суду</th>
+                <th width=125px> складання акту</th>
+                <th width=125px>ліквідації по рішенню суду</th>
               </tr>
               <? foreach ($ListResult as $key => $value) {
-                  echo "<tr id=\"".$value['id']."\"  ".(($value['dead']==1)?"class=\"notactive\"":"").">";
+                echo "<tr id=\"".$value['id']."\"  ".(($value['dead']==1)?"class=\"notactive\"":"").">";
                 echo "<tr id=\"".$value['id']."\">";
                 echo "<td  style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck('".$value["id"]."');\" /></td>";
                 // echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kd"]."</a></td>";
                 // echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kdmo"]."</a></td>";
                  echo "<td style =\" overflow:hidden;\" >".$value["kd"]."</td>";
                  echo "<td style =\" overflow:hidden;\" >".$value["kdmo"]."</td>";
-                // echo "<td style =\" overflow:hidden;\" >".$value["rnl"]."</td>";
-                // echo "<td style =\" overflow:hidden;\" >".$value["types"]."</td>";
-                // echo "<td style =\" overflow:hidden;\" >".$value["dep"]."</td>";
-                // echo "<td style =\" overflow:hidden;\" >".$value["ad"]."</td>";
                 // echo "<td style =\" overflow:hidden;\" ><input class=\"act1\"  type=\"text\" id=\"".$value['id']."\"  name=\"textKd[".$value['id']."]\" style=\"text-align:center;width:95px;\" value =\"".$value['kd']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
                 // echo "<td style =\" overflow:hidden;\" ><input class=\"act2\"  type=\"text\" id=\"".$value['id']."\"  name=\"textKdmo[".$value['id']."]\" style=\"text-align:center;width:120px;\" value =\"".$value['kdmo']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                // echo "<td style =\" overflow:hidden;\" ><input class=\"act5\"  type=\"text\" id=\"".$value['id']."\" name=\"textDa[".$value['id']."]\" style=\"text-align:center;width:100px;\" value =\"".$value['da']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                // echo "<td style =\" overflow:hidden;\" ><input class=\"act5\"  type=\"text\" id=\"".$value['id']."\" name=\"textDl[".$value['id']."]\" style=\"text-align:center;width:100px;\" value =\"".$value['dl']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                echo "<td style =\" overflow:hidden;\" ><input type=\"text\" id=\"dateActS\" name=\"dateActS\" style=\"text-align:center;width:100px;\" value =\"".$value['da']."\" onchange=\"changeAmountAction('".$value['da']."')\"/></td>";
-                echo "<td style =\" overflow:hidden;\" ><input type=\"text\" id=\"dateActE\" name=\"dateActS\" style=\"text-align:center;width:100px;\" value =\"".$value['ld']."\" onchange=\"changeAmountAction('".$value['ld']."')\"/></td>";
+                echo "<td style =\" overflow:hidden;\" ><input class=\"act5\"  type=\"text\" id=\"".$value['id']."\" name=\"textDa[".$value['id']."]\" style=\"text-align:center;width:100px;\" value =\"".$value['da']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
+                echo "<td style =\" overflow:hidden;\" ><input class=\"act5\"  type=\"text\" id=\"".$value['id']."\" name=\"textDl[".$value['id']."]\" style=\"text-align:center;width:100px;\" value =\"".$value['dl']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
+                // echo "<td style =\" overflow:hidden;\" ><input class=\"act10\" type=\"text\" id=\"dateActS\" name=\"textDa\" style=\"text-align:center;width:100px;\" value =\"".$value['da']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
+                // echo "<td style =\" overflow:hidden;\" ><input class=\"act11\" type=\"text\" id=\"dateActE\" name=\"textDl\" style=\"text-align:center;width:100px;\" value =\"".$value['dl']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
                 echo "<td style =\" overflow:hidden;\" ><input class=\"act5\"  type=\"text\" id=\"".$value['id']."\" name=\"textRnl[".$value['id']."]\" style=\"text-align:center;width:100px;\" value =\"".$value['rnl']."\"onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                // echo "<td style =\" overflow:hidden;\" ><input class=\"act6\"  type=\"text\" id=\"".$value['id']."\" name=\"name[".$value['id']."]\" style=\"text-align:center;width:200px;\" value =\"".$value['types']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                echo "<td style =\" overflow:hidden;\" > <select name=\"types[]\" style=\"width:150px;\"><? echo ".$list_type_act."; ?>  </select></td>";
-                echo "<td style =\" overflow:hidden;\" ><div class=\"navigation_right\"> <select name=\"filtr_dep\"  id=\"filtr_dep\" style=\"width:160px;text-align:center;\" onchange=\"changeAmountAction('".$value['dep']."')\"><? echo ".$list_department."; ?> </select></div></td>";
+                echo "<td style =\" overflow:hidden;\" ><input class=\"act6\"  type=\"text\" id=\"".$value['id']."\" name=\"name[".$value['id']."]\" style=\"text-align:center;width:200px;\" value =\"".$value['types']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
+                echo "<td style =\" overflow:hidden;\" ><select id=\"li_".$value['id']."\" style=width:200px name=\"depSelect[".$value['id']."]\" onchange=\"changeAmountAction(".$value['id'].");\" >".$value["ld"]."</select></td>";
                 echo "<td style =\" overflow:hidden;\" ><input  class=\"act8\" type=\"text\" id=\"".$value['ad']."\"  name=\"textAd[".$value['id']."]\"style=\"text-align:center;width:200px;\" value =\"".$value['ad']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
                 echo"</tr>";
               } ?>

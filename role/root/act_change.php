@@ -34,18 +34,37 @@
 
   $where = array();
 
+  if($action=="edit"){
+
+    $arrCheck=$_POST["checkList"];
+    $arrChange=$_POST["checkDead"];
+    $arrDepartment=$_POST["depSelect"];
+
+    foreach ($arrCheck as $key => $value) {
+      if(isset($arrChange[$value])){
+        $qeruStr="UPDATE `depatment` SET  ".((isset($arrDepartment[$value]))?(" `nu`=".$arrDepartment[$value]):"")."	 WHERE id=".$value;
+      }else{
+        $qeruStr="UPDATE `depatment` SET  ".((isset($arrDepartment[$value]))?(" `nu`=".$arrDepartment[$value]):"")." WHERE id=".$value;
+      }
+      mysqli_query($link,$qeruStr);
+      echo $qeruStr;
+    }
+  }
+
   if ($action=="edit"){
     $checkElement = $_POST["checkList"];
      $arrRnl = $_POST["textRnl"];
      $arrAd = $_POST["textAd"];
-     $arrDep = $_POST["filtr_dep"];
-    foreach ($checkElement as $key => $value) {
-      $query_str = "UPDATE `acts` SET"
-        ." ad='".$arrAd[$value]."', rnl='".$arrRnl[$value]."',"
-        ."`dep`= 1 ".((isset($arrDepartment[$value]))?(", `depatment`=".$arrDepartment[$value]):"").""
-        ."WHERE id =".$value;
+     $arrDa = $_POST["textDa"];
+     $arrDl = $_POST["textDL"];
+     $arrTypes = $_POST["textTypes"];
+     $arrDep = $_POST["textDep"];
+    //  if(isset($files) && is_array($files))
+     foreach ($checkElement as $key => $value) {
+        $query_str = "UPDATE `acts` SET"
+        ." ad='".$arrAd[$value]."', rnl='".$arrRnl[$value]."' WHERE id =".$value;
       mysqli_query($link,$query_str);
-      $countUpd++;
+       $countUpd++;
     }
   }
   if ($action=="del"){
@@ -175,8 +194,7 @@
     while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
       $row["da"]=dateToDatapiclerFormat($row["da"]);
       $row["dl"]=dateToDatapiclerFormat($row["dl"]);
-      $ListResult[]=$row+array('types' =>getTypeAct($typeAct,$row['act']),'dep'=>getDepartmentNu($link,$row['department']) );
-      
+      $ListResult[]=$row+array("ld"=>getListDepatment($link,$row["depatment"],1));
     }
     mysqli_free_result($result);
   }
