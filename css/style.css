@@ -224,6 +224,25 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 }
 
 
+.spoiler-title{
+	cursor:  pointer ;
+}
+
+.spoiler-body{
+	background: #b0c495;
+	border-radius: 6px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.spoiler-body span {
+	padding-left:30px;
+	padding-right:30px;
+}
+
+.spoiler-body font{
+	color: rgba(15, 19, 16, 0.82);
+}
+
 .navigation_left {
 	float:left;
 }

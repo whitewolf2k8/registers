@@ -348,6 +348,14 @@
     return arr;
   }
 
+  function getControls() {
+    var tt=document.getElementById('controls').getElementsByTagName('abbr');
+    var arr=[];
+    for(var i=0; i<tt.length;i++){
+      arr.push(tt[i].id);
+    }
+    return arr;
+  }
 
   function showActElement() {
     var act = document.getElementById("check_3");
@@ -405,4 +413,16 @@
     el1.parentNode.removeChild(el1);
     var el =document.getElementById("control_b_"+id);
     el.parentNode.removeChild(el);
+  }
+
+  function checkAllFild() {
+    for (var i = 1; i < 34; i++) {
+      document.getElementById("f_"+i).setAttribute('checked',"");
+    }
+  }
+
+  function delAllcheckFild() {
+    for (var i = 1; i < 34; i++) {
+      document.getElementById("f_"+i).removeAttribute('checked');
+    }
   }

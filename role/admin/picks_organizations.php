@@ -1,6 +1,9 @@
 <?
   require_once('../../lib/start.php');
 
+  print_r($_POST);
+
+
   $filtr_kd=isset($_POST['kd']) ? stripslashes($_POST['kd']) : '';
   $filtr_kdmo=isset($_POST['kdmo']) ? stripslashes($_POST['kdmo']) : '';
 

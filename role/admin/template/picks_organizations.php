@@ -143,22 +143,23 @@
             <p class="act_add">
               <span>
                 <label>
-                  <input type="checkbox" id="check_1" value="first_checkbox"> відокремлених підрозділів
+                  <input type="checkbox" id="check_1" name="flag_group[]"  value="1"> відокремлених підрозділів
                 </label>
                 &nbsp;
                 <label>
-                  <input type="checkbox" id="check_2" value="first_checkbox"> іноземного засновника
+                  <input type="checkbox" id="check_2" name="flag_group[]" value="2"> іноземного засновника
                 </label>
                 &nbsp;
                 <label>
-                  <input type="checkbox" id="check_3" onchange='showActElement();' value="first_checkbox"> Актів
+                  <input type="checkbox" id="check_3" name="flag_group[]" value="3" onchange='showActElement();'> Актів
                 </label>
                 &nbsp;
                 <label>
-                  <input type="checkbox" id="check_4" value="first_checkbox"> ознаки вибуття в інший регіон
+                  <input type="checkbox" id="check_4" name="flag_group[]" value="4"> ознаки вибуття в інший регіон
                 </label>
               </span>
             </p>
+
             <p class="act_add" id='act_block' hidden>
               <span>
                 Типу(ам) актів
@@ -166,6 +167,7 @@
                 <input type="button" value="" name="add_type" class="btn_add"  onclick="addTypeSelect();"/> </span>
               </span>
             </p>
+
             <p class="act_add">
               <span id="kved"> Квед(и)
                 <input type="text" id="text_kved" style="width:130px" />
@@ -173,6 +175,7 @@
                 <? echo $html_kved; ?>
               </span>
             </p>
+
             <p class="act_add">
               <span id="kise"> Код(и) Кise
                 <input type="text" id="text_kise" style="width:105px" />
@@ -180,12 +183,14 @@
                 <? echo $html_kises; ?>
               </span>
             </p>
+
             <p class="act_add">
               <span id="opf">Організаційно правова форма
                 <? echo $html_opf; ?>
                 <input type="button" value="" name="add_opf" id="add_opf" class="btn_add"  onclick="addOpfSelect();"/>
               </span>
             </p>
+
             <p class="act_add">
               <span id="controls">Орган управління
                 <input type="text" id="text_controls" style="width:130px" />
@@ -197,8 +202,8 @@
             <div class="clr"></div>
             <p class="act_add">
                <span>Даті первинної реєстрації в межах :
-                  з <input type="text" id='dateActS' name='dateActS'  value="<? echo $filtr_dateActS; ?>">
-                  по <input type="text" id='dateActE' name='dateActE'  value="<? echo $filtr_dateActE; ?>">
+                  з <input type="text" id='dateReS' name='dateReS'  value="<? echo $filtr_dateActS; ?>">
+                  по <input type="text" id='dateReE' name='dateReE'  value="<? echo $filtr_dateActE; ?>">
                </span>
             </p>
             <div class="clr"></div>
@@ -211,27 +216,194 @@
             <div class="clr"></div>
             <h5 class="spoiler-title">Перлік полів для перегляду/експорту </h5>
             <div class="spoiler-body">
-
               <p>
-                <span> Область
-                  <select id='obl_select' name="obl_select" onchange="updateLists();" style="text-align:center; width:170px;"><? echo $select_obl; ?></select>
-                </span>
-                <span>Район/Місто
-                  <select id='ray_select' name='ray_select' onchange="generateTeLists();" <? echo (($select_ray["anabled"]==0)?"disabled":""); ?> style="width:170px;text-align:center;">
-                    <? echo $select_ray["data"]; ?>
-                  </select>
-                </span>
-                <span>Село
-                  <select id='ter_select' name="ter_select" <? echo (($select_ter["anabled"]==0)?"disabled":""); ?> style="width:170px;text-align:center;">
-                    <? echo $select_ter["data"]; ?>
-                  </select>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_1" name="filds[]" value="kd">&nbsp;<font>kd</font> - ідентифікаційний код субєкту
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_2" name="filds[]" value="kdmo">&nbsp; <font>kdmo</font> - ідентифікаційний код місцевої одиниці
+                  </label>
                 </span>
               </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_3" name="filds[]" value="nu">&nbsp; <font>nu</font> - найменування субєкту
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_4" name="filds[]" value="pk">&nbsp; <font>pk</font>- прізвище керівника
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_5" name="filds[]" value="kdg">&nbsp;<font>kdg</font>- код головного підприємства
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_6" name="filds[]" value="te">&nbsp;<font>te</font>- код території за КОАТУУ
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_7" name="filds[]" value="tea">&nbsp; <font>tea</font> - адміністративно територіальна належність
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_8" name="filds[]" value="ad">&nbsp;<font>ad</font> - адреса
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_9" name="filds[]" value="pi">&nbsp;<font>pi</font> - поштовий індекс
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_10" name="filds[]" value="pf">&nbsp;<font>pf</font>- код організаційно-правової форми
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_11" name="filds[]" value="gu">&nbsp;<font>gu</font> - код органу управління
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_12" name="filds[]" value="uo">&nbsp;<font>uo</font> - ознака особи
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_13" name="filds[]" value="dl">&nbsp;<font>dl</font>- дата ліквідації
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_14" name="filds[]" value="kise">&nbsp; <font>kise</font>- інституційний сектор економіки
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_15" name="filds[]" value="iz">&nbsp;<font>iz</font>- ознакая наявності іноземного засновника
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_16" name="filds[]" value="e1_10">&nbsp;<font>e1_10</font>- код виду діяльності 1 (КВЕД 10)
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_17" name="filds[]" value="ne1_10">&nbsp;<font>ne1_10</font> - назва виду діяльності 1 (КВЕД 10)
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_18" name="filds[]" value="e2_10">&nbsp; <font>e2_10</font>- код виду діяльності 2 (КВЕД 10)
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_19" name="filds[]" value="ne2_10">&nbsp;<font>ne2_10</font> - назва виду діяльності 2 (КВЕД 10)
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_20" name="filds[]" value="e3_10">&nbsp; <font>e3_10</font> - код виду діяльності 3 (КВЕД 10)
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_21" name="filds[]" value="ne3_10">&nbsp; <font>ne3_10</font> - назва виду діяльності 3 (КВЕД 10)
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_22" name="filds[]" value="e4_10">&nbsp; <font>e4_10</font> - код виду діяльності 4 (КВЕД 10)
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_23"  name="filds[]" value="ne4_10">&nbsp;<font>ne4_10</font> - назва виду діяльності 4 (КВЕД 10)
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_24" name="filds[]" value="e5_10">&nbsp;<font>e5_10</font> - код виду діяльності 5 (КВЕД 10)
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_25" name="filds[]" value="ne5_10">&nbsp; <font>ne5_10</font> - назва виду діяльності 5 (КВЕД 10)
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_26" name="filds[]" value="e6_10">&nbsp;<font>e6_10</font>- код виду діяльності 6 (КВЕД 10)
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_27" name="filds[]" value="ne6_10">&nbsp;<font>ne6_10</font> - назва виду діяльності 6 (КВЕД 10)
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_28" name="filds[]" value="vdf10">&nbsp;<font>vdf10</font> - код факт. в.д.(КВЕД 10)
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_29" name="filds[]" value="n_vdf10">&nbsp; <font>n_vdf10</font> - назва фак. в.д. (КВЕД 10)
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_30" name="filds[]" value="rn">&nbsp;<font>rn</font> - номер останньої реєстраційної дії
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_31" name="filds[]" value="dr">&nbsp;<font>dr</font> - дата реєстраційних дій
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_32" name="filds[]" value="dz">&nbsp;<font>dz</font> - дата внес. змін до ЄДРПОУ
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_33" name="filds[]" value="pr">&nbsp;<font>pr</font> - Тип (1-ввід, 2-кор., 9-АБК, 8- вибуло в іншу обл.)
+                  </label>
+                </span>
+              </p>
+              <p align="center">
+                <input type="button" value="Обрати всі" class="button" onclick="checkAllFild();" />
+                <input type="button" value="Зняти всі" class="button" onclick="delAllcheckFild();" />
+              </p>
             </div>
+
             <div class="clr"></div>
             <p align="center">
-              <input type="button" value="Пошук" class="button" onclick="submitForm('search')" />
+              <input type="button" value="Пошук" class="button" onclick="submitForm();" />
             </p>
+
           </div>
           <div class="clr"></div>
           <div id="lo"></div>
