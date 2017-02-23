@@ -444,9 +444,12 @@
 				$count=count($arrInput);
 
 				foreach ($arrInput as $key => $value) {
+					if($value!=0)
+					{
 						$result.="<select name=\"opf_S[]\" style=\"width:150px;\">".getListOPF($link,$value)."</select>&nbsp;";
+					}
 				}
-				if($count==0){
+				if($result==""){
 					$result.="<select name=\"opf_S[]\" style=\"width:150px;\">".getListOPF($link,$value)."</select>&nbsp;";
 				}
 				return $result;

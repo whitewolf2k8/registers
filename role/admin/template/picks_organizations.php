@@ -89,6 +89,7 @@
           <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
           <input type="hidden" id ="kveds" name="kveds" <? echo "value='".$filtr_Kveds."'"; ?> />
           <input type="hidden" id ="kises" name="kises" <? echo "value='".$filtr_Kises."'"; ?> />
+          <input type="hidden" id ="controlArr" name="controlArr" <? echo "value='".$filtr_Kises."'"; ?> />
 
 
           <div class="item_blue" style="position: relative; width: 770px; left: 50%; margin-left: -335px;">
@@ -140,27 +141,28 @@
               </span>
             </p>
             <h2 style="text-align:center;" >Наявності :</h2>
+            
             <p class="act_add">
               <span>
                 <label>
-                  <input type="checkbox" id="check_1" name="flag_group[]"  value="1"> відокремлених підрозділів
+                  <input type="checkbox" id="check_1" name="flag_group[]"  value="1" <? if($filtr_flag!=''){ echo (in_array('1',$filtr_flag))?"checked":"";} ?> > відокремлених підрозділів
                 </label>
                 &nbsp;
                 <label>
-                  <input type="checkbox" id="check_2" name="flag_group[]" value="2"> іноземного засновника
+                  <input type="checkbox" id="check_2" name="flag_group[]" value="2" <? if($filtr_flag!=''){echo (in_array('2',$filtr_flag))?"checked":"";} ?> > іноземного засновника
                 </label>
                 &nbsp;
                 <label>
-                  <input type="checkbox" id="check_3" name="flag_group[]" value="3" onchange='showActElement();'> Актів
+                  <input type="checkbox" id="check_3" name="flag_group[]" value="3" onchange='showActElement();' <? if($filtr_flag!=''){ echo  (in_array('3',$filtr_flag))?"checked":"";} ?> > Актів
                 </label>
                 &nbsp;
                 <label>
-                  <input type="checkbox" id="check_4" name="flag_group[]" value="4"> ознаки вибуття в інший регіон
+                  <input type="checkbox" id="check_4" name="flag_group[]" value="4"<? if($filtr_flag!=''){ echo  (in_array('4',$filtr_flag))?"checked":"";} ?> > ознаки вибуття в інший регіон
                 </label>
               </span>
             </p>
 
-            <p class="act_add" id='act_block' hidden>
+            <p class="act_add" id='act_block' <? if($filtr_flag!=''){echo (!in_array('3',$filtr_flag))?"hidden":"";}else{ echo "hidden"; } ?> >
               <span>
                 Типу(ам) актів
                 <? echo $html_type; ?>
@@ -219,177 +221,177 @@
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_1" name="filds[]" value="kd">&nbsp;<font>kd</font> - ідентифікаційний код субєкту
+                    <input type="checkbox" id="f_1" name="filds[]" value="kd" <? echo (in_array('kd',$arrfild))?"checked":""; ?> >&nbsp;<font>kd</font> - ідентифікаційний код субєкту
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_2" name="filds[]" value="kdmo">&nbsp; <font>kdmo</font> - ідентифікаційний код місцевої одиниці
+                    <input type="checkbox" id="f_2" name="filds[]" value="kdmo" <? echo (in_array('kdmo',$arrfild))?"checked":""; ?> >&nbsp; <font>kdmo</font> - ідентифікаційний код місцевої одиниці
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_3" name="filds[]" value="nu">&nbsp; <font>nu</font> - найменування субєкту
+                    <input type="checkbox" id="f_3" name="filds[]" value="nu" <? echo (in_array('nu',$arrfild))?"checked":""; ?> >&nbsp; <font>nu</font> - найменування субєкту
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_4" name="filds[]" value="pk">&nbsp; <font>pk</font>- прізвище керівника
+                    <input type="checkbox" id="f_4" name="filds[]" value="pk" <? echo (in_array('pk',$arrfild))?"checked":""; ?> >&nbsp; <font>pk</font>- прізвище керівника
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_5" name="filds[]" value="kdg">&nbsp;<font>kdg</font>- код головного підприємства
+                    <input type="checkbox" id="f_5" name="filds[]" value="kdg" <? echo (in_array('kdg',$arrfild))?"checked":""; ?> >&nbsp;<font>kdg</font>- код головного підприємства
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_6" name="filds[]" value="te">&nbsp;<font>te</font>- код території за КОАТУУ
+                    <input type="checkbox" id="f_6" name="filds[]" value="te" <? echo (in_array('te',$arrfild))?"checked":""; ?> >&nbsp;<font>te</font>- код території за КОАТУУ
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_7" name="filds[]" value="tea">&nbsp; <font>tea</font> - адміністративно територіальна належність
+                    <input type="checkbox" id="f_7" name="filds[]" value="tea" <? echo (in_array('tea',$arrfild))?"checked":""; ?>  >&nbsp; <font>tea</font> - адміністративно територіальна належність
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_8" name="filds[]" value="ad">&nbsp;<font>ad</font> - адреса
+                    <input type="checkbox" id="f_8" name="filds[]" value="ad" <? echo (in_array('ad',$arrfild))?"checked":""; ?>  >&nbsp;<font>ad</font> - адреса
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_9" name="filds[]" value="pi">&nbsp;<font>pi</font> - поштовий індекс
+                    <input type="checkbox" id="f_9" name="filds[]" value="pi" <? echo (in_array('pi',$arrfild))?"checked":""; ?> >&nbsp;<font>pi</font> - поштовий індекс
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_10" name="filds[]" value="pf">&nbsp;<font>pf</font>- код організаційно-правової форми
+                    <input type="checkbox" id="f_10" name="filds[]" value="pf" <? echo (in_array('pf',$arrfild))?"checked":""; ?> >&nbsp;<font>pf</font>- код організаційно-правової форми
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_11" name="filds[]" value="gu">&nbsp;<font>gu</font> - код органу управління
+                    <input type="checkbox" id="f_11" name="filds[]" value="gu" <? echo (in_array('gu',$arrfild))?"checked":""; ?>  >&nbsp;<font>gu</font> - код органу управління
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_12" name="filds[]" value="uo">&nbsp;<font>uo</font> - ознака особи
+                    <input type="checkbox" id="f_12" name="filds[]" value="uo" <? echo (in_array('uo',$arrfild))?"checked":""; ?>  >&nbsp;<font>uo</font> - ознака особи
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_13" name="filds[]" value="dl">&nbsp;<font>dl</font>- дата ліквідації
+                    <input type="checkbox" id="f_13" name="filds[]" value="dl" <? echo (in_array('dl',$arrfild))?"checked":""; ?>  >&nbsp;<font>dl</font>- дата ліквідації
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_14" name="filds[]" value="kise">&nbsp; <font>kise</font>- інституційний сектор економіки
+                    <input type="checkbox" id="f_14" name="filds[]" value="kise" <? echo (in_array('kise',$arrfild))?"checked":""; ?>  >&nbsp; <font>kise</font>- інституційний сектор економіки
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_15" name="filds[]" value="iz">&nbsp;<font>iz</font>- ознакая наявності іноземного засновника
+                    <input type="checkbox" id="f_15" name="filds[]" value="iz" <? echo (in_array('iz',$arrfild))?"checked":""; ?>  >&nbsp;<font>iz</font>- ознакая наявності іноземного засновника
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_16" name="filds[]" value="e1_10">&nbsp;<font>e1_10</font>- код виду діяльності 1 (КВЕД 10)
+                    <input type="checkbox" id="f_16" name="filds[]" value="e1_10" <? echo (in_array('e1_10',$arrfild))?"checked":""; ?>  >&nbsp;<font>e1_10</font>- код виду діяльності 1 (КВЕД 10)
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_17" name="filds[]" value="ne1_10">&nbsp;<font>ne1_10</font> - назва виду діяльності 1 (КВЕД 10)
+                    <input type="checkbox" id="f_17" name="filds[]" value="ne1_10" <? echo (in_array('ne1_10',$arrfild))?"checked":""; ?>>&nbsp;<font>ne1_10</font> - назва виду діяльності 1 (КВЕД 10)
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_18" name="filds[]" value="e2_10">&nbsp; <font>e2_10</font>- код виду діяльності 2 (КВЕД 10)
+                    <input type="checkbox" id="f_18" name="filds[]" value="e2_10" <? echo (in_array('e2_10',$arrfild))?"checked":""; ?> >&nbsp; <font>e2_10</font>- код виду діяльності 2 (КВЕД 10)
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_19" name="filds[]" value="ne2_10">&nbsp;<font>ne2_10</font> - назва виду діяльності 2 (КВЕД 10)
+                    <input type="checkbox" id="f_19" name="filds[]" value="ne2_10" <? echo (in_array('ne2_10',$arrfild))?"checked":""; ?>>&nbsp;<font>ne2_10</font> - назва виду діяльності 2 (КВЕД 10)
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_20" name="filds[]" value="e3_10">&nbsp; <font>e3_10</font> - код виду діяльності 3 (КВЕД 10)
+                    <input type="checkbox" id="f_20" name="filds[]" value="e3_10" <? echo (in_array('e3_10',$arrfild))?"checked":""; ?> >&nbsp; <font>e3_10</font> - код виду діяльності 3 (КВЕД 10)
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_21" name="filds[]" value="ne3_10">&nbsp; <font>ne3_10</font> - назва виду діяльності 3 (КВЕД 10)
+                    <input type="checkbox" id="f_21" name="filds[]" value="ne3_10" <? echo (in_array('ne3_10',$arrfild))?"checked":""; ?>>&nbsp; <font>ne3_10</font> - назва виду діяльності 3 (КВЕД 10)
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_22" name="filds[]" value="e4_10">&nbsp; <font>e4_10</font> - код виду діяльності 4 (КВЕД 10)
+                    <input type="checkbox" id="f_22" name="filds[]" value="e4_10" <? echo (in_array('e4_10',$arrfild))?"checked":""; ?> >&nbsp; <font>e4_10</font> - код виду діяльності 4 (КВЕД 10)
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_23"  name="filds[]" value="ne4_10">&nbsp;<font>ne4_10</font> - назва виду діяльності 4 (КВЕД 10)
+                    <input type="checkbox" id="f_23"  name="filds[]" value="ne4_10" <? echo (in_array('ne4_10',$arrfild))?"checked":""; ?>>&nbsp;<font>ne4_10</font> - назва виду діяльності 4 (КВЕД 10)
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_24" name="filds[]" value="e5_10">&nbsp;<font>e5_10</font> - код виду діяльності 5 (КВЕД 10)
+                    <input type="checkbox" id="f_24" name="filds[]" value="e5_10" <? echo (in_array('e5_10',$arrfild))?"checked":""; ?> >&nbsp;<font>e5_10</font> - код виду діяльності 5 (КВЕД 10)
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_25" name="filds[]" value="ne5_10">&nbsp; <font>ne5_10</font> - назва виду діяльності 5 (КВЕД 10)
+                    <input type="checkbox" id="f_25" name="filds[]" value="ne5_10" <? echo (in_array('ne5_10',$arrfild))?"checked":""; ?>>&nbsp; <font>ne5_10</font> - назва виду діяльності 5 (КВЕД 10)
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_26" name="filds[]" value="e6_10">&nbsp;<font>e6_10</font>- код виду діяльності 6 (КВЕД 10)
+                    <input type="checkbox" id="f_26" name="filds[]" value="e6_10" <? echo (in_array('e6_10',$arrfild))?"checked":""; ?> >&nbsp;<font>e6_10</font>- код виду діяльності 6 (КВЕД 10)
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_27" name="filds[]" value="ne6_10">&nbsp;<font>ne6_10</font> - назва виду діяльності 6 (КВЕД 10)
+                    <input type="checkbox" id="f_27" name="filds[]" value="ne6_10" <? echo (in_array('ne6_10',$arrfild))?"checked":""; ?> >&nbsp;<font>ne6_10</font> - назва виду діяльності 6 (КВЕД 10)
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_28" name="filds[]" value="vdf10">&nbsp;<font>vdf10</font> - код факт. в.д.(КВЕД 10)
+                    <input type="checkbox" id="f_28" name="filds[]" value="vdf10" <? echo (in_array('vdf10',$arrfild))?"checked":""; ?>>&nbsp;<font>vdf10</font> - код факт. в.д.(КВЕД 10)
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_29" name="filds[]" value="n_vdf10">&nbsp; <font>n_vdf10</font> - назва фак. в.д. (КВЕД 10)
+                    <input type="checkbox" id="f_29" name="filds[]" value="n_vdf10"<? echo (in_array('n_vdf10',$arrfild))?"checked":""; ?>>&nbsp; <font>n_vdf10</font> - назва фак. в.д. (КВЕД 10)
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_30" name="filds[]" value="rn">&nbsp;<font>rn</font> - номер останньої реєстраційної дії
+                    <input type="checkbox" id="f_30" name="filds[]" value="rn" <? echo (in_array('rn',$arrfild))?"checked":""; ?> >&nbsp;<font>rn</font> - номер останньої реєстраційної дії
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_31" name="filds[]" value="dr">&nbsp;<font>dr</font> - дата реєстраційних дій
+                    <input type="checkbox" id="f_31" name="filds[]" value="dr" <? echo (in_array('dr',$arrfild))?"checked":""; ?> >&nbsp;<font>dr</font> - дата реєстраційних дій
                   </label>
                 </span>
               </p>
               <p>
                 <span>
                   <label>
-                    <input type="checkbox" id="f_32" name="filds[]" value="dz">&nbsp;<font>dz</font> - дата внес. змін до ЄДРПОУ
+                    <input type="checkbox" id="f_32" name="filds[]" value="dz" <? echo (in_array('dz',$arrfild))?"checked":""; ?> >&nbsp;<font>dz</font> - дата внес. змін до ЄДРПОУ
                   </label>
                   &nbsp;
                   <label>
-                    <input type="checkbox" id="f_33" name="filds[]" value="pr">&nbsp;<font>pr</font> - Тип (1-ввід, 2-кор., 9-АБК, 8- вибуло в іншу обл.)
+                    <input type="checkbox" id="f_33" name="filds[]" value="pr" <? echo (in_array('pr',$arrfild))?"checked":""; ?> >&nbsp;<font>pr</font> - Тип (1-ввід, 2-кор., 9-АБК, 8- вибуло в іншу обл.)
                   </label>
                 </span>
               </p>
@@ -401,7 +403,7 @@
 
             <div class="clr"></div>
             <p align="center">
-              <input type="button" value="Пошук" class="button" onclick="submitForm();" />
+              <input type="button" value="Пошук" class="button" onclick="submitForm('find_department');" />
             </p>
 
           </div>

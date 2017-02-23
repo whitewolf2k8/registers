@@ -7,27 +7,32 @@
   $filtr_kd=isset($_POST['kd']) ? stripslashes($_POST['kd']) : '';
   $filtr_kdmo=isset($_POST['kdmo']) ? stripslashes($_POST['kdmo']) : '';
 
-  $filtr_dis=isset($_POST['kodDis']) ? stripslashes($_POST['kodDis']) : '';
-
-  $filtr_dep_nom=isset($_POST['kodDepNom']) ? stripslashes($_POST['kodDepNom']) : '';
-  $filtr_dep_id=isset($_POST['kodDepList']) ? stripslashes($_POST['kodDepList']) : '';
-
-  $filtr_arr_typse_act=isset($_POST['types']) ? $_POST['types'] : array(0,0);
-
-  $filtr_dateActS=isset($_POST['dateActS']) ? stripslashes($_POST['dateActS']) : '';
-  $filtr_dateActE=isset($_POST['dateActE']) ? stripslashes($_POST['dateActE']) : '';
+  $filtr_dateReS=isset($_POST['dateReS']) ? stripslashes($_POST['dateReS']) : '';
+  $filtr_dateReE=isset($_POST['dateReS']) ? stripslashes($_POST['dateReS']) : '';
 
   $filtr_dateDelS=isset($_POST['dateDelS']) ? stripslashes($_POST['dateDelS']) : '';
   $filtr_dateDelE=isset($_POST['dateDelE']) ? stripslashes($_POST['dateDelE']) : '';
 
   $filtr_Kveds=isset($_POST['kveds']) ? $_POST['kveds'] : '';
   $filtr_Kises=isset($_POST['kises']) ? $_POST['kises'] : '';
+  $filtr_Contols=isset($_POST['controlArr']) ? $_POST['controlArr'] : '';
 
-  $filtr_Obl=isset($_POST['obl_select']) ? $_POST['obl_select'] : '';
-  $filtr_Ray=isset($_POST['ray_select']) ? $_POST['ray_select'] : '';
-  $filtr_Ter=isset($_POST['ter_select']) ? $_POST['ter_select'] : '';
+  $filtr_OblF=isset($_POST['obl_select']) ? $_POST['obl_select'] : '';
+  $filtr_RayF=isset($_POST['ray_select']) ? $_POST['ray_select'] : '';
+  $filtr_TerF=isset($_POST['ter_select']) ? $_POST['ter_select'] : '';
 
+  $filtr_OblU=isset($_POST['obl_select']) ? $_POST['obl_select'] : '';
+  $filtr_RayU=isset($_POST['ray_select']) ? $_POST['ray_select'] : '';
+  $filtr_TerU=isset($_POST['ter_select']) ? $_POST['ter_select'] : '';
 
+  $filtr_flag=isset($_POST['flag_group']) ? $_POST['flag_group'] : '';
+  $filtr_opf=isset($_POST['opf_S']) ? $_POST['opf_S'] : '';
+  if($filtr_flag!="" && in_array("3",$filtr_flag))
+  {
+    $filtr_arr_typse_act=isset($_POST['types']) ? $_POST['types'] : array(0);
+  }
+
+  $arrfild= isset($_POST['filds'])? $_POST['filds'] :  array('kd','kdmo','nu','pk','kdg','te','tea','ad','pi');
 
   $paginathionLimitStart=isset($_POST['limitstart']) ? stripslashes($_POST['limitstart']) : 0;
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
@@ -144,6 +149,9 @@
     $whereStr.=' LIMIT '.$paginathionLimitStart.','.$paginathionLimit;
   }
 
+
+  $qeruStr="SELECT".$fild."";  
+
   $qeruStr="SELECT organ.kd, organ.kdmo, ac.* FROM `acts`  as ac "
     ." left join  organizations as organ on organ.id=ac.org".$whereStr;
 
@@ -161,11 +169,11 @@
 
 
   $list_department=getListDepatment($link,$filtr_dep_id);
-  $html_type=getTypsHtml($typeAct,$filtr_arr_typse_act);
+  $html_type=getTypsHtml($typeAct,(isset($filtr_arr_typse_act))?$filtr_arr_typse_act:array(0));
   $html_kved=getKvedHtml($link,$filtr_Kveds);
   $html_kises=getKisedHtml($link,$filtr_Kises);
-  $html_opf=getOpfHtml($link,array());
-  $html_control=getControlsHtml($link,'');
+  $html_opf=getOpfHtml($link,$filtr_opf);
+  $html_control=getControlsHtml($link,$filtr_Contols);
 
   $select_obl=getListObl($link, $filtr_Obl);
   $select_ray=getListRay($link, $filtr_Obl,$filtr_Ray);
