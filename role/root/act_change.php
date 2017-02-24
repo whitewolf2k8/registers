@@ -11,8 +11,8 @@
 
   $filtr_arr_typse_act=isset($_POST['types']) ? $_POST['types'] : array(0,0);
 
-  $filtr_dateActS=isset($_POST['dateActS']) ? stripslashes($_POST['dateActS']) : '';
-  $filtr_dateActE=isset($_POST['dateActE']) ? stripslashes($_POST['dateActE']) : '';
+    // $filtr_dateTest=isset($_POST['textTest']) ? stripslashes($_POST['textTest']) : '';
+    // $filtr_dateTest1=isset($_POST['textTest1']) ? stripslashes($_POST['textTest1']) : '';
 
   $filtr_dateDelS=isset($_POST['dateDelS']) ? stripslashes($_POST['dateDelS']) : '';
   $filtr_dateDelE=isset($_POST['dateDelE']) ? stripslashes($_POST['dateDelE']) : '';
@@ -27,55 +27,41 @@
   $paginathionLimitStart=isset($_POST['limitstart']) ? stripslashes($_POST['limitstart']) : 0;
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
 
-  $filtr_d=isset($_POST['filtr_dep'])?$_POST['filtr_dep']:0;
-
   $action = isset($_POST['mode']) ? $_POST['mode'] : '';
   $ERROR_MSG="";
 
-  $where = array();
-
-  if($action=="edit"){
-
-    $arrCheck=$_POST["checkList"];
-    $arrChange=$_POST["checkDead"];
+  if ($action=='edit') {
+    $checkElement = $_POST["checkList"];
+    $arrAd = $_POST["textAd"];
+    $arrRnl = $_POST["textRnl"];
     $arrDepartment=$_POST["depSelect"];
-
-    foreach ($arrCheck as $key => $value) {
-      if(isset($arrChange[$value])){
-        $qeruStr="UPDATE `depatment` SET  ".((isset($arrDepartment[$value]))?(" `nu`=".$arrDepartment[$value]):"")."	 WHERE id=".$value;
-      }else{
-        $qeruStr="UPDATE `depatment` SET  ".((isset($arrDepartment[$value]))?(" `nu`=".$arrDepartment[$value]):"")." WHERE id=".$value;
-      }
-      mysqli_query($link,$qeruStr);
-      echo $qeruStr;
-    }
-  }
-
-  if ($action=="edit"){
-    $checkElement = $_POST["checkList"];
-     $arrRnl = $_POST["textRnl"];
-     $arrAd = $_POST["textAd"];
-     $arrDa = $_POST["textDa"];
-     $arrDl = $_POST["textDL"];
-     $arrTypes = $_POST["textTypes"];
-     $arrDep = $_POST["textDep"];
-    //  if(isset($files) && is_array($files))
-     foreach ($checkElement as $key => $value) {
-        $query_str = "UPDATE `acts` SET"
-        ." ad='".$arrAd[$value]."', rnl='".$arrRnl[$value]."' WHERE id =".$value;
-      mysqli_query($link,$query_str);
-       $countUpd++;
-    }
-  }
-  if ($action=="del"){
-    $checkElement = $_POST["checkList"];
+    $arrType = $_POST["typeSelect"];
+    $arrChange=$_POST["checkDead"];
+    $textTest = $_POST["textTest"];
+    $textTest1 = $_POST["textTest1"];
     foreach ($checkElement as $key => $value) {
-      $query_str = "DELETE FROM `acts` WHERE `id` = ".$value;
+      $query_str = "UPDATE `acts` SET"
+        ." `ad`='".$arrAd[$value]."', `rnl`='".$arrRnl[$value]."',"
+        ."`department`=".$arrDepartment[$value]." WHERE id =".$value;
+      $queryStr="UPDATE `acts` SET `da`='".$textTest[$value]."',`dl`='".$textTest1[$value]."' WHERE id=".$value;
+      mysqli_query($link,$queryStr);
       mysqli_query($link,$query_str);
+      //  print_r($queryStr);
       $countUpd++;
-    }
-    $ERROR_MSG .= "<br />Видалено: $countUpd запис(ів).";
+
   }
+  $ERROR_MSG .= "<br />Оновлено: $countUpd запис(ів).";
+}else if ($action=="del"){
+  $checkElement = $_POST["checkList"];
+  foreach ($checkElement as $key => $value) {
+    $query_str = "DELETE FROM `acts` WHERE `id` = ".$value;
+    mysqli_query($link,$query_str);
+    $countUpd++;
+  }
+  $ERROR_MSG .= "<br />Видалено: $countUpd запис(ів).";
+}
+
+  $where = array();
 
   if($filtr_kd!=""){
     $where[]=" organ.kd = '".$filtr_kd."'";
@@ -88,29 +74,16 @@
     $where[]=" ac.rnl like ( '%".$filtr_dis."%')";
   }
 
-  if( $filtr_dateActS!="" && $filtr_dateActE!=""){
-    $where[]=" ac.da between (".dateToSqlFormat($filtr_dateActS)." and ".dateToSqlFormat($filtr_dateActE)." )";
-  }else{
-    if($filtr_dateActS!=""){
-      $where[]=" ac.da >= '".dateToSqlFormat($filtr_dateActS)."'";
-    }
-    if($filtr_dateActE!=""){
-      $where[]=" ac.da <= '".dateToSqlFormat($filtr_dateActE)."'";
-    }
-  }
-
-
-
-  if( $filtr_dateDelS!="" && $filtr_dateDelE!=""){
-    $where[]=" ac.dl between (".dateToSqlFormat($filtr_dateDelS)." and ".dateToSqlFormat($filtr_dateDelE)." )";
-  }else{
-    if($filtr_dateDelS!=""){
-      $where[]=" ac.dl >= '".dateToSqlFormat($filtr_dateDelS)."'";
-    }
-    if($filtr_dateDelE!=""){
-      $where[]=" ac.dl <= '".dateToSqlFormat($filtr_dateDelE)."'";
-    }
-  }
+  // if( $filtr_dateTest!="" && $filtr_dateTest1!=""){
+  //   $where[]=" ac.da between (".dateToSqlFormat($filtr_dateTest)." and ".dateToSqlFormat($filtr_dateTest1)." )";
+  // }else{
+  //   if($filtr_dateTest!=""){
+  //     $where[]=" ac.da >= '".dateToSqlFormat($filtr_dateTest)."'";
+  //   }
+  //   if($filtr_dateTest1!=""){
+  //     $where[]=" ac.da <= '".dateToSqlFormat($filtr_dateTest1)."'";
+  //   }
+  // }
 
   $arrTypes=array();
   foreach ($filtr_arr_typse_act as $key => $value) {
@@ -187,22 +160,32 @@
   $qeruStr="SELECT organ.kd, organ.kdmo, ac.* FROM `acts`  as ac "
     ." left join  organizations as organ on organ.id=ac.org".$whereStr;
 
-  //echo $qeruStr;
   $result = mysqli_query($link,$qeruStr);
   if($result){
     $ListResult=array();
     while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
       $row["da"]=dateToDatapiclerFormat($row["da"]);
       $row["dl"]=dateToDatapiclerFormat($row["dl"]);
-      $ListResult[]=$row+array("ld"=>getListDepatment($link,$row["depatment"],1));
+     $ListResult[]=$row+array('types'=>getTypeAct($typeAct,$row['act']),'dep'=>getListDepatment($link,$row['department']) );
     }
     mysqli_free_result($result);
   }
 
-  $list_department=getListDepatment($link,$filtr_d);
+  function getTyps($arrType, $arrInput)
+  {
+      $result="";
+      $count=count($arrInput);
+          $result.="<select name=\"types\" style=\"width:150px;\">".getListTypeAct($arrType,$value)."</select>";
+      return $result;
+  }
 
+  // $filtr_arr_typse_act
+
+  $html_type=getTyps($typeAct,$filtr_arr_typse_act);
+
+  $list_department=getListDepatment($link,$filtr_d);
   $list_department=getListDepatment($link,$filtr_dep_id);
-  $html_type=getTypsHtml($typeAct,$filtr_arr_typse_act);
+
   $html_kved=getKvedHtml($link,$filtr_Kveds);
   $html_kises=getKisedHtml($link,$filtr_Kises);
 

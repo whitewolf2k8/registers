@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="../../../css/style_menu.css" media="screen" type="text/css" />
 <link rel="stylesheet" href="../../../css/pag.css" media="screen" type="text/css" />
 <link rel="stylesheet" href="../../../jquery-ui-1.12.1.custom/jquery-ui.css" media="screen" type="text/css" />
+
 <title>Головна</title>
 <link rel="shortcut icon" href="../../../images/favicon.png" type="image/png">
 
@@ -14,37 +15,6 @@
 <script src="../../../js/act_show.js"></script>
 <script src="../../../jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script type="text/javascript">
-function submitForm(mode) {
-  correct = true;
-  form = document.forms['adminForm'];
-  if(mode=='import'){
-    if (form.fileImp.value=="") {
-      correct = false;
-      document.getElementById('fileImp').className="error";
-      document.getElementById('errorMes').className="error";
-      document.getElementById('errorMes').innerHTML="<p>Будь ласка оберіть файл для імпорту.</p>";
-    }
-  }
-
-  if(mode=='edit'){
-    correct= confirm("Ви впевнені в змінах ??");
-    if(correct){
-      var arrCheck=document.getElementsByName("checkList[]");
-      for(var i=0;i<arrCheck.length;i++){
-        arrCheck[i].disabled=false;
-      }
-    }
-  }
-
-  if (correct) {
-    document.getElementById('lo').innerHTML='<div id="preloader"></div>';
-    form.mode.value = mode;
-    var x = document.getElementsByName("limitstart");
-      x[0].value=0;
-    form.submit();
-  }
-}
-
   function submitForm(mode) {
     correct = true;
     form = document.forms['adminForm'];
@@ -85,11 +55,50 @@ function submitForm(mode) {
        }
   }
 
+
   $(document).ready(function() {
-    setDataPoclerFild("dateActS");
-    setDataPoclerFild('dateActE');
-    setDataPoclerFild("dateDelS");
-    setDataPoclerFild('dateDelE');
+
+    function setDataTest() {
+        $('.test').datepicker({showOn: "button",
+                  dateFormat: 'yy/mm/dd',
+                  buttonImage: "../../img/cal.gif",
+                  showOtherMonths: true, autoSize: true,
+                  monthNames:month ,
+                  dayNamesMin:days ,
+                  changeMonth: true,
+                  changeYear: true,
+                  yearRange: "-1:+2",
+                  monthNamesShort: monthSotr});
+
+
+    }
+
+        function setDataTest1() {
+            $('.test1').datepicker({showOn: "button",
+                      dateFormat: 'yy/mm/dd',
+                      buttonImage: "../../img/cal.gif",
+                      showOtherMonths: true, autoSize: true,
+                      monthNames:month ,
+                      dayNamesMin:days ,
+                      changeMonth: true,
+                      changeYear: true,
+                      yearRange: "-1:+2",
+                      monthNamesShort: monthSotr});
+        }
+
+
+    setDataTest('date');
+    setDataTest1('date');
+    var x=document.getElementsByName('tablo[]');
+    for (var i = 0; i < x.length; i++) {
+      setDataPoclerFild('dT_'+x[i].id);
+      setDataPoclerFild('dT1_'+x[i].id);
+      console.log(x[i].id);
+    }
+    // setDataPoclerFild('dateActS');
+    // setDataPoclerFild('dateActE')
+
+    console.log("ready");
     $('.spoiler-body').hide();
     $('.spoiler-title').click(function(){
       $(this).next().slideToggle();
@@ -129,67 +138,74 @@ function submitForm(mode) {
     }
   }
 
-  function openAddMeneget() {
+  function cleanFormImport() {
+    document.getElementById("fileImp").value="";
     $.ajax({
      type: "POST",
-     url: "script\\processMeneger.php",
-     data: {"mode":"getList"},
+     url: "script/process_amount_pv.php",
+     data: {mode:'getList'},
      scriptCharset: "CP1251",
      success: function(data){
-        var res = JSON.parse(data);
-        addLists(res);
-        showHide('add_maneger');
+         var res = JSON.parse(data);
+         formCleanList(res);
       }
-    });
-   }
+   });
+  }
 
 
-
-   function addAdres(mode){
-     var pib = document.getElementById('text_pib').value;
-
-     var idDep = document.getElementById('depatment_id');
-     idDep=idDep.options[idDep.selectedIndex].value;
-     if(pib!="" && idDep!=0){
-       $.ajax({
-        type: "POST",
-        url: "script\\processMeneger.php",
-        data: {"mode":mode, "pib":pib, "dep":idDep },
-        scriptCharset: "CP1251",
-        success: function(data){
-           var res = JSON.parse(data);
-           pib.value="";
-           updateTable(res);
-           showHide('add_maneger');
-         }
-      });
-    }else{
-      var er="";
-      if(pib==""){
-        er+="Прізвище та ініціали повинні бути заповнені<br>";
-      }
-      if(idDep==0){
-        er+="Необхідно обрати відділ в якому працює<br>";
-      }
-      document.getElementById("errorMesAdd").innerHTML="<p class=\"error\">"+er+"</p>   <div class=\"clr\"></div>";
+  function chacheCheck(){
+    var arrText=document.getElementsByClassName("amo");
+    var arrCheck=document.getElementsByName("checkList[]");
+    var cnt=0;
+    for(var i=0;i<arrCheck.length;i++){
+      if(arrCheck[i].checked)
+        cnt++;
     }
-   }
-
-  function addLists(arr) {
-    var x= document.getElementById("depatment_id");
-    x.innerHTML = "";
-    var opt = document.createElement('option');
-    opt.value = "0";
-    opt.selected = true;
-    opt.innerHTML = " - не обрано - ";
-    x.appendChild(opt);
-    for(var i = 0; i < arr.length; i++)
+    var flag=true;
+    if(cnt==0)
     {
-      var opt = document.createElement('option');
-      opt.value = arr[i].id;
-      opt.innerHTML = arr[i].nu;
-      x.appendChild(opt);
+      flag=false;
+      document.getElementById("delBtn").disabled=true;
+      document.getElementById("addBtn").disabled=false;
+    }else{
+      document.getElementById("delBtn").disabled=false;
+      document.getElementById("addBtn").disabled=true;
     }
+
+    for(var i=0;i<arrText.length;i++){
+      arrText[i].disabled = flag;
+    }
+  }
+
+
+function changeAmountAction(id) {
+  var arrCheck=document.getElementsByName("checkList[]");
+  for(var i=0;i<arrCheck.length;i++){
+    arrCheck[i].disabled="disabled";
+    if(id==arrCheck[i].value) arrCheck[i].checked=true;
+  }
+  document.getElementById("saveBtn").disabled=false;
+}
+
+  $(document).ready(function() {
+    $("#filtr_kd").ForceNumericOnly();
+    $("#filtr_kdmo").ForceNumericOnly();
+  });
+
+  function chacheCheck(id){
+
+    var  chDead =  document.getElementById('ch_'+id);
+    var arrCheck=document.getElementsByName("checkList[]");
+    var cnt=0;
+    for(var i=0;i<arrCheck.length;i++){
+      if(arrCheck[i].value==id){
+        arrCheck[i].checked=true;
+        document.getElementById(id).className="changeData";
+        var flag = ((chDead.checked)? true:false);
+        document.getElementById('li_'+id).disabled=flag;
+      }
+    }
+    checkButton();
   }
 
   function checkButton() {
@@ -210,37 +226,31 @@ function submitForm(mode) {
       document.getElementById("addBtn").disabled=true;
     }
   }
+  function chacheCheck(){
+    var arrText=document.getElementsByClassName("amo");
+    var arrCheck=document.getElementsByName("checkList[]");
+    var cnt=0;
+    for(var i=0;i<arrCheck.length;i++){
+      if(arrCheck[i].checked)
+        cnt++;
+    }
+    var flag=true;
+    if(cnt==0)
+    {
+      flag=false;
+      document.getElementById("delBtn").disabled=true;
+      document.getElementById("addBtn").disabled=false;
+    }else{
+      document.getElementById("delBtn").disabled=false;
+      document.getElementById("addBtn").disabled=true;
+    }
 
-  function openAddMeneget() {
-    $.ajax({
-     type: "POST",
-     url: "script\\processMeneger.php",
-     data: {"mode":"getList"},
-     scriptCharset: "CP1251",
-     success: function(data){
-        var res = JSON.parse(data);
-        addLists(res);
-        showHide('add_maneger');
-      }
-    });
-   }
+    for(var i=0;i<arrText.length;i++){
+      arrText[i].disabled = flag;
+    }
+  }
 
-   function addLists(arr) {
-     var x= document.getElementById("depatment_id");
-     x.innerHTML = "";
-     var opt = document.createElement('option');
-     opt.value = "0";
-     opt.selected = true;
-     opt.innerHTML = " - не обрано - ";
-     x.appendChild(opt);
-     for(var i = 0; i < arr.length; i++)
-     {
-       var opt = document.createElement('option');
-       opt.value = arr[i].id;
-       opt.innerHTML = arr[i].nu;
-       x.appendChild(opt);
-     }
-   }
+
 </script>
 </head>
 
@@ -257,14 +267,14 @@ function submitForm(mode) {
       		    <?php if ($ERROR_MSG != '') echo '<p class="error">'.$ERROR_MSG.'</p>';?>
       	</div>
 
-        <h2>Акт редагування</h2>
+        <h2>Акт редагування </h2>
         <form name="adminForm" action="act_change.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" />
           <input type="hidden" name="limitstart" value="0"/>
           <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
           <input type="hidden" id ="kveds" name="kveds" <? echo "value='".$filtr_Kveds."'"; ?> />
           <input type="hidden" id ="kises" name="kises" <? echo "value='".$filtr_Kises."'"; ?> />
-          <div class="item_blue" style="position: relative; width: 470px; left: 56%; margin-left: -335px;">
+          <div class="item_blue" style="position: relative; width: 770px; left: 50%; margin-left: -335px;">
             <div id='errorM' style='display="none";margin-left:15%;'>	</div>
             <h2 style="text-align:center;" >Пошук актів по параметрам</h2>
             <p class="act_add">
@@ -276,7 +286,7 @@ function submitForm(mode) {
             <p align="center">
               <input type="button" value="Пошук" class="button" onclick="submitForm('search')" />
               <input type="button" value="Видалити" id="delBtn" class="button" disabled  onclick="submitForm('del')" />
-              <input type="button" value="Зберегти" id="saveBtn" class="button" disabled=true onclick="submitForm('edit')" />
+              <input type="button" value="Зберегти" id="saveBtn" class="button" disabled=true onclick="submitForm('edit')"
             </p>
           </div>
           <div class="clr"></div>
@@ -284,39 +294,33 @@ function submitForm(mode) {
 
         <? if(isset($ListResult)){ ?>
           <div id="table_id" align="center">
-            <table width=100%, id="table_id" >
+            <table id="table_id" >
               <tr>
                <th rowspan="2">&nbsp;</th>
                 <th rowspan="2">ЄДРПОУ</th>
                 <th rowspan="2">КДМО</th>
                 <th colspan="2">Дата </th>
                 <th rowspan="2">Номер рішення</th>
-                <th width=180px rowspan="2">Тип акту</th>
+                <th rowspan="2">Тип акту</th>
                 <th rowspan="2">Галузевий відділ</th>
                 <th rowspan="2">Адреса складання</th>
               </tr>
               <tr class="second_level">
-                <th width=125px> складання акту</th>
-                <th width=125px>ліквідації по рішенню суду</th>
+                <th width=170px> складання акту</th>
+                <th width=170px>ліквідації по рішенню суду</th>
               </tr>
               <? foreach ($ListResult as $key => $value) {
-                echo "<tr id=\"".$value['id']."\"  ".(($value['dead']==1)?"class=\"notactive\"":"").">";
-                echo "<tr id=\"".$value['id']."\">";
-                echo "<td  style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck('".$value["id"]."');\" /></td>";
-                // echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kd"]."</a></td>";
-                // echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kdmo"]."</a></td>";
-                 echo "<td style =\" overflow:hidden;\" >".$value["kd"]."</td>";
-                 echo "<td style =\" overflow:hidden;\" >".$value["kdmo"]."</td>";
-                // echo "<td style =\" overflow:hidden;\" ><input class=\"act1\"  type=\"text\" id=\"".$value['id']."\"  name=\"textKd[".$value['id']."]\" style=\"text-align:center;width:95px;\" value =\"".$value['kd']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                // echo "<td style =\" overflow:hidden;\" ><input class=\"act2\"  type=\"text\" id=\"".$value['id']."\"  name=\"textKdmo[".$value['id']."]\" style=\"text-align:center;width:120px;\" value =\"".$value['kdmo']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                echo "<td style =\" overflow:hidden;\" ><input class=\"act5\"  type=\"text\" id=\"".$value['id']."\" name=\"textDa[".$value['id']."]\" style=\"text-align:center;width:100px;\" value =\"".$value['da']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                echo "<td style =\" overflow:hidden;\" ><input class=\"act5\"  type=\"text\" id=\"".$value['id']."\" name=\"textDl[".$value['id']."]\" style=\"text-align:center;width:100px;\" value =\"".$value['dl']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                // echo "<td style =\" overflow:hidden;\" ><input class=\"act10\" type=\"text\" id=\"dateActS\" name=\"textDa\" style=\"text-align:center;width:100px;\" value =\"".$value['da']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                // echo "<td style =\" overflow:hidden;\" ><input class=\"act11\" type=\"text\" id=\"dateActE\" name=\"textDl\" style=\"text-align:center;width:100px;\" value =\"".$value['dl']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                echo "<td style =\" overflow:hidden;\" ><input class=\"act5\"  type=\"text\" id=\"".$value['id']."\" name=\"textRnl[".$value['id']."]\" style=\"text-align:center;width:100px;\" value =\"".$value['rnl']."\"onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                echo "<td style =\" overflow:hidden;\" ><input class=\"act6\"  type=\"text\" id=\"".$value['id']."\" name=\"name[".$value['id']."]\" style=\"text-align:center;width:200px;\" value =\"".$value['types']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
-                echo "<td style =\" overflow:hidden;\" ><select id=\"li_".$value['id']."\" style=width:200px name=\"depSelect[".$value['id']."]\" onchange=\"changeAmountAction(".$value['id'].");\" >".$value["ld"]."</select></td>";
-                echo "<td style =\" overflow:hidden;\" ><input  class=\"act8\" type=\"text\" id=\"".$value['ad']."\"  name=\"textAd[".$value['id']."]\"style=\"text-align:center;width:200px;\" value =\"".$value['ad']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
+                echo "<tr name=\"tablo[]\" id=\"".$value['id']."\">";
+                echo "<td style =\" overflow:visible;\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck()\" /></td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["kd"]."</td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["kdmo"]."</td>";
+                echo "<td style =\" overflow:hidden;\" ><input class=\"test\" type=\"text\" id=\"dT_".$value['id']."\" name=\"textTest[".$value['id']."]\" style=\"text-align:center;width:100px;\" value =\"".$value['da']."\" onchange=\"changeAmountAction('".$value['id']."')\"".$filtr_dateTest."\"/></td>";
+                echo "<td style =\" overflow:hidden;\" ><input class =\"test1\" type=\"text\" id=\"dT1_".$value['id']."\" name=\"textTest1[".$value['id']."]\" style=\"text-align:center;width:100px;\" value =\"".$value['dl']."\" onchange=\"changeAmountAction('".$value['id']."')\"".$filtr_dateTest1."\"/></td>";
+                echo "<td style =\" overflow:hidden;\" ><input class=\"amo\" type=\"text\" id=\"".$value['id']."\" name=\"textRnl[".$value['id']."]\" style=\"text-align:center;width:120px;\" value =\"".$value['rnl']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
+                // echo "<td style =\" overflow:hidden;\" >".$value["types"]."</td>";
+                echo "<td style =\" overflow:hidden;\" ><select id=\"".$value['id']."\" name=\"typeSelect[".$value['id']."]\"style=width:180px \" onchange=\"changeAmountAction('".$value['id']."')\" ".$html_type."</select></td>";
+                echo "<td style =\" overflow:hidden;\" ><select id=\"li_".$value['id']."\" name=\"depSelect[".$value['id']."]\" style=width:200px \" onchange=\"changeAmountAction('".$value['id']."')\">".$value["dep"]."</select></td>";
+                echo "<td style =\" overflow:hidden;\" ><input class=\"amo\" type=\"text\" id=\"".$value['id']."\" name=\"textAd[".$value['id']."]\" style=\"text-align:center;width:200px;\" value =\"".$value['ad']."\" onchange=\"changeAmountAction('".$value['id']."')\"/></td>";
                 echo"</tr>";
               } ?>
             </table>
@@ -324,7 +328,9 @@ function submitForm(mode) {
         <? } ?>
         </form>
      </div>
-   </div>
+
+	  </div>
+
 </div><!-- .wrapper -->
   <div id="paginatorT">
       <? if(isset($pagination)) echo $pagination; ?>
