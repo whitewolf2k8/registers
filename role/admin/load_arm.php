@@ -32,13 +32,13 @@
     $start = microtime(true);
     set_time_limit(90000);
     if (!file_exists($tmpFile=$_FILES["fileImp"]['tmp_name'])) {
-      $ERROR_MSG .= 'РџРѕРјРёР»РєР° Р·Р°РІР°РЅС‚Р°Р¶РµРЅРЅСЏ С„Р°Р№Р»Сѓ! <br/>';
+      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
     }else {
       $db = dbase_open($tmpFile, 0);
       if ($db) {
           $countUpdate=0;
           $countInsert=0;
-          // С‡С‚РµРЅРёРµ РЅРµРєРѕС‚СЂС‹С… РґР°РЅРЅС‹С…
+          // чтение некотрых данных
           $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? and `kdmo`=?";
           $queryUpdate = "UPDATE `organizations` SET `kd`=?,`kdmo`=?,`kdg`=?,`nu`=?,"
             ."`pk`=?,`ad`=?,`pi`=?,`te`=?,`tea`=?,`e1_10`=?,`e2_10`=?,`e3_10`=?,"
@@ -57,7 +57,7 @@
           $rowCount=dbase_numrecords ($db);
           if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtUpdate, $queryUpdate)))
           {
-            echo " ГЏГ®Г¬ГЁГ«ГЄГ  ГЏГ»Г¤ГЈГ®ГІГ®ГўГЄГЁ Г§Г ГЇГЁГІГі \n <br>";
+            echo " ??????? ?????????? ?????? \n <br>";
           } else{
             mysqli_stmt_bind_param($stmtInsert, "iisssssssssssssssssssssssssss",$kd,$kdmo,$kdg,$nu,$pk,$ad,$pi,$te,$tea,$e1_10,$e2_10,$e3_10,$e4_10,$e5_10,$e6_10,$uo,$vdf10,$iz,$pf,$kice,$gu,$os,$rik,$sn,$rn,$dr,$pr,$dz,$dl);
             mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
@@ -142,10 +142,10 @@
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtInsert);
           mysqli_stmt_close($stmtUpdate);
-          $ERROR_MSG.=" Р—Р°РїРёСЃС–РІ РѕРЅРѕРІР»РµРЅРѕ ".$countUpdate." . <br>";
-          $ERROR_MSG.= " Р”РѕРґР°РЅРѕ Р·Р°РїРёСЃС–РІ ".$countInsert." . <br>";
-          $ERROR_MSG.= " Р— С„Р°Р№Р»Сѓ Р·РёС‚Р°РЅРѕ  ".$rowCount." Р·Р°РїРёСЃС–РІ. <br>";
-          $ERROR_MSG.= "РЎРєСЂРёРїС‚ РІРёРєРѕРЅСѓРІР°РІСЃСЏ РїСЂРѕС‚СЏРіРѕРј ".calcTimeRun($start,microtime(true))."<br>";
+          $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
+          $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
+          $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
+          $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
           dbase_close($db);
         }
       }
@@ -155,13 +155,13 @@
     $start = microtime(true);
     set_time_limit(90000);
     if (!file_exists($tmpFile=$_FILES["fileImpKd"]['tmp_name'])) {
-      $ERROR_MSG .= 'РџРѕРјРёР»РєР° Р·Р°РІР°РЅС‚Р°Р¶РµРЅРЅСЏ С„Р°Р№Р»Сѓ! <br/>';
+      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
     }else {
       $db = dbase_open($tmpFile, 0);
       if ($db) {
           $countUpdate=0;
           $countInsert=0;
-          // С‡С‚РµРЅРёРµ РЅРµРєРѕС‚СЂС‹С… РґР°РЅРЅС‹С…
+          // чтение некотрых данных
           $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? and `kdmo`=?";
           $queryUpdate = "UPDATE `organizations` SET `kd`=?,`kdmo`=?,`kdg`=?,`nu`=?,"
             ."`ad`=?,`pi`=?,`te`=?,`tea`=?,`vdf10`=?,`pr`=?, `dz`=?  WHERE `kd`=? and `kdmo`=?";
@@ -174,7 +174,7 @@
           $rowCount=dbase_numrecords ($db);
           if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtUpdate, $queryUpdate)))
           {
-            echo " РџРѕРјРёР»РєР° РџС–РґРіРѕС‚РѕРІРєРё Р·Р°РїРёС‚Сѓ \n <br>";
+            echo " Помилка Підготовки запиту \n <br>";
           } else {
             mysqli_stmt_bind_param($stmtInsert, "iisssssssss",$kd,$kdmo,$kdg,$nu,
               $ad,$pi,$te,$tea,$vdf10,$pr,$dz);
@@ -239,10 +239,10 @@
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtInsert);
           mysqli_stmt_close($stmtUpdate);
-          $ERROR_MSG.=" Р—Р°РїРёСЃС–РІ РѕРЅРѕРІР»РµРЅРѕ ".$countUpdate." . <br>";
-          $ERROR_MSG.= " Р”РѕРґР°РЅРѕ Р·Р°РїРёСЃС–РІ ".$countInsert." . <br>";
-          $ERROR_MSG.= " Р— С„Р°Р№Р»Сѓ Р·РёС‚Р°РЅРѕ  ".$rowCount." Р·Р°РїРёСЃС–РІ. <br>";
-          $ERROR_MSG.= "РЎРєСЂРёРїС‚ РІРёРєРѕРЅСѓРІР°РІСЃСЏ РїСЂРѕС‚СЏРіРѕРј ".calcTimeRun($start,microtime(true))."<br>";
+          $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
+          $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
+          $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
+          $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
           dbase_close($db);
         }
       }
@@ -253,13 +253,13 @@
     $start = microtime(true);
     set_time_limit(90000);
     if (!file_exists($tmpFile=$_FILES["fileImpKdFin"]['tmp_name'])) {
-      $ERROR_MSG .= 'РџРѕРјРёР»РєР° Р·Р°РІР°РЅС‚Р°Р¶РµРЅРЅСЏ С„Р°Р№Р»Сѓ! <br/>';
+      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
     }else {
       $db = dbase_open($tmpFile, 0);
       if ($db) {
           $countUpdate=0;
           $countInsert=0;
-          // С‡С‚РµРЅРёРµ РЅРµРєРѕС‚СЂС‹С… РґР°РЅРЅС‹С…
+          // чтение некотрых данных
           $querySelect = "SELECT id FROM `organizations` WHERE `kd`=? and `kdmo`=?";
           $queryUpdate = "UPDATE `organizations` SET `kd`=?,`kdmo`=?,`kdg`=?,`nu`=?,"
             ."`ad`=?,`pi`=?,`te`=?,`tea`=? WHERE `kd`=? and `kdmo`=?";
@@ -272,7 +272,7 @@
           $rowCount=dbase_numrecords ($db);
           if((!mysqli_stmt_prepare($stmtSelect, $querySelect))||(!mysqli_stmt_prepare($stmtInsert, $queryInsert))||(!mysqli_stmt_prepare($stmtUpdate, $queryUpdate)))
           {
-            echo " ГЏГ®Г¬ГЁГ«ГЄГ  ГЏГ»Г¤ГЈГ®ГІГ®ГўГЄГЁ Г§Г ГЇГЁГІГі \n <br>";
+            echo " ??????? ?????????? ?????? \n <br>";
           } else {
             mysqli_stmt_bind_param($stmtInsert, "iissssss",$kd,$kdmo,$kdg,$nu,
               $ad,$pi,$te,$tea);
@@ -321,10 +321,10 @@
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtInsert);
           mysqli_stmt_close($stmtUpdate);
-          $ERROR_MSG.=" Р—Р°РїРёСЃС–РІ РѕРЅРѕРІР»РµРЅРѕ ".$countUpdate." . <br>";
-          $ERROR_MSG.= " Р”РѕРґР°РЅРѕ Р·Р°РїРёСЃС–РІ ".$countInsert." . <br>";
-          $ERROR_MSG.= " Р— С„Р°Р№Р»Сѓ Р·РёС‚Р°РЅРѕ  ".$rowCount." Р·Р°РїРёСЃС–РІ. <br>";
-               $ERROR_MSG.= "РЎРєСЂРёРїС‚ РІРёРєРѕРЅСѓРІР°РІСЃСЏ РїСЂРѕС‚СЏРіРѕРј ".calcTimeRun($start,microtime(true))."<br>";
+          $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
+          $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
+          $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
+               $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
           dbase_close($db);
         }
       }
@@ -333,7 +333,7 @@
     $start = microtime(true);
     set_time_limit(90000);
     if (!file_exists($tmpFile=$_FILES["fileImpContact"]['tmp_name'])) {
-      $ERROR_MSG .= 'РџРѕРјРёР»РєР° Р·Р°РІР°РЅС‚Р°Р¶РµРЅРЅСЏ С„Р°Р№Р»Сѓ! <br/>';
+      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
     }else {
       $db = dbase_open($tmpFile, 0);
       if ($db) {
@@ -366,13 +366,13 @@
                 }
                 mysqli_free_result($result);
               }else{
-                $ERROR_MSG.="РџС–РґРїСЂРёС”РјСЃС‚РІРѕ Р· РєРѕРґРѕРј С”РґСЂРїРѕСѓ -".$row['KD']."  С‚Р° РєРґРјРѕ - ".$row['KDMO']." РЅРµ Р·РЅР°Р№РґРµРЅРѕ. <br>";
+                $ERROR_MSG.="Підприємство з кодом єдрпоу -".$row['KD']."  та кдмо - ".$row['KDMO']." не знайдено. <br>";
               }
             }else{
-              $ERROR_MSG.="РџСЂРё РІРёРєРѕРЅР°РЅРЅС– Р·Р°РїРёС‚Сѓ СЃС‚Р°Р»Р°СЃСЏ РїРѕРјРёР»РєР° ".mysqli_error($link)."<br>";
+              $ERROR_MSG.="При виконанні запиту сталася помилка ".mysqli_error($link)."<br>";
             }
           }
-          $ERROR_MSG.="РџС–Рґ С‡Р°СЃ С–РјРїРѕСЂС‚Сѓ РєРѕРЅС‚Р°РєС‚С–РІ Р±СѓР»Рѕ РґРѕРґР°РЅРѕ ".$countInsrt." С‚Р° РѕРЅРѕРІР»РµРЅРѕ ".$countUpdate." РєРѕРЅС‚Р°РєС‚С–РІ (РќРµ РїС–РґРїСЂРёС”РјСЃС‚, РґР»СЏ РѕРґРЅРѕРіРѕ РїС–РґРїСЂРёС”РјСЃС‚РІР° РјРѕР¶Рµ Р±СѓС‚Рё РґРµР»РєС–РєР° РєРѕРЅС‚Р°РєС‚С–РІ) <br>";
+          $ERROR_MSG.="Під час імпорту контактів було додано ".$countInsrt." та оновлено ".$countUpdate." контактів (Не підприємст, для одного підприємства може бути делкіка контактів) <br>";
           dbase_close($db);
       }
     }
