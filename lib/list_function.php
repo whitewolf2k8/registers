@@ -163,4 +163,9 @@
     return createListDuble($link,"id","nu",$str,$selected);
   }
 
+  function getListOPF($link, $selected){
+    $str="SELECT kd,nu FROM `opf`";
+    return createListDuble($link,"kd","nu",$str,$selected," - не обрано - ");
+  }
+
 ?>

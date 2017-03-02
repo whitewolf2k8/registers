@@ -1,5 +1,4 @@
-<?
-	require_once("list_function.php");
+<?	include_once("list_function.php");
 
 	  function connectingDb()
 	  {
@@ -375,6 +374,13 @@
 				return date('Y-m-d', strtotime(str_replace('-', '/', $str)));
 		}
 
+
+		function dateToStrFormat($str)
+		{
+				if($str=="") return "0";
+				return date('Ymd', strtotime(str_replace('-', '/', $str)));
+		}
+
 		function getTypsHtml($arrType, $arrInput)
 		{
 				$result="";
@@ -405,6 +411,8 @@
 			return $result;
 		}
 
+
+
 		function getKisedHtml($link,$arrKved)
 		{
 			$result="";
@@ -419,6 +427,40 @@
 				}
 			}
 			return $result;
+		}
+
+		function getControlsHtml($link,$arrContol)
+		{
+			$result="";
+			$fields = explode(",", $arrContol);
+			foreach ($fields as $key => $value) {
+				$kd =substr($value,8);
+				echo "<br>".$kd;
+				if($kd!=""){
+					$res = mysqli_query($link,"SELECT kd, nu FROM `managment_department` WHERE `kd`=".$kd);
+					$row = mysqli_fetch_assoc($res);
+					$result.="<abbr id=\"control_".$row["kd"]."\"  title=\"".$row["nu"]."\">".$row["kd"]."</abbr>"
+					."<input type=\"button\" id=\"control_b_".$row["kd"]."\" class=\"btn_del\"  onclick=\"delContol('".$row["kd"]."');\"/>";
+				}
+			}
+			return $result;
+		}
+
+		function getOpfHtml($link,$arrInput)
+		{
+				$result="";
+				$count=count($arrInput);
+
+				foreach ($arrInput as $key => $value) {
+					if($value!=0)
+					{
+						$result.="<select name=\"opf_S[]\" style=\"width:150px;\">".getListOPF($link,$value)."</select>&nbsp;";
+					}
+				}
+				if($result==""){
+					$result.="<select name=\"opf_S[]\" style=\"width:150px;\">".getListOPF($link,$value)."</select>&nbsp;";
+				}
+				return $result;
 		}
 
 		function getKveds($link,$strKveds)
@@ -463,6 +505,28 @@
 		}
  		fclose($handle);
 		return $n;
+	}
+
+
+
+
+
+
+	function countChild($link)
+	{
+		$strSelect="SELECT id,kd FROM `organizations` WHERE `kd`>0";
+		$result=mysqli_query($link,$strSelect);
+		while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+			$strCount="select count(kd) as c from `organizations`where kdg = ".$row["kd"];
+			$resultCount = mysqli_query($link,$strCount);
+		    $r=mysqli_fetch_array($resultCount, MYSQLI_ASSOC);
+		    echo "<br> Count=".$r['c']."<br>";
+				if($r['c']>0){
+					mysqli_query($link,"UPDATE `organizations` SET `countChild`=".$r['c']." WHERE `id`=".$row['id']);
+				}
+		    mysqli_free_result($resultCount);
+		}
+		mysqli_free_result($result);
 	}
 
 ?>
