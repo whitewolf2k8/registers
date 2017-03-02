@@ -53,9 +53,6 @@
            window.open( url, '_blank' );
        }
   }
-
-
-
   $(document).ready(function() {
     setDataPoclerFild("dateActS");
     setDataPoclerFild('dateActE');
@@ -68,9 +65,7 @@
   });
 </script>
 </head>
-
 <body>
-
   <div class="wrapper">
 	  <div class="header">
          <?php  require_once('header.php'); ?>
@@ -87,8 +82,10 @@
           <input type="hidden" name="mode" />
           <input type="hidden" name="limitstart" value="0"/>
           <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
+          
           <input type="hidden" id ="kveds" name="kveds" <? echo "value='".$filtr_Kveds."'"; ?> />
           <input type="hidden" id ="kises" name="kises" <? echo "value='".$filtr_Kises."'"; ?> />
+
           <div class="item_blue" style="position: relative; width: 770px; left: 50%; margin-left: -335px;">
             <div id='errorM' style='display="none";margin-left:15%;'>	</div>
             <h2 style="text-align:center;" >Пошук актів по параметрам</h2>
@@ -148,12 +145,12 @@
                 <span> Область
                   <select id='obl_select' name="obl_select" onchange="updateLists();" style="text-align:center; width:170px;"><? echo $select_obl; ?></select>
                 </span>
-                <span>Район/Місто
+                <span>Район
                   <select id='ray_select' name='ray_select' onchange="generateTeLists();" <? echo (($select_ray["anabled"]==0)?"disabled":""); ?> style="width:170px;text-align:center;">
                     <? echo $select_ray["data"]; ?>
                   </select>
                 </span>
-                <span>Село
+                <span> Місто/Село
                   <select id='ter_select' name="ter_select" <? echo (($select_ter["anabled"]==0)?"disabled":""); ?> style="width:170px;text-align:center;">
                     <? echo $select_ter["data"]; ?>
                   </select>

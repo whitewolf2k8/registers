@@ -47,13 +47,13 @@
     return $str;
   }
 
-  function getListYear($link, $id , $t)
+  function getListYear($link, $id , $t,$mes=" - Âñ³ - " )
   {
     $str="";
     $qeruStr="SELECT * FROM `year` ";
     $result = mysqli_query($link,$qeruStr);
     if($t==1){
-      $str="<option value='' "."selected"."> - Âñ³ - </option>";
+      $str="<option value='' "."selected".">".$mes."</option>";
     }
     if($result){
       while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -70,11 +70,11 @@
   }
 
 
-  function getListPeriod($link, $id)
+  function getListPeriod($link, $id,$mes=" - Âñ³ - ")
   {
     $qeruStr="SELECT * FROM `period` ";
     $result = mysqli_query($link,$qeruStr);
-    $str="<option value=''".(($id==="")?"selected":"")."> - Âñ³ - </option>";
+    $str="<option value=''".(($id==="")?"selected":"").">".$mes."</option>";
     if($result){
       while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         $str.="<option value='".$row['id']."' ".(($id===$row['id'])?"selected":"").">".$row['nu']."</option>";

@@ -9,7 +9,7 @@
   $result = mysqli_query($link,$qeruStr);
   if($result){
     while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-      $options[]=array("kod" =>$row['te'],"nu" =>delApostrophe($row['nu']));
+      $options[]=array("kod" =>$row['te'],"nu" =>$row['nu']);
     }
     mysqli_free_result($result);
   }

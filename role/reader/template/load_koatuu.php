@@ -69,7 +69,7 @@ function updateLists(mode) {
   {
     $.ajax({
      type: "POST",
-     url: "script/order.php",
+     url: "order.php",
      data: {id:mode},
      scriptCharset: "CP1251",
      success: function(data){
@@ -108,16 +108,8 @@ function updateLists(mode) {
           <input type="hidden" name="mode" />
           <input type="hidden"  name="limitstart" <? echo "value='".(($paginathionLimitStart==0)?"0":$paginathionLimitStart)."'"; ?>/>
           <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
-    			<div class="item_blue" style="float:left;margin-left:15%; width:300px;">
-            <h2>Іморт файлу АРМ</h2>
-            <p>Оберіть файл з розширення dbf</p>
-            <p><input type="file" id="fileImp"  accept=".dbf" name="fileImp" style="width:256px" /></p>
-            <p align="center">
-              <input type="button" value="Імпортувати" class="button" onclick="submitForm('import')" />
-            </p>
-        	</div>
 
-          <div class="item_blue" style="float:right;margin-right:15%; width:320px;">
+          <div class="item_blue" style="float:right;margin-right:39%; width:320px;">
   	        <h2>Пошук по довіднику територій</h2>
             <p align="center">
               <p>
@@ -153,7 +145,7 @@ function updateLists(mode) {
                 <th colspan="2">Найменування</th>
               </tr>
               <tr>
-                <th>Українмькою</th>
+                <th>Українською</th>
                 <th>Російською</th>
               </tr>
             <? foreach ($ListResult as $key => $value) {
