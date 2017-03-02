@@ -222,7 +222,7 @@
       if(selectedRay!=""){
         $.ajax({
          type: "POST",
-         url: "script\\process_picks_organizations.php",
+         url: "script\\processTeaForAct.php",
          data: {ob:selectedObl,ra:selectedRay},
          scriptCharset: "CP1251",
          success: function(data){

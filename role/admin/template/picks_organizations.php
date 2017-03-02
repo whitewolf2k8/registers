@@ -9,6 +9,13 @@
 <title>Головна</title>
 <link rel="shortcut icon" href="../../../images/favicon.png" type="image/png">
 
+<style>
+  .spoiler-body span {
+    padding-left:30px;
+    padding-right:30px;
+  }
+
+</style>
 <script src="../../../js/jquery-1.7.2.js"></script>
 <script src="../../../js/scripts.js"></script>
 <script src="../../../js/script_picks_organizations.js"></script>
@@ -19,6 +26,7 @@
     form = document.forms['adminForm'];
     document.getElementById("kveds").value=getKveds();
     document.getElementById("kises").value=getKises();
+    document.getElementById("controlArr").value=getControls();
     if (correct) {
       document.getElementById('lo').innerHTML='<div id="preloader"></div>';
       form.mode.value = mode;
@@ -57,8 +65,8 @@
 
 
   $(document).ready(function() {
-    setDataPoclerFild("dateActS");
-    setDataPoclerFild('dateActE');
+    setDataPoclerFild("dateReS");
+    setDataPoclerFild('dateReE');
     setDataPoclerFild("dateDelS");
     setDataPoclerFild('dateDelE');
     $('.spoiler-body').hide();
@@ -89,7 +97,7 @@
           <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
           <input type="hidden" id ="kveds" name="kveds" <? echo "value='".$filtr_Kveds."'"; ?> />
           <input type="hidden" id ="kises" name="kises" <? echo "value='".$filtr_Kises."'"; ?> />
-          <input type="hidden" id ="controlArr" name="controlArr" <? echo "value='".$filtr_Kises."'"; ?> />
+          <input type="hidden" id ="controlArr" name="controlArr" <? echo "value='".$filtr_Contols."'"; ?> />
 
 
           <div class="item_blue" style="position: relative; width: 770px; left: 50%; margin-left: -335px;">
@@ -108,16 +116,16 @@
             <div class="clr"></div>
             <p>
               <span> Область
-                <select id='obl_select_1' name="obl_select_1" onchange="updateLists('1');" style="text-align:center; width:150px;"><? echo $select_obl; ?></select>
+                <select id='obl_select_1' name="obl_select_1" onchange="updateLists('1');" style="text-align:center; width:150px;"><? echo $select_obl_u; ?></select>
               </span>
               <span>Район/Місто
-                <select id='ray_select_1' name='ray_select_1' onchange="generateTeLists('1');" <? echo (($select_ray["anabled"]==0)?"disabled":""); ?> style="width:150px;text-align:center;">
-                  <? echo $select_ray["data"]; ?>
+                <select id='ray_select_1' name='ray_select_1' onchange="generateTeLists('1');" <? echo (($select_ray_u["anabled"]==0)?"disabled":""); ?> style="width:150px;text-align:center;">
+                  <? echo $select_ray_u["data"]; ?>
                 </select>
               </span>
               <span>Територія
-                <select id='ter_select_1' name="ter_select_1" <? echo (($select_ter["anabled"]==0)?"disabled":""); ?> style="width:150px;text-align:center;">
-                  <? echo $select_ter["data"]; ?>
+                <select id='ter_select_1' name="ter_select_1" <? echo (($select_ter_u["anabled"]==0)?"disabled":""); ?> style="width:150px;text-align:center;">
+                  <? echo $select_ter_u["data"]; ?>
                 </select>
               </span>
             </p>
@@ -127,21 +135,21 @@
             <div class="clr"></div>
             <p>
               <span> Область
-                <select id='obl_select_2' name="obl_select_2" onchange="updateLists('2');" style="text-align:center; width:150px;"><? echo $select_obl; ?></select>
+                <select id='obl_select_2' name="obl_select_2" onchange="updateLists('2');" style="text-align:center; width:150px;"><? echo $select_obl_f; ?></select>
               </span>
               <span>Район/Місто
-                <select id='ray_select_2' name='ray_select_2' onchange="generateTeLists('2');" <? echo (($select_ray["anabled"]==0)?"disabled":""); ?> style="width:150px;text-align:center;">
-                  <? echo $select_ray["data"]; ?>
+                <select id='ray_select_2' name='ray_select_2' onchange="generateTeLists('2');" <? echo (($select_ray_f["anabled"]==0)?"disabled":""); ?> style="width:150px;text-align:center;">
+                  <? echo $select_ray_f["data"]; ?>
                 </select>
               </span>
               <span>Територія
-                <select id='ter_select_2' name="ter_select_2" <? echo (($select_ter["anabled"]==0)?"disabled":""); ?> style="width:150px;text-align:center;">
-                  <? echo $select_ter["data"]; ?>
+                <select id='ter_select_2' name="ter_select_2" <? echo (($select_ter_f["anabled"]==0)?"disabled":""); ?> style="width:150px;text-align:center;">
+                  <? echo $select_ter_f["data"]; ?>
                 </select>
               </span>
             </p>
             <h2 style="text-align:center;" >Наявності :</h2>
-            
+
             <p class="act_add">
               <span>
                 <label>
@@ -197,20 +205,20 @@
               <span id="controls">Орган управління
                 <input type="text" id="text_controls" style="width:130px" />
                 <input type="button" value="" name="add_controls" id="add_controls" class="btn_add"  onclick="checkInputDataControls();"/>
-                <? echo $html_contol; ?>
+                <? echo $html_control; ?>
               </span>
             </p>
 
             <div class="clr"></div>
             <p class="act_add">
                <span>Даті первинної реєстрації в межах :
-                  з <input type="text" id='dateReS' name='dateReS'  value="<? echo $filtr_dateActS; ?>">
-                  по <input type="text" id='dateReE' name='dateReE'  value="<? echo $filtr_dateActE; ?>">
+                  з <input type="text" id='dateReS' name='dateReS'  value="<? echo $filtr_dateReS; ?>">
+                  по <input type="text" id='dateReE' name='dateReE'  value="<? echo $filtr_dateReE; ?>">
                </span>
             </p>
             <div class="clr"></div>
             <p class="act_add">
-               <span> даті ліквідації підприємства в межах:
+               <span> Даті ліквідації підприємства в межах:
                   з <input type="text" id='dateDelS' name='dateDelS'  value="<? echo $filtr_dateDelS; ?>">
                   по <input type="text" id='dateDelE' name='dateDelE'  value="<? echo $filtr_dateDelE; ?>">
                </span>
@@ -410,24 +418,16 @@
           <div class="clr"></div>
           <div id="lo"></div>
 
-        <? if(isset($ListResult)){ ?>
-          <div id="table_id" align="center">
+        <? if(!isset($ListResult)){ ?>
+          <div id="table_block" class="prokrutka"  align="center">
             <table id="table_id" >
               <tr>
-              <!--  <th rowspan="2">&nbsp;</th>-->
-                <th rowspan="2">ЄДРПОУ</th>
-                <th rowspan="2">КДМО</th>
-                <th colspan="2">Дата </th>
-                <th rowspan="2">Номер рішення</th>
-                <th rowspan="2">Тип акту</th>
-                <th rowspan="2">Галузевий відділ</th>
-                <th rowspan="2">Адреса складання</th>
+                <? foreach ($headTable as $key => $value) {
+                  echo "<th>".$value."</th>";
+                } ?>
               </tr>
-              <tr class="second_level">
-                <th> складання акту</th>
-                <th>ліквідації по рішенню суду</th>
-              </tr>
-              <? foreach ($ListResult as $key => $value) {
+
+            <? foreach ($ListResult as $key => $value) {
                 echo "<tr id=\"".$value['id']."\">";
                 echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kd"]."</a></td>";
                 echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kdmo"]."</a></td>";

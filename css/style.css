@@ -234,15 +234,11 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, 
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
-.spoiler-body span {
-	padding-left:30px;
-	padding-right:30px;
-}
 
-.spoiler-body font{
-	color: rgba(15, 19, 16, 0.82);
-}
 
+  .spoiler-body font{
+    color: rgba(15, 19, 16, 0.82);
+  }
 .navigation_left {
 	float:left;
 }
@@ -440,6 +436,10 @@ border-spacing: 0;
 text-align: center;
 }
 
+.prokrutka {
+	overflow: auto;
+	//overflow-y: scroll;
+}
 
 table a:hover {
 	 color: #1d91c3; /* ÷вет ссылки при наведении на нее курсора мыши */

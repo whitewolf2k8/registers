@@ -8,7 +8,7 @@
   $filtr_kdmo=isset($_POST['kdmo']) ? stripslashes($_POST['kdmo']) : '';
 
   $filtr_dateReS=isset($_POST['dateReS']) ? stripslashes($_POST['dateReS']) : '';
-  $filtr_dateReE=isset($_POST['dateReS']) ? stripslashes($_POST['dateReS']) : '';
+  $filtr_dateReE=isset($_POST['dateReS']) ? stripslashes($_POST['dateReE']) : '';
 
   $filtr_dateDelS=isset($_POST['dateDelS']) ? stripslashes($_POST['dateDelS']) : '';
   $filtr_dateDelE=isset($_POST['dateDelE']) ? stripslashes($_POST['dateDelE']) : '';
@@ -17,16 +17,17 @@
   $filtr_Kises=isset($_POST['kises']) ? $_POST['kises'] : '';
   $filtr_Contols=isset($_POST['controlArr']) ? $_POST['controlArr'] : '';
 
-  $filtr_OblF=isset($_POST['obl_select']) ? $_POST['obl_select'] : '';
-  $filtr_RayF=isset($_POST['ray_select']) ? $_POST['ray_select'] : '';
-  $filtr_TerF=isset($_POST['ter_select']) ? $_POST['ter_select'] : '';
+  $filtr_OblF=isset($_POST['obl_select_2']) ? $_POST['obl_select_2'] : '';
+  $filtr_RayF=isset($_POST['ray_select_2']) ? $_POST['ray_select_2'] : '';
+  $filtr_TerF=isset($_POST['ter_select_2']) ? $_POST['ter_select_2'] : '';
 
-  $filtr_OblU=isset($_POST['obl_select']) ? $_POST['obl_select'] : '';
-  $filtr_RayU=isset($_POST['ray_select']) ? $_POST['ray_select'] : '';
-  $filtr_TerU=isset($_POST['ter_select']) ? $_POST['ter_select'] : '';
+  $filtr_OblU=isset($_POST['obl_select_1']) ? $_POST['obl_select_1'] : '';
+  $filtr_RayU=isset($_POST['ray_select_1']) ? $_POST['ray_select_1'] : '';
+  $filtr_TerU=isset($_POST['ter_select_1']) ? $_POST['ter_select_1'] : '';
 
   $filtr_flag=isset($_POST['flag_group']) ? $_POST['flag_group'] : '';
-  $filtr_opf=isset($_POST['opf_S']) ? $_POST['opf_S'] : '';
+  $filtr_opf=isset($_POST['opf_S']) ? $_POST['opf_S'] : array('');
+
   if($filtr_flag!="" && in_array("3",$filtr_flag))
   {
     $filtr_arr_typse_act=isset($_POST['types']) ? $_POST['types'] : array(0);
@@ -40,103 +41,296 @@
   $action = isset($_POST['mode']) ? $_POST['mode'] : '';
   $ERROR_MSG="";
 
-  $where = array();
+  $headTable = array();
+  $filds = array("0"=>array(),"1"=>array());
+
+  if(count($arrfild)>0){
+    foreach ($arrfild as $key => $value) {
+      switch ($value) {
+        case 'kd':
+          $headTable["kd"]="ЄДРПОУ";
+          $filds[0][]="t1.kd";
+        break;
+        case 'kdmo':
+          $headTable["kdmo"]="КДМО";
+          $filds[0][]="t1.kdmo";
+        break;
+        case 'nu':
+          $headTable["nu"]="Назва";
+          $filds[0][]="t1.nu";
+        break;
+        case 'pk':
+          $headTable["pk"]="Керівник";
+          $filds[0][]="t1.pk";
+        break;
+        case 'kdg':
+          $headTable["kdg"]="Голловне<br>підприємство";
+          $filds[0][]="t1.kdg";
+        break;
+        case 'te':
+          $headTable["te"]="Код території";
+          $filds[0][]="t1.te";
+        break;
+        case 'tea':
+          $headTable["tea"]="Адмінмістративна<br>належність";
+          $filds[0][]="t1.tea";
+        break;
+        case 'ad':
+          $headTable["ad"]="Адреса";
+          $filds[0][]="t1.ad";
+        break;
+        case 'pi':
+          $headTable["pi"]="Поштовий<br>індекс";
+          $filds[0][]="t1.pi";
+        break;
+        case 'pf':
+          $headTable["pf"]="Організаційна<br>форма";
+          $filds[0][]="t1.pf";
+        break;
+        case 'gu':
+          $headTable["gu"]="Орган <br> управління";
+          $filds[0][]="t1.gu";
+        break;
+        case 'uo':
+          $headTable["uo"]="Ознака <br> особи ";
+          $filds[0][]="t1.uo";
+        break;
+        case 'dl':
+          $headTable["dl"]="Дата<br>ліквідації";
+          $filds[0][]="t1.dl";
+        break;
+        case 'kise':
+          $headTable["kise"]="Секто <br> економіки";
+          $filds[0][]="t1.nu";
+        break;
+        case 'iz':
+          $headTable["iz"]="Іноземний <br> засновник";
+          $filds[0][]="t1.iz";
+        break;
+        case 'e1_10':
+          $headTable["e1_10"]="Код в.д.1<br>KVED10";
+          $filds[0][]="t1.e1_10";
+        break;
+        case 'ne1_10':
+          $headTable["ne1_10"]="Назва в.д.1";
+          $filds['1'][]="ne1_10";
+          if(!array_key_exists('e1_10', $headTable)){
+            $filds[0][]="t1.e1_10";
+          }
+        break;
+        case 'e2_10':
+          $headTable["e2_10"]="Код в.д. 2<br>KVED10";
+          $filds[0][]="t1.e2_10";
+        break;
+        case 'ne2_10':
+          $headTable["ne2_10"]="Назва в.д. 2";
+          $filds[1][]="ne2_10";
+          if(!array_key_exists('e2_10', $headTable)){
+            $filds[0][]="t1.e2_10";
+          }
+        break;
+        case 'e3_10':
+          $headTable["e3_10"]="Код в.д. 3 <br>KVED10";
+          $filds[0][]="t1.e3_10";
+        break;
+        case 'ne3_10':
+          $headTable["ne3_10"]="Назва в.д. 3";
+          $filds[1][]="ne3_10";
+          if(!array_key_exists('e3_10', $headTable)){
+            $filds[0][]="t1.e3_10";
+          }
+        break;
+        case 'e4_10':
+          $headTable["e4_10"]="Код в.д. 4 <br>KVED10";
+          $filds[0][]="t1.e4_10";
+        break;
+        case 'ne4_10':
+          $headTable["ne4_10"]="Назва в.д. 4 ";
+          $filds[1][]="ne4_10";
+          if(!array_key_exists('e4_10', $headTable)){
+            $filds[0][]="t1.e4_10";
+          }
+        break;
+        case 'e5_10':
+          $headTable["e5_10"]="Код в.д. 5 <br>KVED10";
+          $filds[0][]="t1.e5_10";
+        break;
+        case 'ne5_10':
+          $headTable["ne5_10"]="Назва в.д. 5";
+          $filds[1][]="ne5_10";
+          if(!array_key_exists('e5_10', $headTable)){
+            $filds[0][]="t1.e5_10";
+          }
+        break;
+        case 'e6_10':
+          $headTable["e6_10"]="Код в.д. 6 <br>KVED10";
+          $filds[0][]="t1.e6_10";
+        break;
+        case 'ne6_10':
+          $headTable["ne6_10"]="Назва в.д 6 ";
+          $filds[1][]="ne6_10";
+          if(!array_key_exists('e6_10', $headTable)){
+            $filds[0][]="t1.e6_10";
+          }
+        break;
+        case 'vdf10':
+          $headTable["vdf10"]="Код факт. в.д. <br>KVED10";
+          $filds[0][]="t1.vdf10";
+        break;
+        case 'n_vdf10':
+          $headTable["n_vdf10"]="Назва факт. в.д.";
+          $filds[1][]="n_vdf10";
+          if(!array_key_exists('vdf10', $headTable)){
+            $filds[0][]="t1.vdf10";
+          }
+        break;
+        case 'rn':
+          $headTable["rn"]="Ост. реєстраційна  <br> дія";
+          $filds[0][]="t1.rn";
+        break;
+        case 'dr':
+          $headTable["dr"]="Дата  реєстраційних <br> дій";
+          $filds[0][]="t1.dr";
+        break;
+        case 'dz':
+          $headTable["dz"]="Дата внес. змін <br> до ЄДРПОУ ";
+          $filds[0][]="t1.dz";
+        break;
+        case 'pr':
+          $headTable["pr"]="Тип змін";
+          $filds[]="t1.pr";
+        break;
+      }
+    }
+  }
+
+$where = array();
 
   if($filtr_kd!=""){
-    $where[]=" organ.kd = '".$filtr_kd."'";
+    $where[]=" t1.kd = '".$filtr_kd."'";
   }
   if($filtr_kdmo!=""){
-    $where[]=" organ.kdmo = '".$filtr_kdmo."'";
+    $where[]=" t1.kdmo = '".$filtr_kdmo."'";
   }
 
-  if($filtr_dis!=""){
-    $where[]=" ac.rnl like ( '%".$filtr_dis."%')";
+  if($filtr_dateReS!=""){
+    $where[]=" t1.rik >= ".dateToStrFormat($filtr_dateReS)." ";
+  }
+  if($filtr_dateReE!=""){
+    $where[]=" t1.rik <= ".dateToStrFormat($filtr_dateReE)." ";
   }
 
-  if( $filtr_dateActS!="" && $filtr_dateActE!=""){
-    $where[]=" ac.da between (".dateToSqlFormat($filtr_dateActS)." and ".dateToSqlFormat($filtr_dateActE)." )";
-  }else{
-    if($filtr_dateActS!=""){
-      $where[]=" ac.da >= '".dateToSqlFormat($filtr_dateActS)."'";
+  if($filtr_dateDelS!=""){
+    $where[]=" t1.dl >= ".dateToStrFormat($filtr_dateDelS)." ";
+  }
+  if($filtr_dateDelE!=""){
+    $where[]=" t1.dl <= ".dateToStrFormat($filtr_dateDelE)." ";
+  }
+
+  if($filtr_Contols!=""){
+    $resArr=explode(",",$filtr_Contols);
+    foreach ($resArr as $key => $value) {
+      $resArr[$key]=substr($value,8);
     }
-    if($filtr_dateActE!=""){
-      $where[]=" ac.da <= '".dateToSqlFormat($filtr_dateActE)."'";
+    $str=( count( $resArr ) ? implode( ' , ',$resArr ) : '' );
+    $where[]=" t1.gu in (".$str.")";
+  }
+
+  if($filtr_Kises!=""){
+    $resArr=explode(",",$filtr_Kises);
+    foreach ($resArr as $key => $value) {
+      $resArr[$key]=substr($value,5);
     }
+    $str=( count( $resArr ) ? implode( ' , ',$resArr ) : '' );
+    $where[]=" t1.kice in (".$str.")";
   }
 
-
-
-  if( $filtr_dateDelS!="" && $filtr_dateDelE!=""){
-    $where[]=" ac.dl between (".dateToSqlFormat($filtr_dateDelS)." and ".dateToSqlFormat($filtr_dateDelE)." )";
-  }else{
-    if($filtr_dateDelS!=""){
-      $where[]=" ac.dl >= '".dateToSqlFormat($filtr_dateDelS)."'";
+  if($filtr_Kveds!=""){
+    $resArr=getKveds($link,$filtr_Kveds);
+    $str="";
+    if(count($resArr)>1){
+      for ($i=0; $i <count($resArr)  ; $i++) {
+        if($i==count($resArr)-1){
+          $str.="'".$resArr[$i]."'";
+          continue;
+        }
+        $str.="'".$resArr[$i]."',";
+      }
+    }else{
+      $str="'".$resArr[0]."'";
     }
-    if($filtr_dateDelE!=""){
-      $where[]=" ac.dl <= '".dateToSqlFormat($filtr_dateDelE)."'";
+    $where[]="(t1.e1_10 in (".$str.") or t1.e2_10 in (".$str.") or "
+      ." t1.e3_10 in (".$str.") or t1.e4_10 in (".$str.") or"
+      ." t1.e5_10 in (".$str.") or t1.e6_10 in (".$str.")) " ;
+  }
+
+  if($filtr_flag!="" && in_array("3",$filtr_flag))
+  {
+    $arrTypes=array();
+    foreach ($filtr_arr_typse_act as $key => $value) {
+      if($value!=0) $arrTypes[]= " (t3.act like ('%".$value."%'))";
     }
-  }
-
-  $arrTypes=array();
-  foreach ($filtr_arr_typse_act as $key => $value) {
-    if($value!=0) $arrTypes[]= " (ac.act like ('%".$value."%'))";
-  }
-  $str=implode(' OR ', $arrTypes);
-  if($str!=""){
-    $where[]="(".$str.")";
-  }
-
-
-  if($filtr_dep_id!=0){
-    $where[]=" ac.department = '".$filtr_dep_id."'";
-  }
-  $str ="";
-  if($filtr_Kveds!=''){
-    $kvedArr= getKveds($link, $filtr_Kveds);
-    $kvedWhere=array();
-    foreach ($kvedArr as $key => $value) {
-      $kvedWhere[]=" organ.vdf10 like ('".$value."')";
-    }
-    $str=implode(' OR ', $kvedWhere);
+    $str=implode(' OR ', $arrTypes);
     if($str!=""){
-      $where[]=" (".$str.") ";
+      $where[]="(".$str.")";
     }
   }
 
-  if($filtr_Kises!=''){
-    $kiseWhere=array();
-    $fields = explode(",", $filtr_Kises);
-    foreach ($fields as $key => $value) {
-      $kvedWhere[]=" organ.kice like ('".substr($value,5)."')";
-    }
-    if($str=implode('OR', $kiseWhere)!=""){
-      $where[]=" (".$str.") ";
-    }
+  if($filtr_flag!="" && in_array("1",$filtr_flag))
+  {
+    $where[]= "((select count(b.kd) from `organizations` b where b.kdg = t1.kd) > 0)";
   }
 
-  if($filtr_Obl!="" && $filtr_Ray!="" && $filtr_Ter!=""){
-    $where[]="organ.te like ('".$filtr_Ter."')";
+  if($filtr_flag!="" && in_array("2",$filtr_flag))
+  {
+    $where[]= "t1.iz='1'";
+  }
+
+  if($filtr_flag!="" && in_array("4",$filtr_flag))
+  {
+    $where[]= "t1.pr='8'";
+  }
+
+  if($filtr_OblU!="" && $filtr_RayU!="" && $filtr_TerU!=""){
+    $where[]="t1.te like ('".$filtr_TerU."')";
   }else{
-    if($filtr_Ter=="" && $filtr_Ray!=""){
-      $where[]="organ.te like ('".$filtr_Obl.$filtr_Ray."%')";
+    if($filtr_TerU=="" && $filtr_RayU!=""){
+      $where[]="t1.te like ('".$filtr_OblU.$filtr_RayU."%')";
     }
-    if($filtr_Obl!="" && $filtr_Ray==""){
-      $where[]="organ.te like ('".$filtr_Obl."%')";;
+    if($filtr_OblU!="" && $filtr_RayU==""){
+      $where[]="t1.te like ('".$filtr_OblU."%')";;
     }
   }
+
+  if($filtr_OblF!="" && $filtr_RayF!="" && $filtr_TerF!=""){
+    $where[]="t2.tea like ('".$filtr_TerF."')";
+  }else{
+    if($filtr_TerF=="" && $filtr_RayF!=""){
+      $where[]="t2.tea like ('".$filtr_OblF.$filtr_RayF."%')";
+    }
+    if($filtr_OblF!="" && $filtr_RayF==""){
+      $where[]="t2.tea like ('".$filtr_OblF."%')";;
+    }
+  }
+
+
+
+  //print_r($filtr_dateReS);
 
 
 
   $whereStrPa = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
 
-  $qeruStrPaginathion="SELECT COUNT(ac.id) as resC FROM `acts`  as ac "
-    ." left join  organizations as organ on organ.id=ac.org".$whereStrPa;
+  $qeruStrPaginathion="SELECT COUNT(t1.id) as resC FROM `organizations` as t1  "
+    ." left join  `actual_address`  as t2 on t1.id=t2.id_org"
+    ." left join  `acts` as t3 on t3.org=t1.id ".$whereStrPa;
 
-
+  //echo $qeruStrPaginathion;
   $resultPa = mysqli_query($link,$qeruStrPaginathion);
   if($resultPa){
     $r=mysqli_fetch_array($resultPa, MYSQLI_ASSOC);
     $rowCount=$r['resC'];
+    echo "<br> Count=".$rowCount."<br>";
     mysqli_free_result($resultPa);
   }
 
@@ -150,12 +344,12 @@
   }
 
 
-  $qeruStr="SELECT".$fild."";  
+  $qeruStr="SELECT".$fild." from `organizations` as t1, ";
 
-  $qeruStr="SELECT organ.kd, organ.kdmo, ac.* FROM `acts`  as ac "
+  $qeruStr="SELECT ".$strFild." FROM `organizations` as t1"
     ." left join  organizations as organ on organ.id=ac.org".$whereStr;
 
-  //echo $qeruStr;
+  echo $qeruStr;
   $result = mysqli_query($link,$qeruStr);
   if($result){
     $ListResult=array();
@@ -175,9 +369,17 @@
   $html_opf=getOpfHtml($link,$filtr_opf);
   $html_control=getControlsHtml($link,$filtr_Contols);
 
-  $select_obl=getListObl($link, $filtr_Obl);
-  $select_ray=getListRay($link, $filtr_Obl,$filtr_Ray);
-  $select_ter=getListTeritorys($link, $filtr_Obl,$filtr_Ray,$filtr_Ter);
+  echo $html_control;
+
+  $select_obl_f=getListObl($link, $filtr_OblF);
+  $select_ray_f=getListRay($link, $filtr_OblF,$filtr_RayF);
+  $select_ter_f=getListTeritorys($link, $filtr_OblF,$filtr_RayF,$filtr_TerF);
+
+  $select_obl_u=getListObl($link, $filtr_OblU);
+  $select_ray_u=getListRay($link, $filtr_OblU,$filtr_RayU);
+  $select_ter_u=getListTeritorys($link, $filtr_OblU,$filtr_RayU,$filtr_TerU);
+
+  countChild($link);
 
   require_once('template/picks_organizations.php');
 ?>
