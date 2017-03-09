@@ -142,11 +142,13 @@
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtInsert);
           mysqli_stmt_close($stmtUpdate);
+          countChild($link);
           $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
           $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
           $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
           $ERROR_MSG.= "Скрипт виконувався протягом ".calcTimeRun($start,microtime(true))."<br>";
           dbase_close($db);
+
         }
       }
     }
@@ -239,6 +241,7 @@
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtInsert);
           mysqli_stmt_close($stmtUpdate);
+          countChild($link);
           $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
           $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
           $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
@@ -321,6 +324,7 @@
           mysqli_stmt_close($stmtSelect);
           mysqli_stmt_close($stmtInsert);
           mysqli_stmt_close($stmtUpdate);
+          countChild($link);
           $ERROR_MSG.=" Записів оновлено ".$countUpdate." . <br>";
           $ERROR_MSG.= " Додано записів ".$countInsert." . <br>";
           $ERROR_MSG.= " З файлу зитано  ".$rowCount." записів. <br>";
@@ -377,6 +381,7 @@
       }
     }
   }
+  
   closeConnect($link);
   require_once('template/load_arm.php');
 ?>

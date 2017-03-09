@@ -426,3 +426,33 @@
       document.getElementById("f_"+i).removeAttribute('checked');
     }
   }
+
+  function exportElementd() {
+      var forms= new FormData(document.getElementById("adminForm"));
+        forms.append("mode",'export');
+      //  showWindowLoad(1);
+        /*var myVar = setInterval(function() {
+            ls_ajax_progress();
+        }, 1000);*/
+        $.ajax({
+           type: "POST",
+           url: "script/process_picks_organizations.php",
+           data: forms,
+           scriptCharset:"CP1251",
+           processData: false,
+           contentType: false ,
+           success: function(data){
+            var res = JSON.parse(data);
+            console.log(res);
+          /*  updateTable(res.table);
+            document.getElementById("paginatorT").innerHTML=res.paginator;
+            var str="";
+            str+=res.ERROR_MSG+"<br>";
+            str+=res.INFO_MSG+"<br>";
+            printErr(str);
+            clearInterval(myVar);
+            cleanImport();
+            closeWindowLoad();*/
+           }
+        });
+  }

@@ -91,7 +91,7 @@
       	</div>
 
         <h2>Перегляд вибірки підприємств по параметрам  </h2>
-        <form name="adminForm" action="picks_organizations.php" method="post" enctype="multipart/form-data">
+        <form name="adminForm" id="adminForm" action="picks_organizations.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" />
           <input type="hidden" name="limitstart" value="0"/>
           <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
@@ -412,36 +412,43 @@
             <div class="clr"></div>
             <p align="center">
               <input type="button" value="Пошук" class="button" onclick="submitForm('find_department');" />
+              <input type="button" value="Експорт" class="button" onclick="exportElementd();" />
             </p>
 
           </div>
           <div class="clr"></div>
           <div id="lo"></div>
 
-        <? if(!isset($ListResult)){ ?>
-          <div id="table_block" class="prokrutka"  align="center">
-            <table id="table_id" >
-              <tr>
-                <? foreach ($headTable as $key => $value) {
-                  echo "<th>".$value."</th>";
-                } ?>
-              </tr>
+        <? if(isset($ListResult)){
+            if(count($ListResult)>0){?>
+              <div id="table_block" class="prokrutka"  align="center">
+                <table id="table_id" >
+                  <tr>
+                    <? foreach ($headTable as $key => $value) {
+                      echo "<th>".$value."</th>";
+                    } ?>
+                  </tr>
 
-            <? foreach ($ListResult as $key => $value) {
-                echo "<tr id=\"".$value['id']."\">";
-                echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kd"]."</a></td>";
-                echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kdmo"]."</a></td>";
-                echo "<td style =\" overflow:hidden;\" >".$value["da"]."</td>";
-                echo "<td style =\" overflow:hidden;\" >".$value["dl"]."</td>";
-                echo "<td style =\" overflow:hidden;\" >".$value["rnl"]."</td>";
-                echo "<td style =\" overflow:hidden;\" >".$value["types"]."</td>";
-                echo "<td style =\" overflow:hidden;\" >".$value["dep"]."</td>";
-                echo "<td style =\" overflow:hidden;\" >".$value["ad"]."</td>";
-                echo"</tr>";
-              } ?>
-            </table>
-          </div>
-        <? } ?>
+                <? foreach ($ListResult as $key => $value) {
+                    echo "<tr id=\"".$value['id']."\">";
+                    foreach ($headTable as $k => $v) {
+                      if(($k=="kd"||$k=="kdmo") && array_key_exists("kd",$headTable) && array_key_exists("kdmo",$headTable)){
+                        echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value[$k]."</a></td>";
+                      }else{
+                        echo "<td style =\" overflow:hidden;\" >".$value[$k]."</td>";
+                      }
+
+                    }
+                    echo"</tr>";
+                  } ?>
+                </table>
+              </div>
+        <? }else{
+              echo "<div id='errorMes'>"
+                ."<p class=\"error\">По заданим умовам не знайдено ні одного запису! </p>
+                .</div>";
+            }
+          } ?>
         </form>
      </div>
 
