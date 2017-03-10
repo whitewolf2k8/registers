@@ -1,9 +1,6 @@
 <?
   require_once('../../lib/start.php');
 
-  print_r($_POST);
-
-
   $filtr_kd=isset($_POST['kd']) ? stripslashes($_POST['kd']) : '';
   $filtr_kdmo=isset($_POST['kdmo']) ? stripslashes($_POST['kdmo']) : '';
 
@@ -26,7 +23,7 @@
   $filtr_TerU=isset($_POST['ter_select_1']) ? $_POST['ter_select_1'] : '';
 
   $filtr_flag=isset($_POST['flag_group']) ? $_POST['flag_group'] : '';
-  $filtr_opf=isset($_POST['opf_S']) ? $_POST['opf_S'] : array('');
+  $filtr_opf=isset($_POST['opf_S']) ? $_POST['opf_S'] : array();
 
   if($filtr_flag!="" && in_array("3",$filtr_flag))
   {
@@ -100,8 +97,8 @@
           $filds[0][]="t1.dl";
         break;
         case 'kise':
-          $headTable["kise"]="Секто <br> економіки";
-          $filds[0][]="t1.nu";
+          $headTable["kice"]="Сектор <br> економіки";
+          $filds[0][]="t1.kice";
         break;
         case 'iz':
           $headTable["iz"]="Іноземний <br> засновник";
@@ -198,12 +195,12 @@
         break;
         case 'pr':
           $headTable["pr"]="Тип змін";
-          $filds[]="t1.pr";
+          $filds[0][]="t1.pr";
         break;
       }
     }
   }
-
+  $filds[0][]="t1.id";
 $where = array();
 
   if($filtr_kd!=""){
@@ -221,10 +218,14 @@ $where = array();
   }
 
   if($filtr_dateDelS!=""){
-    $where[]=" t1.dl >= ".dateToStrFormat($filtr_dateDelS)." ";
+    $where[]=" t1.dl >= ".dateToStrFormat($filtr_dateDelS)."  ";
   }
   if($filtr_dateDelE!=""){
     $where[]=" t1.dl <= ".dateToStrFormat($filtr_dateDelE)." ";
+  }
+
+  if($filtr_dateDelS!="" || $filtr_dateDelE!="" ){
+    $where[]=" t1.dl > 0 ";
   }
 
   if($filtr_Contols!=""){
@@ -278,7 +279,7 @@ $where = array();
 
   if($filtr_flag!="" && in_array("1",$filtr_flag))
   {
-    $where[]= "((select count(b.kd) from `organizations` b where b.kdg = t1.kd) > 0)";
+    $where[]= " t1.countChild>0";
   }
 
   if($filtr_flag!="" && in_array("2",$filtr_flag))
@@ -313,53 +314,68 @@ $where = array();
     }
   }
 
-
-
-  //print_r($filtr_dateReS);
-
-
+  if(count($filtr_opf)>0){
+    $str_opf=array();
+    foreach ($filtr_opf as $key => $value) {
+      if($value!=0){
+        $str_opf[]=$value;
+      }
+    }
+    $str = (count($str_opf) ? implode( ' , ', $str_opf ) : '' );
+    if($str!=""){
+      $where[]=" t1.pf in (".$str.")";
+    }
+  }
 
   $whereStrPa = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
 
-  $qeruStrPaginathion="SELECT COUNT(t1.id) as resC FROM `organizations` as t1  "
-    ." left join  `actual_address`  as t2 on t1.id=t2.id_org"
-    ." left join  `acts` as t3 on t3.org=t1.id ".$whereStrPa;
+  $qeruStrPaginathion="SELECT COUNT(DISTINCT t1.id) as resC FROM `organizations` as t1  "
+    ." left join  `actual_address`  as t2 on t2.id_org=t1.id"
+    ." left join  `acts` as t3 on t1.id=t3.org ".$whereStrPa;
 
-  //echo $qeruStrPaginathion;
   $resultPa = mysqli_query($link,$qeruStrPaginathion);
   if($resultPa){
     $r=mysqli_fetch_array($resultPa, MYSQLI_ASSOC);
     $rowCount=$r['resC'];
-    echo "<br> Count=".$rowCount."<br>";
     mysqli_free_result($resultPa);
   }
 
   if($rowCount>0){
       $pagination.=getPaginator($rowCount,$paginathionLimit,$paginathionLimitStart);
   }
-  $whereStr = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+
+  $fildStr = ( count( $filds[0] ) ?implode( ' , ',   $filds[0] ) : '' );
+  $whereStr = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' )." GROUP BY t1.id";
   if($paginathionLimit!=0 ){
 
     $whereStr.=' LIMIT '.$paginathionLimitStart.','.$paginathionLimit;
   }
 
+  $qeruStr="SELECT ".$fildStr." FROM `organizations` as t1"
+    ." left join  `actual_address`  as t2 on t2.id_org=t1.id"
+    ." left join  `acts` as t3 on t1.id=t3.org ".$whereStr;
 
-  $qeruStr="SELECT".$fild." from `organizations` as t1, ";
-
-  $qeruStr="SELECT ".$strFild." FROM `organizations` as t1"
-    ." left join  organizations as organ on organ.id=ac.org".$whereStr;
-
-  echo $qeruStr;
   $result = mysqli_query($link,$qeruStr);
   if($result){
     $ListResult=array();
     while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-      $row["da"]=dateToDatapiclerFormat($row["da"]);
-      $row["dl"]=dateToDatapiclerFormat($row["dl"]);
-      $ListResult[]=$row+array('types' =>getTypeAct($typeAct,$row['act']),'dep'=>getDepartmentNu($link,$row['department']) );
+      if(count($filds[1])>0){
+        foreach ($filds[1] as $key => $value) {
+          if($value=="n_vdf10"){
+            $row[$value]=getKvedName($link,$row[substr($value, 2)]);
+          }else{
+            $row[$value]=getKvedName($link,$row[substr($value, 1)]);
+          }
+        }
+      }
+      $row["kdg"]=(($row["kdg"]>0)?$row["kdg"]:"- - - - -");
+      $ListResult[]=$row;
     }
     mysqli_free_result($result);
   }
+
+
+
 
 
   $list_department=getListDepatment($link,$filtr_dep_id);
@@ -369,8 +385,6 @@ $where = array();
   $html_opf=getOpfHtml($link,$filtr_opf);
   $html_control=getControlsHtml($link,$filtr_Contols);
 
-  echo $html_control;
-
   $select_obl_f=getListObl($link, $filtr_OblF);
   $select_ray_f=getListRay($link, $filtr_OblF,$filtr_RayF);
   $select_ter_f=getListTeritorys($link, $filtr_OblF,$filtr_RayF,$filtr_TerF);
@@ -378,8 +392,6 @@ $where = array();
   $select_obl_u=getListObl($link, $filtr_OblU);
   $select_ray_u=getListRay($link, $filtr_OblU,$filtr_RayU);
   $select_ter_u=getListTeritorys($link, $filtr_OblU,$filtr_RayU,$filtr_TerU);
-
-  countChild($link);
 
   require_once('template/picks_organizations.php');
 ?>

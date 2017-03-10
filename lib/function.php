@@ -411,6 +411,19 @@
 			return $result;
 		}
 
+		function getKvedName($link,$kod)
+		{
+			$result="";
+			$kod=delSpace($kod);
+			if($kod!=""){
+				$res = mysqli_query($link,"SELECT nu FROM `kved10` WHERE `kod` like('".$kod."')");
+				$row = mysqli_fetch_assoc($res);
+
+				$result.=$row["nu"];
+				mysqli_free_result($res);
+			}
+			return $result;
+		}
 
 
 		function getKisedHtml($link,$arrKved)
@@ -435,7 +448,6 @@
 			$fields = explode(",", $arrContol);
 			foreach ($fields as $key => $value) {
 				$kd =substr($value,8);
-				echo "<br>".$kd;
 				if($kd!=""){
 					$res = mysqli_query($link,"SELECT kd, nu FROM `managment_department` WHERE `kd`=".$kd);
 					$row = mysqli_fetch_assoc($res);
@@ -520,13 +532,17 @@
 			$strCount="select count(kd) as c from `organizations`where kdg = ".$row["kd"];
 			$resultCount = mysqli_query($link,$strCount);
 		    $r=mysqli_fetch_array($resultCount, MYSQLI_ASSOC);
-		    echo "<br> Count=".$r['c']."<br>";
-				if($r['c']>0){
+		 		if($r['c']>0){
 					mysqli_query($link,"UPDATE `organizations` SET `countChild`=".$r['c']." WHERE `id`=".$row['id']);
 				}
 		    mysqli_free_result($resultCount);
 		}
 		mysqli_free_result($result);
+	}
+
+	function generateFileName()
+	{
+		return date("YmdHis");
 	}
 
 ?>
