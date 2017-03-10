@@ -20,7 +20,6 @@
 
   $action=$_POST['action'];
 
-
   if($action=="add"){
     $kodObl=$_POST['ob'];
     $kodRay=$_POST['ra'];

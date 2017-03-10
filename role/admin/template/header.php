@@ -75,24 +75,15 @@
       <li><a href="act_show.php">АКТ пошук</a></li>
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">ПОМОЩЬ ФОРУМУ</span></a>
+  <li class="top"><a href="" id="" class="top_link"><span class="down">Доукументація</span></a>
       <ul class="sub">
-      <li><a href="ссылка">Вакансии</a></li>
-      <li><a href="ссылка">Продвижение</a></li>
-      <li><a href="">Финансовая помощь</a></li>
+        <li><a href="ссылка">Про систему</a></li>
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">ВАЖНОЕ</span></a>
-      <ul class="sub">
-      <li><a href="ссылка">Объявления</a></li>
-      <li><a href="ссылка">Конкурсы</a></li>
-      <li><a href="ссылка">Новости</a></li>
-      </ul>
+  <li class="top_l">
+    <a href="../../lib/logout.php" class="top_li">
+      <span>Вихід</span>
+    </a>
   </li>
-    <li class="top_l">
-      <a href="../../lib/logout.php" class="top_li">
-        <span>Вихід</span>
-      </a>
-    </li>
-  </ul>
+</ul>
 </div>
