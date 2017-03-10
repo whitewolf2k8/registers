@@ -1,4 +1,4 @@
-<? header('Content-type: text/html; charset=windows-1251');
+<? header('Content-type: text/html; Cset=windows-1251');
   include_once('../../../lib/start.php');
   include_once('../../../lib/function.php');
 
@@ -176,7 +176,6 @@
 
 
   if($action=="export"){
-
     $filtr_kd=isset($_POST['kd']) ? stripslashes($_POST['kd']) : '';
     $filtr_kdmo=isset($_POST['kdmo']) ? stripslashes($_POST['kdmo']) : '';
 
@@ -201,6 +200,8 @@
     $filtr_flag=isset($_POST['flag_group']) ? $_POST['flag_group'] : '';
     $filtr_opf=isset($_POST['opf_S']) ? $_POST['opf_S'] : array();
 
+    $EROR_MES="";
+
     if($filtr_flag!="" && in_array("3",$filtr_flag))
     {
       $filtr_arr_typse_act=isset($_POST['types']) ? $_POST['types'] : array(0);
@@ -218,87 +219,87 @@
       foreach ($arrfild as $key => $value) {
         switch ($value) {
           case 'kd':
-            $headTable["kd"]['type']="NUMERIC";
+            $headTable["kd"]['type']="N";
             $headTable["kd"]['len']=8;
             $filds[0][]="t1.kd";
           break;
           case 'kdmo':
-            $headTable["kdmo"]['type']="NUMERIC";
+            $headTable["kdmo"]['type']="N";
             $headTable["kdmo"]['len']=12;
             $filds[0][]="t1.kdmo";
           break;
           case 'nu':
-            $headTable["nu"]['type']="CHAR";
+            $headTable["nu"]['type']="C";
             $headTable["nu"]["len"]=250;
             $filds[0][]="t1.nu";
           break;
           case 'pk':
-            $headTable["pk"]['type']="CHAR";
+            $headTable["pk"]['type']="C";
             $headTable["pk"]['len']=45;
             $filds[0][]="t1.pk";
           break;
           case 'kdg':
-            $headTable["kdg"]['type']="NUMERIC";
+            $headTable["kdg"]['type']="N";
             $headTable["kdg"]['len']=8;
             $filds[0][]="t1.kdg";
           break;
           case 'te':
-            $headTable["te"]['type']="NUMERIC";
+            $headTable["te"]['type']="N";
             $headTable["te"]['len']=10;
             $filds[0][]="t1.te";
           break;
           case 'tea':
-            $headTable["tea"]["type"]="NUMERIC";
+            $headTable["tea"]["type"]="N";
             $headTable["tea"]["len"]=5;
             $filds[0][]="t1.tea";
           break;
           case 'ad':
-            $headTable["ad"]["type"]="CHAR";
+            $headTable["ad"]["type"]="C";
             $headTable["ad"]["len"]=150;
             $filds[0][]="t1.ad";
           break;
           case 'pi':
-            $headTable["pi"]["type"]="NUMERIC";
+            $headTable["pi"]["type"]="N";
             $headTable["pi"]["len"]=6;
             $filds[0][]="t1.pi";
           break;
           case 'pf':
-            $headTable["pf"]['type']="NUMERIC";
+            $headTable["pf"]['type']="N";
             $headTable["pf"]['len']=3;
             $filds[0][]="t1.pf";
           break;
           case 'gu':
-            $headTable["gu"]['type']="NUMERIC";
+            $headTable["gu"]['type']="N";
             $headTable["gu"]['len']=5;
             $filds[0][]="t1.gu";
           break;
           case 'uo':
-            $headTable["uo"]['type']="NUMERIC";
+            $headTable["uo"]['type']="N";
             $headTable["uo"]['len']=1;
             $filds[0][]="t1.uo";
           break;
           case 'dl':
-            $headTable["dl"]['type']="NUMERIC";
+            $headTable["dl"]['type']="N";
             $headTable["dl"]['len']=8;
             $filds[0][]="t1.dl";
           break;
           case 'kise':
-            $headTable["kice"]['type']="NUMERIC";
+            $headTable["kice"]['type']="N";
             $headTable["kice"]['len']=4;
             $filds[0][]="t1.kice";
           break;
           case 'iz':
-            $headTable["kice"]['type']="NUMERIC";
+            $headTable["kice"]['type']="N";
             $headTable["kice"]['len']=4;
             $filds[0][]="t1.iz";
           break;
           case 'e1_10':
-            $headTable["e1_10"]["type"]="CHAR";
+            $headTable["e1_10"]["type"]="C";
             $headTable["e1_10"]['len']=5;
             $filds[0][]="t1.e1_10";
           break;
           case 'ne1_10':
-            $headTable["ne1_10"]["type"]="CHAR";
+            $headTable["ne1_10"]["type"]="C";
             $headTable["ne1_10"]['len']=250;
             $filds['1'][]="ne1_10";
             if(!array_key_exists('e1_10', $headTable)){
@@ -306,12 +307,12 @@
             }
           break;
           case 'e2_10':
-            $headTable["e2_10"]["type"]="CHAR";
+            $headTable["e2_10"]["type"]="C";
             $headTable["e2_10"]["len"]=5;
             $filds[0][]="t1.e2_10";
           break;
           case 'ne2_10':
-            $headTable["ne2_10"]["type"]="CHAR";
+            $headTable["ne2_10"]["type"]="C";
             $headTable["ne2_10"]["len"]=250;
             $filds[1][]="ne2_10";
             if(!array_key_exists('e2_10', $headTable)){
@@ -319,12 +320,12 @@
             }
           break;
           case 'e3_10':
-            $headTable["e3_10"]["type"]="CHAR";
+            $headTable["e3_10"]["type"]="C";
             $headTable["e3_10"]["len"]=5;
             $filds[0][]="t1.e3_10";
           break;
           case 'ne3_10':
-            $headTable["ne3_10"]["type"]="CHAR";
+            $headTable["ne3_10"]["type"]="C";
             $headTable["ne3_10"]["len"]=250;
             $filds[1][]="ne3_10";
             if(!array_key_exists('e3_10', $headTable)){
@@ -332,12 +333,12 @@
             }
           break;
           case 'e4_10':
-            $headTable["e4_10"]["type"]="CHAR";
+            $headTable["e4_10"]["type"]="C";
             $headTable["e4_10"]["len"]=5;
             $filds[0][]="t1.e4_10";
           break;
           case 'ne4_10':
-            $headTable["ne4_10"]["type"]="CHAR";
+            $headTable["ne4_10"]["type"]="C";
             $headTable["ne4_10"]["len"]=250;
             $filds[1][]="ne4_10";
             if(!array_key_exists('e4_10', $headTable)){
@@ -345,12 +346,12 @@
             }
           break;
           case 'e5_10':
-            $headTable["e5_10"]["type"]="CHAR";
+            $headTable["e5_10"]["type"]="C";
             $headTable["e5_10"]["len"]=5;
             $filds[0][]="t1.e5_10";
           break;
           case 'ne5_10':
-            $headTable["ne5_10"]["type"]="CHAR";
+            $headTable["ne5_10"]["type"]="C";
             $headTable["ne5_10"]["len"]=250;
             $filds[1][]="ne5_10";
             if(!array_key_exists('e5_10', $headTable)){
@@ -358,12 +359,12 @@
             }
           break;
           case 'e6_10':
-            $headTable["e6_10"]["type"]="CHAR";
+            $headTable["e6_10"]["type"]="C";
             $headTable["e6_10"]["len"]=5;
             $filds[0][]="t1.e6_10";
           break;
           case 'ne6_10':
-            $headTable["ne6_10"]["type"]="CHAR";
+            $headTable["ne6_10"]["type"]="C";
             $headTable["ne6_10"]["len"]=250;
             $filds[1][]="ne6_10";
             if(!array_key_exists('e6_10', $headTable)){
@@ -371,12 +372,12 @@
             }
           break;
           case 'vdf10':
-            $headTable["vdf10"]["type"]="CHAR";
+            $headTable["vdf10"]["type"]="C";
             $headTable["vdf10"]["len"]=5;
             $filds[0][]="t1.vdf10";
           break;
           case 'n_vdf10':
-            $headTable["n_vdf10"]["type"]="CHAR";
+            $headTable["n_vdf10"]["type"]="C";
             $headTable["n_vdf10"]["len"]=250;
             $filds[1][]="n_vdf10";
             if(!array_key_exists('vdf10', $headTable)){
@@ -384,22 +385,22 @@
             }
           break;
           case 'rn':
-            $headTable["rn"]["type"]="CHAR";
+            $headTable["rn"]["type"]="C";
             $headTable["rn"]["len"]=17;
             $filds[0][]="t1.rn";
           break;
           case 'dr':
-            $headTable["dr"]['type']="NUMERIC";
+            $headTable["dr"]['type']="N";
             $headTable["dr"]['len']=8;
             $filds[0][]="t1.dr";
           break;
           case 'dz':
-            $headTable["dz"]['type']="NUMERIC";
+            $headTable["dz"]['type']="N";
             $headTable["dz"]['len']=8;
             $filds[0][]="t1.dz";
           break;
           case 'pr':
-            $headTable["pr"]['type']="NUMERIC";
+            $headTable["pr"]['type']="N";
             $headTable["pr"]['len']=1;
             $filds[0][]="t1.pr";
           break;
@@ -533,23 +534,6 @@
       }
     }
 
-    $whereStrPa = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
-
-    $qeruStrPaginathion="SELECT COUNT(DISTINCT t1.id) as resC FROM `organizations` as t1  "
-      ." left join  `actual_address`  as t2 on t2.id_org=t1.id"
-      ." left join  `acts` as t3 on t1.id=t3.org ".$whereStrPa;
-
-    $resultPa = mysqli_query($link,$qeruStrPaginathion);
-    if($resultPa){
-      $r=mysqli_fetch_array($resultPa, MYSQLI_ASSOC);
-      $rowCount=$r['resC'];
-      mysqli_free_result($resultPa);
-    }
-    $whereStr = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' )." GROUP BY t1.id";
-    $qeruStr="SELECT ".$fildStr." FROM `organizations` as t1"
-      ." left join  `actual_address`  as t2 on t2.id_org=t1.id"
-      ." left join  `acts` as t3 on t1.id=t3.org ".$whereStr;
-
     $fildStr = ( count( $filds[0] ) ?implode( ' , ',   $filds[0] ) : '' );
     $whereStr = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' )." GROUP BY t1.id";
 
@@ -558,24 +542,63 @@
       ." left join  `acts` as t3 on t1.id=t3.org ".$whereStr;
 
     $result = mysqli_query($link,$qeruStr);
+
     if($result){
-      $ListResult=array();
-      while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        if(count($filds[1])>0){
-          foreach ($filds[1] as $key => $value) {
-            if($value=="n_vdf10"){
-              $row[$value]=getKvedName($link,$row[substr($value, 2)]);
-            }else{
-              $row[$value]=getKvedName($link,$row[substr($value, 1)]);
-            }
+      if(mysqli_num_rows($result)>0){
+
+        $def = array();
+        foreach ($headTable as $key => $value) {
+          if($value['type']=="N"){
+            $def[]= array($key,$value['type'],$value["len"],0);
+          }else{
+            $def[]= array($key,$value['type'],$value["len"]);
           }
         }
-        $row["kdg"]=(($row["kdg"]>0)?$row["kdg"]:"- - - - -");
-        $ListResult[]=$row;
+        $file_name=generateFileName();
+        $db=dbase_create('../../../files/unload/'.$file_name.'.dbf', $def);
+        if (!$db) {
+          $ERROR_MSG.="Не можливо створити базу даних <br>";
+          setMaxSession("");
+        }else{
+          setMaxSession(mysqli_num_rows($result));
+          $count=0;
+          while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            if(count($filds[1])>0){
+              foreach ($filds[1] as $key => $value) {
+                if($value=="n_vdf10"){
+                  $row[$value]=getKvedName($link,$row[substr($value, 2)]);
+                }else{
+                  $row[$value]=getKvedName($link,$row[substr($value, 1)]);
+                }
+              }
+            }
+            $row_arr=array();
+            foreach ($headTable as $key => $value) {
+              if($value['type']=="C"){
+                $row_arr[]=mb_convert_encoding($row[$key], "cp866", "windows-1251");
+              }else{
+                $row_arr[]=$row[$key];
+              }
+            }
+            dbase_add_record($db,$row_arr);
+            $count+=1;
+            session_start();
+            $_SESSION['ls_sleep_test'] =$count;
+            session_write_close();
+          }
+          dbase_close($db);
+          mysqli_free_result($result);
+        }
+      }else {
+        setMaxSession("");
+        $ERROR_MSG.="По заданим параметрам не знайдено ні одного підприємства <br>";
       }
-      mysqli_free_result($result);
     }
-    print_r($ListResult);
+    $res=array();
+    $res["er"]=$ERROR_MSG;
+    $res["file"]=((isset($file_name))?$file_name:"");
+    echo php2js($res);
   }
+
   closeConnect($link);
 ?>

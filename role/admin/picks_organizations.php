@@ -355,8 +355,6 @@ $where = array();
     ." left join  `actual_address`  as t2 on t2.id_org=t1.id"
     ." left join  `acts` as t3 on t1.id=t3.org ".$whereStr;
 
-    echo $qeruStr;
-
   $result = mysqli_query($link,$qeruStr);
   if($result){
     $ListResult=array();

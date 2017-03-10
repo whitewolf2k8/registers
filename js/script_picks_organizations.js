@@ -50,11 +50,14 @@
     }
   }
 
-  function printErr(str) {
+  function printErr(str,id) {
+    if (id === undefined) {
+      id = "errorM";
+    }
     if(str==""){
-       document.getElementById("errorM").innerHTML='';
+       document.getElementById(id).innerHTML='';
     }else{
-      document.getElementById("errorM").innerHTML='<p class="error">'+str+'</p>';
+      document.getElementById(id).innerHTML='<p class="error">'+str+'</p>';
     }
   }
 
@@ -123,14 +126,6 @@
     }
     for(var i=0;i<arrText.length;i++){
       arrText[i].disabled = flag;
-    }
-  }
-
-  function printErr(str) {
-    if(str===""){
-       document.getElementById("errorM").innerHTML='';
-    }else{
-      document.getElementById("errorM").innerHTML='<p class="error">'+str+'</p>';
     }
   }
 
@@ -428,12 +423,16 @@
   }
 
   function exportElementd() {
+    document.getElementById("kveds").value=getKveds();
+    document.getElementById("kises").value=getKises();
+    document.getElementById("controlArr").value=getControls();
+
       var forms= new FormData(document.getElementById("adminForm"));
         forms.append("mode",'export');
-      //  showWindowLoad(1);
-        /*var myVar = setInterval(function() {
+        showWindowLoad(1);
+        var myVar = setInterval(function() {
             ls_ajax_progress();
-        }, 1000);*/
+        }, 1000);
         $.ajax({
            type: "POST",
            url: "script/process_picks_organizations.php",
@@ -443,16 +442,97 @@
            contentType: false ,
            success: function(data){
             var res = JSON.parse(data);
-            console.log(res);
-          /*  updateTable(res.table);
-            document.getElementById("paginatorT").innerHTML=res.paginator;
-            var str="";
-            str+=res.ERROR_MSG+"<br>";
-            str+=res.INFO_MSG+"<br>";
-            printErr(str);
             clearInterval(myVar);
-            cleanImport();
-            closeWindowLoad();*/
+            if(res.er!=""){
+              printErr('',"errorMes");
+              printErr(res.er,"errorMes");
+              console.log(res.er);
+            }else{
+
+              printErr('',"errorMes");
+              openUrl('script/unloadDocuments.php',{file:res.file});
+            }
+
+            closeWindowLoad();
            }
         });
   }
+
+  function openUrl(url, post)
+   {
+       if ( post ) {
+           var form = $('<form/>', {
+               action: url,
+               method: 'POST',
+               target: '_blank',
+               style: {
+                  display: 'none'
+               }
+           });
+           for(var key in post) {
+               form.append($('<input/>',{
+                   type: 'hidden',
+                   name: key,
+                   value: post[key]
+               }));
+           }
+           form.appendTo(document.body); // Необходимо для некоторых браузеров
+           form.submit();
+
+       } else {
+           window.open( url, '_blank' );
+       }
+  }
+
+  function ls_ajax_progress() {
+  		$.ajax({
+  				type: 'POST',
+  				url: "..\\..\\lib\\readLoad.php",
+  				success: function(data) {
+            $(".knob").val(Math.round(data));
+            $(".knob").trigger('change');
+  				},
+  		});
+  }
+
+
+  function showWindowLoad(type) {
+    document.getElementById("lo").innerHTML='<div id="preloader"></div>';
+    if(type>0){
+        document.getElementById('centered').removeAttribute("hidden");
+    }
+  }
+
+  function closeWindowLoad() {
+    document.getElementById("lo").innerHTML='';
+    document.getElementById('centered').setAttribute("hidden","");
+  }
+  $(function() {
+       $(".knob").knob();
+       var val,up=0,down=0,i=0
+           ,$idir = $("div.idir")
+           ,$ival = $("div.ival")
+           ,incr = function() { i++; $idir.show().html("+").fadeOut(); $ival.html(i); }
+           ,decr = function() { i--; $idir.show().html("-").fadeOut(); $ival.html(i); };
+       $("input.infinite").knob(
+            {
+               'min':0
+               ,'max':20
+               ,'stopper':false
+               ,'change':function(v){
+                           if(val>v){
+                               if(up){
+                                  decr();
+                                  up=0;
+                               }else{up=1;down=0;}
+                            }else{
+                              if(down){
+                                incr();
+                                 down=0;
+                               }else{down=1;up=0;}
+                           }
+                           val=v;
+              }
+            }
+      );
+  });

@@ -540,4 +540,9 @@
 		mysqli_free_result($result);
 	}
 
+	function generateFileName()
+	{
+		return date("YmdHis");
+	}
+
 ?>
