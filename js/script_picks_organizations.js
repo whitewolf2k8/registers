@@ -240,7 +240,7 @@
     {
       $.ajax({
        type: "POST",
-       url: "script\\process_picks_organizations.php",
+       url: "script\\processAct.php",
        data: {mode:"getRay",obl:selected},
        scriptCharset: "CP1251",
        success: function(data){

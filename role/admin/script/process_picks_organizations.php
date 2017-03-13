@@ -1,4 +1,4 @@
-<? header('Content-type: text/html; Cset=windows-1251');
+<? header('Content-type: text/html; charset=windows-1251');
   include_once('../../../lib/start.php');
   include_once('../../../lib/function.php');
 
