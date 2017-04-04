@@ -381,7 +381,7 @@
       }
     }
   }
-  
+
   closeConnect($link);
   require_once('template/load_arm.php');
 ?>

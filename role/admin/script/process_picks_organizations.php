@@ -596,7 +596,7 @@
     }
     $res=array();
     $res["er"]=iconv("windows-1251","utf-8",$ERROR_MSG);
-    $res["file"]=((isset($file_name))?$file_name:"");
+    $res["file"]=((isset($file_name))?$file_name.".dbf":"");
     echo php2js($res);
   }
 

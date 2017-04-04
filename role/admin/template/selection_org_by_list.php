@@ -10,6 +10,9 @@
 
 <script src="../../../js/jquery-1.7.2.js"></script>
 <script src="../../../js/scripts.js"></script>
+<script src="../../../js/knob.js"></script>
+<script src="../../../js/scripts.js"></script>
+<script src="../../../js/script_select_org_by_list.js"></script>
 <script type="text/javascript">
 function submitForm(mode) {
   correct = true;
@@ -29,7 +32,6 @@ function submitForm(mode) {
     form.submit();
   }
 }
-
 </script>
 
 
@@ -48,59 +50,59 @@ function submitForm(mode) {
         <?php if ($ERROR_MSG != '') echo '<p class="error">'.$ERROR_MSG.'</p>';?>
         <h2>Вибірка підприємств по файлу</h2>
 
-        <form name="adminForm" action="load_kved.php" method="post" enctype="multipart/form-data">
+        <form id="adminForm" name="adminForm" action="selection_org_by_list.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" />
           <input type="hidden" name="limitstart" value="0"/>
           <input type="hidden" name="limit" <? echo "value='".$paginathionLimit."'"; ?> />
 
-    			<div class="item_blue" style="float:left;margin-left:15%; width:300px;">
-            <h2>Іморт файлу АРМ</h2>
+          <div id="centered" hidden>
+            <input class="knob"   readonly  data-width="150" data-displayPrevious=true data-fgColor="#0d932e" data-skin="tron" data-thickness=".2" value="0">
+          </div>
+
+          <div id='errorM' style='display="none";margin-left:15%;'>	</div>
+    			<div class="item_blue" style="float:left;margin-left:40%; width:320px;">
+            <h2>Вибір файлу з підприємствами</h2>
             <p>Оберіть файл з розширення dbf</p>
             <p><input type="file" id="fileImp"  accept=".dbf" name="fileImp" style="width:256px" /></p>
             <p align="center">
-              <input type="button" value="Імпортувати" class="button" onclick="submitForm('import')" />
+              <input type="button" id="btnLoad" value="Зчитати файл" class="button" onclick="checkFile();" />
+              <input type="button" id="btnCleanForm" value="Очистити форму" class="button" disabled="disabled"  onclick="cleanForm();" />
             </p>
         	</div>
 
-          <div class="item_blue" style="float:right;margin-right:15%; width:320px;">
-  	        <h2>Пошук по довыднику КВЕД 2010</h2>
+          <div class="item_blue" id="fildsDiv" style="float:left;margin-left:33%; width:520px;visibility: hidden;" >
+            <h2 style="text-align:center; cursor: pointer"  onclick="visibleFild();">Перелік полів для вивантаження. </h2>
+            <h2 style="text-align:center;" id="counts" ></h2>
+            <div id="unvis">
+              <div id="fild_d">
+              </div>
+    	        <div class="clr"></div>
+              <p align="center">
+    	          <input type="button" value="Обрати всі " class="button" onclick="checkAllFild()" />
+                <input type="button" value="Зняти всі" class="button" onclick="unCheckAllFild()" />
+    	        </p>
+            </div>
+            <h2 style="text-align:center;" id="ErrrFild" ></h2>
+            <div id="fild_er"></div>
+            <h2 style="text-align:center;" id="NotFindFild" ></h2>
+            <div id="fild_not_f" ></div>
             <p align="center">
-              <p>
-            	   <div class="navigation_left">Пошук по коду КВЕД:</div>
-                 <div class="navigation_right"><input type="text" name="filtr_kved_kod" value="<?php echo $filtr_kved_kod; ?>" style="width:130px" /></div>
-              </p>
-               <div class="clr"></div>
-              <p>
-            	   <div class="navigation_left">Пошук по категорії КВЕД:</div>
-                 <div class="navigation_right"><select name="filtr_kved_kategory" style="width:130px;"><?php echo $list_kved_kategory; ?></select></div>
-              </p>
+              <input name="typeF" type="radio" value="dbf" checked > .dbf
+              <input name="typeF" type="radio" value="exel"> .xls
+              <input type="button" value="Експорт" class="button" onclick="exportTable();" />
             </p>
-              <div class="clr"></div>
-            <p align="center">
-  	          <input type="button" value="Пошук" class="button" onclick="submitForm('')" />
-  	        </p>
   	    	</div>
+          <div id="lo"></div>
           <div class="clr"></div>
           <div id="lo"></div>
 
         <? if(isset($ListResult)){ ?>
           <div align="center">
-            <table>
-              <tr>
-                <th>Категорія</th>
-                <th>Код</th>
-                <th>Назва</th>
-              </tr>
-            <? foreach ($ListResult as $key => $value) {
-              # code...
-                echo "<tr>";
-                echo "<td>".$value["sek"]."</td>";
-                echo "<td>".$value["kod"]."</td>";
-                echo "<td>".$value["nu"]."</td>";
-                echo"</tr>";
-              }
-        } ?>
+            <table id="tableOutput">
+
+
           </table>
+        <? } ?>
         </div>
 
       </form>
