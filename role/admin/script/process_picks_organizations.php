@@ -1,4 +1,4 @@
-<? header('Content-type: text/html; Cset=windows-1251');
+<? header('Content-type: text/html; charset=windows-1251');
   include_once('../../../lib/start.php');
   include_once('../../../lib/function.php');
 
@@ -596,7 +596,7 @@
     }
     $res=array();
     $res["er"]=iconv("windows-1251","utf-8",$ERROR_MSG);
-    $res["file"]=((isset($file_name))?$file_name:"");
+    $res["file"]=((isset($file_name))?$file_name.".dbf":"");
     echo php2js($res);
   }
 

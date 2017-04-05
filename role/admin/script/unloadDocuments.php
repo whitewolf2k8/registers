@@ -1,13 +1,13 @@
 <?
   $file=isset($_POST['file'])?$_POST['file']:"";
-  $path_file='../../../files/unload/'.$file.'.dbf';
+  $path_file='../../../files/unload/'.$file;
   if (file_exists($path_file)) {
     if (ob_get_level()) {
       ob_end_clean();
     }
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');
-    header('Content-Disposition:  attachment; filename=' .$file.".dbf");
+    header('Content-Disposition:  attachment; filename=' .$file);
     header('Content-Transfer-Encoding: binary');
     header('Expires: 0');
     header('Cache-Control: must-revalidate');
