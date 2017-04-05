@@ -328,7 +328,6 @@
       $db=dbase_create('../../../files/unload/'.$file_name.'.dbf', $def);
       if (!$db) {
           $ERROR_MSG.="Не можливо створити базу даних <br>";
-
       }else{
         //setMaxSession(mysqli_num_rows($result));
         $count=0;
@@ -359,7 +358,7 @@
         dbase_close($db);
       }
       $res=array();
-      $res["er"]=iconv("windows-1251","utf-8",$ERROR_MSG);
+      $res["er"]=$ERROR_MSG;
       $res["file"]=((isset($file_name))?$file_name.".dbf":"");
       echo php2js($res);
     }else{
