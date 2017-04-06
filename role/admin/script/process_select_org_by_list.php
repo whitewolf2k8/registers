@@ -416,8 +416,9 @@
         $_SESSION['ls_sleep_test'] =$cnt_exp;
         session_write_close();
       }
-      $objWriter->save('../../../files/unload/'.$file_name.'.xls');
 
+      $objWriter->save('../../../files/unload/'.$file_name.'.xls');
+      header_remove('Set-Cookie');
       $res=array();
       $res["er"]=iconv("windows-1251","utf-8",$ERROR_MSG);
       $res["file"]=((isset($file_name))?$file_name.".xls":"");
