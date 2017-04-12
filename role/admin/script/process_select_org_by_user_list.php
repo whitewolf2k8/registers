@@ -7,79 +7,40 @@
 
 
 
-  /*if($action=="getOrg"){
+    if($action=="getOrg"){
 
-    $kd=iconv("utf-8","windows-1251",$_POST['kd']);
-    $kdmo=iconv("utf-8","windows-1251",$_POST['kdmo']);
+      $kd=iconv("utf-8","windows-1251",$_POST['kd']);
+      $kdmo=iconv("utf-8","windows-1251",$_POST['kdmo']);
 
-    $where = array();
-    if($kd!=""){
-      $kd=ltrim($kd,'0');
-      $where[]=' `kd` = '.$kd;
+      $where = array();
+      if($kd!=""){
+        $kd=ltrim($kd,'0');
+        $where[]=' `kd` = '.$kd;
 
-    }
-
-    if($kdmo!=""){
-      $kdmo=ltrim($kdmo,'0');
-      $where[]=' `kdmo` = '.$kdmo;
-    }
-
-    $whereStr = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
-    $qeruStr="SELECT id , nu , kd, kdmo FROM `organizations` ".$whereStr;
-    $result = mysqli_query($link,$qeruStr);
-    if($result){
-      while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        $options[]=$row;
       }
-      mysqli_free_result($result);
-    }
-    echo php2js($options);
-  }
-*/
-  if($action=="getFileInformathion"){
 
-    $ERROR_MSG="";
-    if (!file_exists($tmpFile=$_FILES["fileImp"]['tmp_name'])) {
-      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
-    }else {
-      $db = dbase_open($tmpFile, 0);
-      if ($db) {
-        $filds_d=dbase_get_header_info($db);
-        $problemFild=array("notF"=>array(),"errorF"=>array());
-        $found_list=array();
-        $keyFildExist=0;
-        foreach ($filds_d as $key => $value) {
-          if(($value['name']=="KD" && $value['type']=="number"&& $value['length']==8)||($value['name']=="KDMO" && $value['type']=="number"&& $value['length']==12) ){
-            $keyFildExist=1;
-          }
-          $res = checkExistFild($fildListDb,$value);
-          if($res>=0){
-            $found_list[]=$res;
-          }else{
-            if($res==-1){
-              $problemFild['notF'][]=$value;
-            }else{
-              $problemFild['errorF'][]=$value;
-            }
-          }
+      if($kdmo!=""){
+        $kdmo=ltrim($kdmo,'0');
+        $where[]=' `kdmo` = '.$kdmo;
+      }
+
+      $whereStr = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
+      $qeruStr="SELECT id , nu , kd, kdmo FROM `organizations` ".$whereStr;
+      $result = mysqli_query($link,$qeruStr);
+      if($result){
+        while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+          $options[]=$row;
         }
-        dbase_close($db);
-      }else{
-        $ERROR_MSG .= 'При відкритті вказаного файлу сталася помилка! <br/>';
+        mysqli_free_result($result);
       }
+      echo php2js($options);
     }
-    $resultArray=array();
-    $resultArray['er']=$ERROR_MSG;
-    $resultArray['fildList']=$fildListDb;
-    $resultArray['problem']=$keyFildExist;
-    $resultArray['exist']=(isset($found_list))?$found_list:array();
-    $resultArray['promF']=(isset($problemFild))?$problemFild:array();
 
-    echo php2js($resultArray);
-  }
 
   if($action=="generationFile"){
     set_time_limit(90000);
+
+    $arrOrgId=$_POST['idList'];
     $typeFile=$_POST['typeF'];
     $ERROR_MSG="";
     $cnt_exp=0;
@@ -285,39 +246,13 @@
       }
 
     $filds[0][]="t1.id";
-
-
     $listItems=array();
-    if (!file_exists($tmpFile=$_FILES["fileImp"]['tmp_name'])) {
-      $ERROR_MSG .= 'Помилка завантаження файлу! <br/>';
-    }else {
-      $db = dbase_open($tmpFile, 0);
-      if ($db) {
-        $filds_d=dbase_get_header_info($db);
-        $keyFildExist=array("0"=>0,"1"=>0);
-        foreach ($filds_d as $key => $value) {
-          if(($value['name']=="KD" && $value['type']=="number"&& $value['length']==8)){
-              $keyFildExist[0]=1;
-          }elseif (($value['name']=="KDMO" && $value['type']=="number"&& $value['length']==12) ) {
-            $keyFildExist[1]=1;
-          }
-        }
+        setMaxSession((count($arrOrgId))*2);
+        foreach ($arrOrgId as $key => $value) {
+              $where=array();
+              $where[]=" t1.id =".$value;
 
-        $rowCount=dbase_numrecords ($db);
-        setMaxSession($rowCount*2);
-        for ($i=1; $i < $rowCount; $i++) {
-          $rowTable=dbase_get_record_with_names($db ,$i);
 
-          if($rowTable){
-            $where=array();
-
-            if($keyFildExist[0]==1){
-              $where[]=" t1.kd =".$rowTable["KD"];
-            }
-
-            if($keyFildExist[1]==1){
-              $where[]=" t1.kdmo =".$rowTable["KDMO"];
-            }
             $fildStr = ( count( $filds[0] ) ?implode( ' , ',   $filds[0] ) : '' );
             $whereStr = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' )." GROUP BY t1.id";
 
@@ -332,17 +267,13 @@
               }
             }
             mysqli_free_result($result);
-          }
           $cnt_exp+=1;
           session_start();
           $_SESSION['ls_sleep_test'] =$cnt_exp;
           session_write_close();
         }
-        dbase_close($db);
-      }else{
-        $ERROR_MSG .= 'При відкритті вказаного файлу сталася помилка! <br/>';
-      }
-    }
+
+
 
     $file_name=generateFileName();
     if($typeFile=="dbf"){
@@ -358,7 +289,6 @@
       if (!$db) {
           $ERROR_MSG.="Не можливо створити базу даних <br>";
       }else{
-        //setMaxSession(mysqli_num_rows($result));
         $count=0;
         foreach ($listItems as $key => $value) {
           if(count($filds[1])>0){
