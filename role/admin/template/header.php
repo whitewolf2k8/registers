@@ -68,6 +68,7 @@
       <ul class="sub">
         <li><a href="picks_organizations.php">¬иб≥рка п≥дприЇмств</a></li>
         <li><a href="selection_org_by_list.php">¬иб≥рка п≥дприЇмств по файлу</a></li>
+        <li><a href="selection_org_by_user_list.php">¬иб≥рка п≥дприЇмств по списку</a></li>
       </ul>
   </li>
   <li class="top"><a href="" id="" class="top_link"><span class="down">јкти</span></a>

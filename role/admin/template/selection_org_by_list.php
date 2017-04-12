@@ -5,11 +5,13 @@
 <link rel="stylesheet" href="../../../css/style.css" media="screen" type="text/css" />
 <link rel="stylesheet" href="../../../css/style_menu.css" media="screen" type="text/css" />
 <link rel="stylesheet" href="../../../css/pag.css" media="screen" type="text/css" />
+<link rel="stylesheet" href="../../../jquery-ui-1.12.1.custom/jquery-ui.css" media="screen" type="text/css" />
 <title>Головна</title>
 <link rel="shortcut icon" href="../../../images/favicon.png" type="image/png">
 
 <script src="../../../js/jquery-1.7.2.js"></script>
 <script src="../../../js/scripts.js"></script>
+<script src="../../../jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 <script src="../../../js/knob.js"></script>
 <script src="../../../js/scripts.js"></script>
 <script src="../../../js/script_select_org_by_list.js"></script>

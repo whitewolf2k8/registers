@@ -529,6 +529,17 @@ border-right: none;
 	background-position: center;
 	cursor: pointer;
 }
+.btn_add:disabled {
+  border-radius: 15px;
+  background-color: transparent;
+	vertical-align: middle;
+  padding: 4px 15px 4px 15px;
+	background-image:url("/img/use/add_d.png");
+	background-repeat:no-repeat;
+	background-position: center;
+}
+
+
 .btn_del {
   border-radius: 15px;
   background-color: transparent;
