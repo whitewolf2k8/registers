@@ -5,37 +5,6 @@
   include_once ('../../../Classes/PHPExcel.php');
   $action=$_POST['mode'];
 
-
-
-  /*if($action=="getOrg"){
-
-    $kd=iconv("utf-8","windows-1251",$_POST['kd']);
-    $kdmo=iconv("utf-8","windows-1251",$_POST['kdmo']);
-
-    $where = array();
-    if($kd!=""){
-      $kd=ltrim($kd,'0');
-      $where[]=' `kd` = '.$kd;
-
-    }
-
-    if($kdmo!=""){
-      $kdmo=ltrim($kdmo,'0');
-      $where[]=' `kdmo` = '.$kdmo;
-    }
-
-    $whereStr = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
-    $qeruStr="SELECT id , nu , kd, kdmo FROM `organizations` ".$whereStr;
-    $result = mysqli_query($link,$qeruStr);
-    if($result){
-      while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        $options[]=$row;
-      }
-      mysqli_free_result($result);
-    }
-    echo php2js($options);
-  }
-*/
   if($action=="getFileInformathion"){
 
     $ERROR_MSG="";
