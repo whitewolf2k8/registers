@@ -449,5 +449,17 @@
     $_SESSION['max'] = $max;
     session_write_close();
 	}
+	function countLineFile($path)
+	{
+		$ofile =$path;
+ 		$handle = fopen($ofile, "r");
+		$n = 0;
+		while (($c = fgetc($handle)) !== FALSE)
+		{
+        $n ++;
+		}
+ 		fclose($handle);
+		return $n;
+	}
 
 ?>
