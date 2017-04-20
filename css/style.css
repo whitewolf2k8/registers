@@ -493,6 +493,15 @@ background: #F8E391;
 	background: #e3c039;
 }
 
+.change td{
+	padding: 10px 20px;
+	background: #ffdb00;
+}
+.delData td{
+	padding: 10px 20px;
+	background: #000;
+}
+
 tr:last-child td:first-child {
 border-radius: 0 0 0 10px;
 }

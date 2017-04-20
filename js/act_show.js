@@ -83,7 +83,6 @@ function setDataPoclerFild(name) {
               monthNamesShort: monthSotr});
 }
 
-
 function cleanFormImport() {
   document.getElementById("fileImp").value="";
   $.ajax({

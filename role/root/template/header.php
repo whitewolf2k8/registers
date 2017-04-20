@@ -98,7 +98,7 @@
                                      </li>
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">ПАРТНЕРСТВО</span></a>
+  <li class="top"><a href="" id="" class="top_link"><span class="down">Акти</span></a>
       <ul class="sub">
       <li><a href="" class="fly">О рекламе</a>
           <ul>
@@ -110,7 +110,7 @@
               <li><a href="ссылка">НАША РЕКЛАМА</a></li>
           </ul>
                                      </li>
-      <li><a href="ссылка">ПАРТНЕРСКАЯ ПРОГРАММА</a></li>
+      <li><a href="act_change.php">Акт редагування</a></li>
       </ul>
   </li>
   <li class="top"><a href="" id="" class="top_link"><span class="down">ПОМОЩЬ ФОРУМУ</span></a>
