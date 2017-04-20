@@ -65,7 +65,6 @@
           document.getElementById(id).className="changeData";
         }
       }
-
     }
     checkButton();
   }
