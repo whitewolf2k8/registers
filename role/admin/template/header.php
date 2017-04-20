@@ -67,8 +67,14 @@
   <li class="top"><a href="" id="" class="top_link"><span class="down">Запити</span></a>
       <ul class="sub">
         <li><a href="picks_organizations.php">Вибірка підприємств</a></li>
-        <li><a href="selection_org_by_list.php">Вибірка підприємств по файлу</a></li>
-        <li><a href="selection_org_by_user_list.php">Вибірка підприємств по списку</a></li>
+        <li><a href="selection_org_by_list.php">Експорт підприємств по файлу</a></li>
+        <li><a href="selection_org_by_user_list.php">Експорт підприємств по списку</a></li>
+        <li><a href="" class="fly">Експорт фактичних адрес підприємств</a>
+            <ul>
+              <li><a href="export_organizations_adress.php">по фільтрам</a></li>
+              <li><a href="selection_org_by_user_list.php">по списку заданому користувачем</a></li>
+            </ul>
+        </li>
       </ul>
   </li>
   <li class="top"><a href="" id="" class="top_link"><span class="down">Акти</span></a>

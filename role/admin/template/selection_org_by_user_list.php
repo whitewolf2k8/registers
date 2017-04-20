@@ -61,25 +61,21 @@
             <input class="knob"   readonly  data-width="150" data-displayPrevious=true data-fgColor="#0d932e" data-skin="tron" data-thickness=".2" value="0">
           </div>
 
-          <div class="item_blue" style="position: relative; width: 840px; left: 50%; margin-left: -420px;">
+          <div class="item_blue" style="position: relative; width: 880px; left: 50%; margin-left: -440px;">
             <div id='errorM' style='display="none"; argin-left:15%;'>	</div>
             <h2 style="text-align:center;" >Вибірка по  підприємствам :</h2>
             <p class="act_add">
               <input type="hidden" id="orgid"/>
-              <span>Kd <input type="text"  maxlength="8" placeholder="ЄДРПОУ" id="kd" style="width:80px;" /></span>
-              <span>Kdmo <input type="text" placeholder="КДМО" maxlength="12" id="kdmo" style="width:110px;"/> </span>
+              <span>ЄДРПОУ<input type="text"  maxlength="8" placeholder="ЄДРПОУ" id="kd" style="width:80px;" /></span>
+              <span>КДМО<input type="text" placeholder="КДМО" maxlength="12" id="kdmo" style="width:110px;"/> </span>
               <span>Назва <input type="text" id="nuOrg"  placeholder="Назва підприємства" readonly  style=" width:350px;" /> </span>
               <span><input type="button"  class="button" value="Пошук" onclick="searhOrg()"/></span>
               <span><input type="button" id="btnAddOrg" name="add_type" class="btn_add" disabled  onclick="addToListOrg();"/> </span>
             </p>
             <p align="center">
-              <div  id='orgList' style="text-align:center;">
-
-              </div>
+              <div  id='orgList' style="text-align:center;"></div>
             </p>
-
             <div class="clr"></div>
-
             <h5 class="spoiler-title">Перлік полів для перегляду/експорту </h5>
             <div class="spoiler-body">
               <p>
@@ -267,7 +263,7 @@
 
             <div class="clr"></div>
             <p align="center">
-              <input name="typeF" id="Ch1" type="radio" value="dbf" disabled checked > .dbf
+              <input name="typeF" id="Ch1" type="radio" value="dbf"  disabled checked > .dbf
               <input name="typeF" id="Ch2" type="radio" value="exel" disabled > .xls
               <input type="button" id="btEx" value="Експорт" class="button" disabled onclick="exportTable();" />
               <input type="button" value="Очистити" class="button" onclick="cleanForm();" />
