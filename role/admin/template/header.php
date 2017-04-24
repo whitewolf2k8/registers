@@ -28,9 +28,7 @@
             <a href="load_el_signatures.php">Електронні підписи</a>
           </li>
           <li>
-
             <a href="load_bankrut.php">Дані про банкрутів</a>
-
           </li>
           <li><a href="" class="fly">Завантаження чисельності</a>
               <ul>
@@ -41,7 +39,6 @@
           <li class="mid"><a href="load_list.php">Порушення законодавства</a></li>
           <li class="mid"><a href="load_volator.php">Порушення адмінсправи</a></li>
           <li class="mid"><a href="load_stop_activity.php">Призупинення діяльності</a></li>
-          <li><a href="load_volator.php">Адмінсправи справи </a></li>
           <li><a href="load_activity.php">Активність за даними ДФС</a></li>
           <li><a href="load_consent.php">Згоди ОДА</a></li>
 
@@ -72,7 +69,7 @@
         <li><a href="" class="fly">Експорт фактичних адрес підприємств</a>
             <ul>
               <li><a href="export_organizations_adress.php">по фільтрам</a></li>
-              <li><a href="selection_org_by_user_list.php">по списку заданому користувачем</a></li>
+              <li><a href="export_organizations_adress_by_user_list.php">по списку заданому користувачем</a></li>
             </ul>
         </li>
       </ul>
