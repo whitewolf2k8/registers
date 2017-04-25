@@ -26,7 +26,6 @@
     }
 
     if (correct) {
-    //  document.getElementById('lo').innerHTML='<div id="preloader"></div>';
       form.submit();
     }
   }
@@ -34,7 +33,6 @@
   $(document).ready(function() {
     $("#postCode").ForceNumericOnly();
   });
-
 
 </script>
 
@@ -340,6 +338,38 @@
               echo "ЄДРПОУ: ".(($value['kd']!=0)?$value['kd']:"--------------")." ; ";
               echo "КДМО: ".(($value['kdmo']!=0)?$value['kdmo']:"--------------")." ; ";
               echo "Назва : ".((str_replace(" ","",$value['nu'])!="")?$value['nu']:"--------------")." ; "."</p></text>";
+            } ?>
+          <? } ?>
+
+          <? if(isset($bankrut_info)){ ?>
+            <p>
+              <text>
+                <b>Дані про перебування особи в процесі провадження у справі про банруцтво, санації :</b>
+              </text>
+            </p>
+            <? foreach ($bankrut_info as $key => $value) {
+              echo "<p> <text> ";
+              echo "Номер справи: ".(str_replace(" ","",$value['deal_number']!="")?str_replace(" ","",$value['deal_number']):"--------------")." ; ";
+              echo "Дата: ".(str_replace(" ","",$value['date_deal']!="")?str_replace(" ","",$value['date_deal']):"--------------")." ; ";
+              echo "ПІБ ліквідатора: ".(str_replace(" ","",$value['maneger_deal']!="")?str_replace(" ","",$value['maneger_deal']):"--------------")." ; ";
+              echo "Тип : ".((str_replace(" ","",$value['type_deal'])!="")?$value['type_deal']:"--------------")." ; "."</p></text>";
+            } ?>
+          <? } ?>
+
+          <? if(isset($act_info)){ ?>
+            <p>
+              <text>
+                <b>Дані про наявність акту(-ів):</b> 
+              </text>
+            </p>
+            <? foreach ($act_info as $key => $value) {
+              echo "<p style='text-align:left;'> <text> ";
+              echo "Дата складання: ".(str_replace(" ","",$value['da']!="")?str_replace(" ","",$value['da']):"--------------")." ; ";
+              echo "Дата ліквідації по рішенню суду: ".(str_replace(" ","",$value['dl']!="")?str_replace(" ","",$value['dl']):"--------------")." ; ";
+              echo "Тип атку: ( ".(str_replace(" ","",$value['types']!="")?$value['types']:"--------------")." ) ; ";
+              echo "Відділ що склав : ".((str_replace(" ","",$value['dep'])!="")?$value['dep']:"--------------")." ;
+               ";
+              echo "Адреса складання : ".((str_replace(" ","",$value['ad'])!="")?$value['ad']:"--------------").";  "."</p></text>";
             } ?>
           <? } ?>
 

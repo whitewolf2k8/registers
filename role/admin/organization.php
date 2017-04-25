@@ -67,23 +67,61 @@
           $r=mysqli_fetch_array($result, MYSQLI_ASSOC);
           $org+=array('kdgNu' =>$r["nu"],'idKdg' =>$r["id"]);
           mysqli_free_result($result);
-
         }
       }
-  }
 
-  if($org["kd"]!=0){
-    $qeruStr="SELECT id,kd,kdmo,kdg,nu FROM `organizations` WHERE kdg=".$org['kd'];
-    $result = mysqli_query($link,$qeruStr);
-    if($result){
+      if($org["kd"]!=0){
+        $qeruStr="SELECT id,kd,kdmo,kdg,nu FROM `organizations` WHERE kdg=".$org['kd'];
+        $result = mysqli_query($link,$qeruStr);
+        if($result){
+          if(mysqli_num_rows($result)>0){
+            $child= array();
+            while($row=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+              $child[]=$row;
+            }
+          }
+        }
+      }
+
+      $str_bankrut="SELECT * FROM bankrupts WHERE  id_org = ".$org["id"];
+      $result = mysqli_query($link,$str_bankrut);
       if(mysqli_num_rows($result)>0){
-        $child= array();
-        while($row=mysqli_fetch_array($result, MYSQLI_ASSOC)){
-          $child[]=$row;
+        $bankrut_info=array();
+        while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $bankrut_info[]=$r;
         }
       }
-    }
+      mysqli_free_result($result);
+
+      $str_acts="SELECT * FROM `acts` WHERE  org = ".$org["id"];
+      $result = mysqli_query($link,$str_acts);
+      if(mysqli_num_rows($result)>0){
+        $act_info=array();
+        while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $r["da"]=dateToDatapiclerFormat($r["da"]);
+          $r["dl"]=dateToDatapiclerFormat($r["dl"]);
+          $act_info[]=$r+array('types' =>getTypeActStr($typeAct,$r['act']),'dep'=>getDepartmentNu($link,$r['department']) );
+        }
+      }
+      mysqli_free_result($result);
+      
+      $str_acts="SELECT * FROM `acts` WHERE  org = ".$org["id"];
+      $result = mysqli_query($link,$str_acts);
+      if(mysqli_num_rows($result)>0){
+        $act_info=array();
+        while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $r["da"]=dateToDatapiclerFormat($r["da"]);
+          $r["dl"]=dateToDatapiclerFormat($r["dl"]);
+          $act_info[]=$r+array('types' =>getTypeActStr($typeAct,$r['act']),'dep'=>getDepartmentNu($link,$r['department']) );
+        }
+      }
+      mysqli_free_result($result);
+
+
   }
+
+
+
 
   require_once('template/organization.php');
 ?>

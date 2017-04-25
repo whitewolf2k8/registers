@@ -346,6 +346,18 @@
 			return $str;
 		}
 
+		function getTypeActStr($arrType,$inputTypes)
+		{
+			$str="";
+			$res=explode (";",$inputTypes);
+			foreach ($res as $key => $value) {
+				if($value!=""){
+					$str.=$arrType[$value].";";
+				}
+			}
+			return $str;
+		}
+
 		function getDepartmentNu($link,$id)
 		{
 			$str="";
