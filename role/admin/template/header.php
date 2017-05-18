@@ -80,10 +80,63 @@
       <li><a href="act_show.php">АКТ пошук</a></li>
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">Доукументація</span></a>
-      <ul class="sub">
-        <li><a href="ссылка">Про систему</a></li>
+  <li class="top"><a href="" id="" class="top_link"><span class="down">Документація</span></a>
+    <ul class="sub">
+    <li><a href="Viev.php" target="_parent">Головна сторінка</a></li>
+    <li><a href="" class="fly">Вхідні дані</a>
+      <ul>
+        <li><a href="">Завантаження АРМ</a></li>
+        <li><a href="">Електронні підписи</a></li>
+        <li><a href="">Дані про банкрутів</a></li>
+        <li><a href="" class="fly">Завантаження чисельності</a>
+        <ul>
+            <li><a href="">з 1-ПВ</a></li>
+             <li><a href="">з фінансів</a></li>
+         </ul>
+        </li>
+        <li><a href="">Порушення законодавства</a></li>
+        <li><a href="">Порушення адмінсправи</a></li>
+        <li><a href="">Призупинення діяльності</a></li>
+        <li><a href="">Активність за даними ДФС</a></li>
+        <li><a href="">Згоди ОДА</a></li>
       </ul>
+    </li>
+    <li><a href="" class="fly">Довідники</a>
+      <ul>
+        <li><a href="">КВЕД 2010</a></li>
+        <li><a href="">КІСЕ 2014</a></li>
+        <li><a href="" class="fly">Території</a>
+          <ul>
+                <li><a href="">KOATUU</a></li>
+                  <li><a href="">Регіони</a></li>
+          </ul>
+        </li>
+        <li><a href="">ОПФ</a></li>
+        <li><a href="">Органи управління</a></li>
+        <li><a href="">Відділи</a></li>
+        <li><a href="">Керівники</a></li>
+      </ul>
+    </li>
+    <li><a href="" class="fly">Запити</a>
+      <ul>
+        <li><a href="Viev.php">Вибірка підприємств</a></li>
+        <li><a href="">Експорт підприємств по файлу</a></li>
+        <li><a href="">Експорт підприємств по списку</a></li>
+        <li><a href="" class="fly">Експорт фактичних адрес підприємств</a>
+          <ul>
+            <li><a href="">по фільтрам</a></li>
+            <li><a href="">по списку заданому користувачем</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="" class="fly">Акти</a>
+      <ul>
+          <li><a href="">АКТ введення</a></li>
+            <li><a href="">АКТ пошук</a></li>
+      </ul>
+    </li>
+    </ul>
   </li>
   <li class="top_l">
     <a href="../../lib/logout.php" class="top_li">
