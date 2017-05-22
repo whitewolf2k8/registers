@@ -104,19 +104,39 @@
         }
       }
       mysqli_free_result($result);
-      
-      $str_acts="SELECT * FROM `acts` WHERE  org = ".$org["id"];
-      $result = mysqli_query($link,$str_acts);
+
+
+      $str_activ="SELECT * FROM `letter_base` WHERE  id_org = ".$org["id"]." AND type = 0 ";
+      $result = mysqli_query($link,$str_activ);
       if(mysqli_num_rows($result)>0){
-        $act_info=array();
+        $activity_info=array();
         while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
-          $r["da"]=dateToDatapiclerFormat($r["da"]);
-          $r["dl"]=dateToDatapiclerFormat($r["dl"]);
-          $act_info[]=$r+array('types' =>getTypeActStr($typeAct,$r['act']),'dep'=>getDepartmentNu($link,$r['department']) );
+          $activity_info[]=$r;
         }
       }
       mysqli_free_result($result);
 
+      $str_violation="SELECT * FROM `letter_base` WHERE  id_org = ".$org["id"]." AND type = 1 ";
+      $result = mysqli_query($link,$str_violation);
+      if(mysqli_num_rows($result)>0){
+        $violation_info=array();
+        while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $violation_info[]=$r;
+        }
+      }
+      mysqli_free_result($result);
+
+      $str_cause="SELECT t1.*,t2.nu FROM `violation_base` as t1 LEFT JOIN `managers` as t2 on t2.id=t1.id_maneger  WHERE  id_org = ".$org["id"];
+      $result = mysqli_query($link,$str_cause);
+      if(mysqli_num_rows($result)>0){
+        $cause_info=array();
+        while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $cause_info[]=$r;
+        }
+      }
+      mysqli_free_result($result);
+
+      echo getKvartalNumber();
 
   }
 

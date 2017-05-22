@@ -359,7 +359,7 @@
           <? if(isset($act_info)){ ?>
             <p>
               <text>
-                <b>Дані про наявність акту(-ів):</b> 
+                <b>Дані про наявність акту(-ів):</b>
               </text>
             </p>
             <? foreach ($act_info as $key => $value) {

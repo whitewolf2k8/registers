@@ -555,4 +555,9 @@
 		return date("YmdHis");
 	}
 
+	function getKvartalNumber()
+	{
+		return intval((date('n')+2)/3);
+	}
+
 ?>
