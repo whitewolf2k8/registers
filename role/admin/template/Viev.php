@@ -13,9 +13,22 @@
 	  <div class="header">
          <?php  require_once('header.php'); ?>
 	  </div>
+      <script type="text/javascript">
 
-    <iframe src="documents/Головна сторінка.pdf"  width="100%" height="650"></iframe>
-    <!-- <iframe src="documents/Вибірка підприємтсва.pdf"  width="100%" height="650"></iframe> -->
+      // var a = document.getElementsByName("main").innerHTML = "<iframe src=\"documents/Головна сторінка.pdf\"  width=\"100%\" height=\"650\"></iframe>"
+
+      </script>
+
+    <?
+      echo "<iframe src=\"documents/Головна сторінка.pdf\"  width=\"100%\" height=\"650\"></iframe>";
+
+    // if("main"){
+    //     echo "<iframe src=\"documents/Головна сторінка.pdf\"  width=\"100%\" height=\"650\"></iframe>";
+    // }
+    // if("kek"){
+    //     echo "<iframe src=\"documents/Вибірка підприємтсва.pdf\"  width=\"100%\" height=\"650\"></iframe>";
+    // }
+    ?>
 
 </div><!-- .wrapper -->
 <div class="footer">

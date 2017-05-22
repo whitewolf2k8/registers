@@ -3,144 +3,145 @@
 </div>
 
 <div id="infolist">
-      <p class="leftSide">Ви аторизувалися як:<font style="font-weight:bold;"> <? echo $_SESSION['name']." ( ".$typeUsers[$_SESSION[type]]." )"; ?></font></p>
-      <p class="rightSide">Поточна дата: <font style="font-weight:bold;"><? echo date("m.d.y");?> </font> </p>
+      <p class="leftSide">  :<font style="font-weight:bold;"> <? echo $_SESSION['name']." ( ".$typeUsers[$_SESSION[type]]." )"; ?></font></p>
+      <p class="rightSide"> : <font style="font-weight:bold;"><? echo date("m.d.y");?> </font> </p>
 </div>
 
 <div id=menu>
 <ul id="nav">
     <li class="top">
       <a href="index.php" class="top_link">
-        <span>На головну</span>
+        <span> </span>
       </a>
     </li>
 
     <li class="top">
       <a id="" class="top_link">
-        <span class="down">Вхідні дані</span>
+        <span class="down"> </span>
       </a>
         <ul class="sub">
           <li>
-            <a href="load_arm.php">Завантаження АРМ</a>
+            <a href="load_arm.php"> </a>
           </li>
           <li>
 
-            <a href="load_el_signatures.php">Електронні підписи</a>
+            <a href="load_el_signatures.php"> </a>
           </li>
           <li>
-            <a href="load_bankrut.php">Дані про банкрутів</a>
+            <a href="load_bankrut.php">  </a>
           </li>
-          <li><a href="" class="fly">Завантаження чисельності</a>
+          <li><a href="" class="fly"> </a>
               <ul>
-                  <li><a href="load_amount_pv.php">з 1-ПВ</a></li>
-                  <li><a href="load_amount_fin.php">з фінансів</a></li>
+                  <li><a href="load_amount_pv.php"> 1-</a></li>
+                  <li><a href="load_amount_fin.php"> </a></li>
               </ul>
           </li>
-          <li class="mid"><a href="load_list.php">Порушення законодавства</a></li>
-          <li class="mid"><a href="load_volator.php">Порушення адмінсправи</a></li>
-          <li class="mid"><a href="load_stop_activity.php">Призупинення діяльності</a></li>
-          <li><a href="load_activity.php">Активність за даними ДФС</a></li>
-          <li><a href="load_consent.php">Згоди ОДА</a></li>
+          <li class="mid"><a href="load_list.php"> </a></li>
+          <li class="mid"><a href="load_volator.php"> </a></li>
+          <li class="mid"><a href="load_stop_activity.php"> </a></li>
+          <li><a href="load_activity.php">   </a></li>
+          <li><a href="load_consent.php"> </a></li>
 
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">Довідники</span></a>
+  <li class="top"><a href="" id="" class="top_link"><span class="down"></span></a>
       <ul class="sub">
-      <li><a href="load_kved.php">Квед 2010</a></li>
+      <li><a href="load_kved.php"> 2010</a></li>
       <li><a href="load_kise.php">KICE 2014</a></li>
 
-      <li><a href="" class="fly">Території</a>
+      <li><a href="" class="fly"></a>
           <ul>
               <li><a href="load_koatuu.php">KOATUU</a></li>
-              <li><a href="load_region.php">Регіони</a></li>
+              <li><a href="load_region.php"></a></li>
           </ul>
       </li>
-      <li><a href="load_opf.php">ОПФ</a></li>
-      <li><a href="load_management.php">Органи управління</a></li>
-      <li><a href="department.php">Відділи</a></li>
-      <li><a href="manegers.php">Керівники</a></li>
+      <li><a href="load_opf.php"></a></li>
+      <li><a href="load_management.php"> </a></li>
+      <li><a href="department.php">?</a></li>
+      <li><a href="manegers.php"></a></li>
     </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">Запити</span></a>
+  <li class="top"><a href="" id="" class="top_link"><span class="down"></span></a>
       <ul class="sub">
-        <li><a href="picks_organizations.php">Вибірка підприємств</a></li>
-        <li><a href="selection_org_by_list.php">Експорт підприємств по файлу</a></li>
-        <li><a href="selection_org_by_user_list.php">Експорт підприємств по списку</a></li>
-        <li><a href="" class="fly">Експорт фактичних адрес підприємств</a>
+        <li><a href="picks_organizations.php"> </a></li>
+        <li><a href="selection_org_by_list.php">   </a></li>
+        <li><a href="selection_org_by_user_list.php">   </a></li>
+        <li><a href="" class="fly">   </a>
             <ul>
-              <li><a href="export_organizations_adress.php">по фільтрам</a></li>
-              <li><a href="export_organizations_adress_by_user_list.php">по списку заданому користувачем</a></li>
+              <li><a href="export_organizations_adress.php"> </a></li>
+              <li><a href="export_organizations_adress_by_user_list.php">   </a></li>
             </ul>
         </li>
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">Акти</span></a>
+  <li class="top"><a href="" id="" class="top_link"><span class="down"></span></a>
       <ul class="sub">
-      <li><a href="act_process.php">АКТ введення</a></li>
-      <li><a href="act_show.php">АКТ пошук</a></li>
+      <li><a href="act_process.php"> </a></li>
+      <li><a href="act_show.php"> </a></li>
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">Документація</span></a>
+  <li class="top"><a href="" id="" class="top_link"><span class="down"></span></a>
     <ul class="sub">
-    <li><a href="Viev.php" target="_parent">Головна сторінка</a></li>
-    <li><a href="" class="fly">Вхідні дані</a>
+      <li><a href="documents/Головна сторінка.pdf.pdf" target="myframe"> </a></li>
+    <!-- <li class="main"><a href="Viev.php"> </a></li> -->
+    <li><a href="" class="fly"> </a>
       <ul>
-        <li><a href="">Завантаження АРМ</a></li>
-        <li><a href="">Електронні підписи</a></li>
-        <li><a href="">Дані про банкрутів</a></li>
-        <li><a href="" class="fly">Завантаження чисельності</a>
+        <li class="kek"><a href="Viev.php"> </a></li>
+        <li><a href=""> </a></li>
+        <li><a href="">  </a></li>
+        <li><a href="" class="fly"> </a>
         <ul>
-            <li><a href="">з 1-ПВ</a></li>
-             <li><a href="">з фінансів</a></li>
+            <li><a href=""> 1-</a></li>
+             <li><a href=""> </a></li>
          </ul>
         </li>
-        <li><a href="">Порушення законодавства</a></li>
-        <li><a href="">Порушення адмінсправи</a></li>
-        <li><a href="">Призупинення діяльності</a></li>
-        <li><a href="">Активність за даними ДФС</a></li>
-        <li><a href="">Згоди ОДА</a></li>
+        <li><a href=""> </a></li>
+        <li><a href=""> </a></li>
+        <li><a href=""> </a></li>
+        <li><a href="">   </a></li>
+        <li><a href=""> </a></li>
       </ul>
     </li>
-    <li><a href="" class="fly">Довідники</a>
+    <li><a href="" class="fly"></a>
       <ul>
-        <li><a href="">КВЕД 2010</a></li>
-        <li><a href="">КІСЕ 2014</a></li>
-        <li><a href="" class="fly">Території</a>
+        <li><a href=""> 2010</a></li>
+        <li><a href="">? 2014</a></li>
+        <li><a href="" class="fly"></a>
           <ul>
                 <li><a href="">KOATUU</a></li>
-                  <li><a href="">Регіони</a></li>
+                  <li><a href=""></a></li>
           </ul>
         </li>
-        <li><a href="">ОПФ</a></li>
-        <li><a href="">Органи управління</a></li>
-        <li><a href="">Відділи</a></li>
-        <li><a href="">Керівники</a></li>
+        <li><a href=""></a></li>
+        <li><a href=""> </a></li>
+        <li><a href="">?</a></li>
+        <li><a href=""></a></li>
       </ul>
     </li>
-    <li><a href="" class="fly">Запити</a>
+    <li><a href="" class="fly"></a>
       <ul>
-        <li><a href="Viev.php">Вибірка підприємств</a></li>
-        <li><a href="">Експорт підприємств по файлу</a></li>
-        <li><a href="">Експорт підприємств по списку</a></li>
-        <li><a href="" class="fly">Експорт фактичних адрес підприємств</a>
+        <li><a href="Viev.php"> </a></li>
+        <li><a href="">   </a></li>
+        <li><a href="">   </a></li>
+        <li><a href="" class="fly">   </a>
           <ul>
-            <li><a href="">по фільтрам</a></li>
-            <li><a href="">по списку заданому користувачем</a></li>
+            <li><a href=""> </a></li>
+            <li><a href="">   </a></li>
           </ul>
         </li>
       </ul>
     </li>
-    <li><a href="" class="fly">Акти</a>
+    <li><a href="" class="fly"></a>
       <ul>
-          <li><a href="">АКТ введення</a></li>
-            <li><a href="">АКТ пошук</a></li>
+          <li><a href=""> </a></li>
+            <li><a href=""> </a></li>
       </ul>
     </li>
     </ul>
   </li>
   <li class="top_l">
     <a href="../../lib/logout.php" class="top_li">
-      <span>Вихід</span>
+      <span></span>
     </a>
   </li>
 </ul>
