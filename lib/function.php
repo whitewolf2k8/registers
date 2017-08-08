@@ -7,6 +7,7 @@
 	    if (!$link) {
 	        die('Ошибка подключения (' . mysqli_connect_errno() . ') ');
 	    }
+			mysqli_set_charset($link, "cp1251");
 	    return $link;
 	  }
 
