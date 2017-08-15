@@ -109,19 +109,20 @@
       $str_activ="SELECT * FROM `letter_base` WHERE  id_org = ".$org["id"]." AND type = 0 ";
       $result = mysqli_query($link,$str_activ);
       if(mysqli_num_rows($result)>0){
-        $activity_info=array();
+        $violation_info=array();
         while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
-          $activity_info[]=$r;
+          $violation_info[]=$r;
         }
       }
       mysqli_free_result($result);
 
       $str_violation="SELECT * FROM `letter_base` WHERE  id_org = ".$org["id"]." AND type = 1 ";
+
       $result = mysqli_query($link,$str_violation);
       if(mysqli_num_rows($result)>0){
-        $violation_info=array();
+        $activity_info=array();
         while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
-          $violation_info[]=$r;
+          $activity_info[]=$r;
         }
       }
       mysqli_free_result($result);
@@ -136,11 +137,23 @@
       }
       mysqli_free_result($result);
 
-      echo getKvartalNumber();
+      $str_profit="SELECT t2.nu as nuYear,t2.short_nu as yearShot, t3.nu as nuPeriod,t3.start_m, t3.finish_m ,t1.profit FROM `profit_fin` as t1  left join year as t2 on t1.`id_year` = t2.id left join period as t3 on t1.id_period = t3.id  WHERE t1.id_org = ".$org["id"];
+      echo $str_profit."<br>";
 
+      $result = mysqli_query($link,$str_profit);
+      if(mysqli_num_rows($result)>0){
+        $profit_info=array();
+        while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $profit_info[]=$r;
+          }
+      }
+      mysqli_free_result($result);
+
+      print_r($profit_info);
+      echo getMonthNumber()."<br>";
+      echo getYearNumber();
+      //echo getKvartalNumber()." dd";
   }
-
-
 
 
   require_once('template/organization.php');

@@ -367,9 +367,46 @@
               echo "Дата складання: ".(str_replace(" ","",$value['da']!="")?str_replace(" ","",$value['da']):"--------------")." ; ";
               echo "Дата ліквідації по рішенню суду: ".(str_replace(" ","",$value['dl']!="")?str_replace(" ","",$value['dl']):"--------------")." ; ";
               echo "Тип атку: ( ".(str_replace(" ","",$value['types']!="")?$value['types']:"--------------")." ) ; ";
-              echo "Відділ що склав : ".((str_replace(" ","",$value['dep'])!="")?$value['dep']:"--------------")." ;
-               ";
+              echo "Відділ що склав : ".((str_replace(" ","",$value['dep'])!="")?$value['dep']:"--------------")." ; ";
               echo "Адреса складання : ".((str_replace(" ","",$value['ad'])!="")?$value['ad']:"--------------").";  "."</p></text>";
+            } ?>
+          <? } ?>
+
+          <? if(isset($cause_info)){ ?>
+            <p>
+              <text>
+                <b>Дані про порушення адмінсправ(и):</b>
+              </text>
+            </p>
+            <? foreach ($cause_info as $key => $value) {
+              echo "<p style='text-align:left;'> <text> ";
+              echo "Номер/Дата адмінсправи: ".(str_replace(" ","",$value['decree']!="")?str_replace(" ","",$value['decree']):"--------------")." ; ";
+              echo " Відповідальна особа: ".(str_replace(" ","",$value['volator']!="")?str_replace(" ","",$value['volator']):"--------------")." ; ";
+              echo " Керівник відділу ініціатора : ".((str_replace(" ","",$value['nu'])!="")?$value['nu']:"--------------").";  "."</p></text>";
+            } ?>
+          <? } ?>
+
+          <? if(isset($violation_info)){ ?>
+            <p>
+              <text>
+                <b>Дані про порушення законодвства:</b>
+              </text>
+            </p>
+            <? foreach ($violation_info as $key => $value) {
+              echo "<p style='text-align:left;'> <text> ";
+              echo "Вихідний № листа: ".(str_replace(" ","",$value['label']!="")?str_replace(" ","",$value['label']):"--------------")." ; "."</p></text>";
+            } ?>
+          <? } ?>
+
+          <? if(isset($activity_info)){ ?>
+            <p>
+              <text>
+                <b>Дані про призупинення діяльності:</b>
+              </text>
+            </p>
+            <? foreach ($activity_info as $key => $value) {
+              echo "<p style='text-align:left;'> <text> ";
+              echo "Номер/дата листа: ".(str_replace(" ","",$value['label']!="")?str_replace(" ","",$value['label']):"--------------")." ; "."</p></text>";
             } ?>
           <? } ?>
 
@@ -378,7 +415,6 @@
           <div id="lo"></div>
         </form>
       </div>
-
 
 	  </div><!-- .content -->
 
