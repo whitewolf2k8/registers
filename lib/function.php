@@ -347,6 +347,18 @@
 			return $str;
 		}
 
+		function getTypeActStr($arrType,$inputTypes)
+		{
+			$str="";
+			$res=explode (";",$inputTypes);
+			foreach ($res as $key => $value) {
+				if($value!=""){
+					$str.=$arrType[$value].";";
+				}
+			}
+			return $str;
+		}
+
 		function getDepartmentNu($link,$id)
 		{
 			$str="";
@@ -542,6 +554,20 @@
 	function generateFileName()
 	{
 		return date("YmdHis");
+	}
+
+	function getKvartalNumber()
+	{
+		return intval((date('n')+2)/3);
+	}
+
+	function getMonthNumber()
+	{
+		return date('n');
+	}
+	function getYearNumber()
+	{
+		return date('Y');
 	}
 
 ?>
