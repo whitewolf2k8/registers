@@ -54,16 +54,20 @@
              }
   					@mysql_free_result($res);
   				}else{
-              $ERROR_MSG .= 'Не знайдено підприємства з  kd '.$fields[0]."<br>";
+            if($fields[1]!=0){
+              $ERROR_MSG .= 'Не знайдено підприємства з  kd '.$fields[0].' kdmo '.$fields[1]."<br>";
+            }else{
+              $countKdmoNull++;
+            }
           }
   				@mysql_free_result($resultOrg);
   			} else {
-  				$ERROR_MSG .= 'Помилка виконання запиту для підприємства  '.$fields[0];
+  				$ERROR_MSG .= 'Помилка виконання запиту для підприємства kd '.$fields[0].' kdmo '.$fields[1];
   				continue;
   			}
   		}
   		fclose($d);
-  		$ERROR_MSG .= "<br />Імпорт завершено. Оновлених: $countUpd. Додано: $countIns. Всього: ".($countIns+$countUpd);
+  		$ERROR_MSG .= "<br />Імпорт завершено. Оновлених: $countUpd. Додано: $countIns. Де KDMO рівне 0: $countKdmoNull .  Всього: ".($countIns+$countUpd);
   	} else
   		$ERROR_MSG .= "<br />Неможливо відкрити файл імпорта";
 }
