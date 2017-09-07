@@ -7,7 +7,6 @@
 	    if (!$link) {
 	        die('Ошибка подключения (' . mysqli_connect_errno() . ') ');
 	    }
-			mysqli_set_charset($link, "cp1251");
 	    return $link;
 	  }
 
@@ -559,15 +558,6 @@
 	function getKvartalNumber()
 	{
 		return intval((date('n')+2)/3);
-	}
-
-	function getMonthNumber()
-	{
-		return date('n');
-	}
-	function getYearNumber()
-	{
-		return date('Y');
 	}
 
 ?>
