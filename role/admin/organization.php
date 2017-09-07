@@ -67,23 +67,94 @@
           $r=mysqli_fetch_array($result, MYSQLI_ASSOC);
           $org+=array('kdgNu' =>$r["nu"],'idKdg' =>$r["id"]);
           mysqli_free_result($result);
-
         }
       }
-  }
 
-  if($org["kd"]!=0){
-    $qeruStr="SELECT id,kd,kdmo,kdg,nu FROM `organizations` WHERE kdg=".$org['kd'];
-    $result = mysqli_query($link,$qeruStr);
-    if($result){
+      if($org["kd"]!=0){
+        $qeruStr="SELECT id,kd,kdmo,kdg,nu FROM `organizations` WHERE kdg=".$org['kd'];
+        $result = mysqli_query($link,$qeruStr);
+        if($result){
+          if(mysqli_num_rows($result)>0){
+            $child= array();
+            while($row=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+              $child[]=$row;
+            }
+          }
+        }
+      }
+
+      $str_bankrut="SELECT * FROM bankrupts WHERE  id_org = ".$org["id"];
+      $result = mysqli_query($link,$str_bankrut);
       if(mysqli_num_rows($result)>0){
-        $child= array();
-        while($row=mysqli_fetch_array($result, MYSQLI_ASSOC)){
-          $child[]=$row;
+        $bankrut_info=array();
+        while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $bankrut_info[]=$r;
         }
       }
-    }
+      mysqli_free_result($result);
+
+      $str_acts="SELECT * FROM `acts` WHERE  org = ".$org["id"];
+      $result = mysqli_query($link,$str_acts);
+      if(mysqli_num_rows($result)>0){
+        $act_info=array();
+        while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $r["da"]=dateToDatapiclerFormat($r["da"]);
+          $r["dl"]=dateToDatapiclerFormat($r["dl"]);
+          $act_info[]=$r+array('types' =>getTypeActStr($typeAct,$r['act']),'dep'=>getDepartmentNu($link,$r['department']) );
+        }
+      }
+      mysqli_free_result($result);
+
+
+      $str_activ="SELECT * FROM `letter_base` WHERE  id_org = ".$org["id"]." AND type = 0 ";
+      $result = mysqli_query($link,$str_activ);
+      if(mysqli_num_rows($result)>0){
+        $violation_info=array();
+        while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $violation_info[]=$r;
+        }
+      }
+      mysqli_free_result($result);
+
+      $str_violation="SELECT * FROM `letter_base` WHERE  id_org = ".$org["id"]." AND type = 1 ";
+
+      $result = mysqli_query($link,$str_violation);
+      if(mysqli_num_rows($result)>0){
+        $activity_info=array();
+        while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $activity_info[]=$r;
+        }
+      }
+      mysqli_free_result($result);
+
+      $str_cause="SELECT t1.*,t2.nu FROM `violation_base` as t1 LEFT JOIN `managers` as t2 on t2.id=t1.id_maneger  WHERE  id_org = ".$org["id"];
+      $result = mysqli_query($link,$str_cause);
+      if(mysqli_num_rows($result)>0){
+        $cause_info=array();
+        while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $cause_info[]=$r;
+        }
+      }
+      mysqli_free_result($result);
+
+      $str_profit="SELECT t2.nu as nuYear,t2.short_nu as yearShot, t3.nu as nuPeriod,t3.start_m, t3.finish_m ,t1.profit FROM `profit_fin` as t1  left join year as t2 on t1.`id_year` = t2.id left join period as t3 on t1.id_period = t3.id  WHERE t1.id_org = ".$org["id"];
+      echo $str_profit."<br>";
+
+      $result = mysqli_query($link,$str_profit);
+      if(mysqli_num_rows($result)>0){
+        $profit_info=array();
+        while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+          $profit_info[]=$r;
+          }
+      }
+      mysqli_free_result($result);
+
+      print_r($profit_info);
+      echo getMonthNumber()."<br>";
+      echo getYearNumber();
+      //echo getKvartalNumber()." dd";
   }
+
 
   require_once('template/organization.php');
 ?>

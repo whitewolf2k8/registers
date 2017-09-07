@@ -7,7 +7,6 @@
 	    if (!$link) {
 	        die('Ошибка подключения (' . mysqli_connect_errno() . ') ');
 	    }
-			mysqli_set_charset($link, "cp1251");
 	    return $link;
 	  }
 
@@ -347,6 +346,18 @@
 			return $str;
 		}
 
+		function getTypeActStr($arrType,$inputTypes)
+		{
+			$str="";
+			$res=explode (";",$inputTypes);
+			foreach ($res as $key => $value) {
+				if($value!=""){
+					$str.=$arrType[$value].";";
+				}
+			}
+			return $str;
+		}
+
 		function getDepartmentNu($link,$id)
 		{
 			$str="";
@@ -542,6 +553,11 @@
 	function generateFileName()
 	{
 		return date("YmdHis");
+	}
+
+	function getKvartalNumber()
+	{
+		return intval((date('n')+2)/3);
 	}
 
 ?>
