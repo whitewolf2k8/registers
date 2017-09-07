@@ -176,7 +176,6 @@
 
 
   if($action=="export"){
-    set_time_limit ( 600 );
     $filtr_kd=isset($_POST['kd']) ? stripslashes($_POST['kd']) : '';
     $filtr_kdmo=isset($_POST['kdmo']) ? stripslashes($_POST['kdmo']) : '';
 
@@ -595,11 +594,9 @@
         $ERROR_MSG.="По заданим параметрам не знайдено ні одного підприємства <br>";
       }
     }
-
     $res=array();
     $res["er"]=iconv("windows-1251","utf-8",$ERROR_MSG);
     $res["file"]=((isset($file_name))?$file_name.".dbf":"");
-    header_remove('Set-Cookie');
     echo php2js($res);
   }
 
