@@ -56,3 +56,29 @@ $(function() {
 
       });
   };
+
+
+  function openUrlDoc(url, post)
+   {
+       if ( post ) {
+           var form = $('<form/>', {
+               action: url,
+               method: 'POST',
+               style: {
+                  display: 'none'
+               }
+           });
+           for(var key in post) {
+               form.append($('<input/>',{
+                   type: 'hidden',
+                   name: key,
+                   value: post[key]
+               }));
+           }
+           form.appendTo(document.body); // Необходимо для некоторых браузеров
+           form.submit();
+
+       } else {
+           window.open( url, '_blank' );
+       }
+  }

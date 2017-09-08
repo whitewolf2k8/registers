@@ -44,7 +44,7 @@
 
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">Довідники</span></a>
+  <li class="top"><a href="#" id="" class="top_link"><span class="down">Довідники</span></a>
       <ul class="sub">
       <li><a href="load_kved.php">Квед 2010</a></li>
       <li><a href="load_kise.php">KICE 2014</a></li>
@@ -61,7 +61,7 @@
       <li><a href="manegers.php">Керівники</a></li>
     </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">Запити</span></a>
+  <li class="top"><a href="#" id="" class="top_link"><span class="down">Запити</span></a>
       <ul class="sub">
         <li><a href="picks_organizations.php">Вибірка підприємств</a></li>
         <li><a href="selection_org_by_list.php">Експорт підприємств по файлу</a></li>
@@ -74,15 +74,16 @@
         </li>
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">Акти</span></a>
+  <li class="top"><a href="#" id="" class="top_link"><span class="down">Акти</span></a>
       <ul class="sub">
       <li><a href="act_process.php">АКТ введення</a></li>
       <li><a href="act_show.php">АКТ пошук</a></li>
       </ul>
   </li>
-  <li class="top"><a href="" id="" class="top_link"><span class="down">Доукументація</span></a>
+  <li class="top"><a href="#" id="" class="top_link"><span class="down">Доукументація</span></a>
       <ul class="sub">
-        <li><a href="ссылка">Про систему</a></li>
+        <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'main.pdf'});\""; ?>;>Про систему</a></li>
+        <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'select_org.pdf'});\""; ?>;>Вибірка </a></li>
       </ul>
   </li>
   <li class="top_l">
