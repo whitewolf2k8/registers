@@ -188,8 +188,8 @@
               <? foreach ($ListResult as $key => $value) {
                 echo "<tr id=\"".$value['id']."\">";
                 //echo "<td  style =\" overflow:visible\" > <input type=\"checkbox\"  name=\"checkList[]\" value=\"".$value["id"]."\" onchange=\"chacheCheck('".$value["id"]."');\" /></td>";
-                echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kd"]."</a></td>";
-                echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('index.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kdmo"]."</a></td>";
+                echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('document_view.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kd"]."</a></td>";
+                echo "<td style =\" overflow:hidden;\" ><a OnClick=\"openUrl('document_view.php',{filtr_edrpou:'".$value["kd"]."', filtr_kdmo:'".$value["kdmo"]."'});\">".$value["kdmo"]."</a></td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["da"]."</td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["dl"]."</td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["rnl"]."</td>";
