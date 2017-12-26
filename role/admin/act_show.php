@@ -46,7 +46,8 @@
   }
 
   if( $filtr_dateActS!="" && $filtr_dateActE!=""){
-    $where[]=" ac.da between (".dateToSqlFormat($filtr_dateActS)." and ".dateToSqlFormat($filtr_dateActE)." )";
+
+    $where[]=" ( ac.da between '".dateToSqlFormat($filtr_dateActS)."' and '".dateToSqlFormat($filtr_dateActE)."' )";
   }else{
     if($filtr_dateActS!=""){
       $where[]=" ac.da >= '".dateToSqlFormat($filtr_dateActS)."'";
@@ -59,7 +60,7 @@
 
 
   if( $filtr_dateDelS!="" && $filtr_dateDelE!=""){
-    $where[]=" ac.dl between (".dateToSqlFormat($filtr_dateDelS)." and ".dateToSqlFormat($filtr_dateDelE)." )";
+    $where[]=" ( ac.dl between ".dateToSqlFormat($filtr_dateDelS)." and ".dateToSqlFormat($filtr_dateDelE)." )";
   }else{
     if($filtr_dateDelS!=""){
       $where[]=" ac.dl >= '".dateToSqlFormat($filtr_dateDelS)."'";
@@ -144,7 +145,7 @@
   $qeruStr="SELECT organ.kd, organ.kdmo, ac.* FROM `acts`  as ac "
     ." left join  organizations as organ on organ.id=ac.org".$whereStr;
 
-  //echo $qeruStr;
+
   $result = mysqli_query($link,$qeruStr);
   if($result){
     $ListResult=array();

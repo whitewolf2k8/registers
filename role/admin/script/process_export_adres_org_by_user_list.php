@@ -103,6 +103,7 @@
         $res=array();
         $res["er"]=iconv("windows-1251","utf-8",$ERROR_MSG);
         $res["file"]=((isset($file_name))?$file_name.".dbf":"");
+        header_remove('Set-Cookie');
         echo php2js($res);
       }else{
         $count=0;
@@ -138,11 +139,10 @@
           session_write_close();
         }
         $objWriter->save('../../../files/unload/'.$file_name.'.xls');
-        header_remove('Set-Cookie');
-
         $res=array();
         $res["er"]=iconv("windows-1251","utf-8",$ERROR_MSG);
         $res["file"]=((isset($file_name))?$file_name.".xls":"");
+        header_remove('Set-Cookie');
         echo php2js($res);
       }
     }
