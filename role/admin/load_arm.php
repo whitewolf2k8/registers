@@ -284,41 +284,40 @@
               $nuU,$adU,$piU,$teU,$teaU,$kdUS,$kdmoUS);
             for($i=1;$i<=$rowCount;$i++){
               $row= dbase_get_record_with_names ( $db , $i);
-              if ($row["KV10_MIS"]==1000) {
+
                 $kdS=$row["EDRPO"];
-                $kdmoS=$row["K_MIS"];
+                $kdmoS=$row["KMIS_OD"];
                 mysqli_stmt_execute($stmtSelect);
                 $result = mysqli_stmt_get_result($stmtSelect);
                 if(mysqli_num_rows($result)>0)
                 {
                   $kdU = $row["EDRPO"];
-                  $kdmoU = $row["K_MIS"];
-                  $kdgU = $row["OKPO"];
+                  $kdmoU = $row["KMIS_OD"];
+                  $kdgU = $row["KOD_GL"];
                   $nuU = changeCodingPage($row['NAME_U']);
                   $adU = changeCodingPage($row['NAME_VUL'].",".$row['NOM_B']);
                   $piU = $row['P_IND'];
                   $teU = $row['TEF'];
                   $teaU = getTea($row['TEF']);
                   $kdUS = $row["EDRPO"];
-                  $kdmoUS = $row["K_MIS"];
+                  $kdmoUS = $row["KMIS_OD"];
 
                   mysqli_stmt_execute($stmtUpdate);
                   $countUpdate+=1;
                 } else {
                   $kd = $row["EDRPO"];
-                  $kdmo = $row["K_MIS"];
-                  $kdg = $row["OKPO"];
+                  $kdmo = $row["KMIS_OD"];
+                  $kdg = $row["KOD_GL"];
                   $nu = changeCodingPage($row['NAME_U']);
                   $ad = changeCodingPage($row['NAME_VUL'].",".$row['NOM_B']);
                   $pi = $row['P_IND'];
                   $te = $row['TEF'];
                   $tea = getTea($row['TEF']);
-
                   mysqli_stmt_execute($stmtInsert);
                   $countInsert+=1;
                 }
                 mysqli_free_result($result);
-              }
+
             }
           }
           mysqli_stmt_close($stmtSelect);

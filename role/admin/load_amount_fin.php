@@ -76,17 +76,17 @@
               $resultProfit=mysqli_query($link, $querySelectProfit.$whereProfitStr);
 
               if(mysqli_num_rows($resultAmount) == 1){
-                mysqli_query($link,sprintf($queryUpdateAmount,1,$res["id"],$filtr_year_insert,$filtr_period_insert,$row["CHIS_FIN15"],1,$res["id"],$filtr_year_insert,$filtr_period_insert));
+                mysqli_query($link,sprintf($queryUpdateAmount,1,$res["id"],$filtr_year_insert,$filtr_period_insert,$row["R1P1G1"],1,$res["id"],$filtr_year_insert,$filtr_period_insert));
                 $countUpd++;
               }else{
-                mysqli_query($link,sprintf($queryInsertAmount,1,$res["id"],$filtr_year_insert,$filtr_period_insert,$row["CHIS_FIN15"]));
+                mysqli_query($link,sprintf($queryInsertAmount,1,$res["id"],$filtr_year_insert,$filtr_period_insert,$row["R1P1G1"]));
                 $countIns++;
               }
 
               if(mysqli_num_rows($resultProfit) == 1){
-                mysqli_query($link,sprintf($queryUpdateProfit,$res["id"],$filtr_year_insert,$filtr_period_insert,$row["DOXID_15"],$res["id"],$filtr_year_insert,$filtr_period_insert));
+                mysqli_query($link,sprintf($queryUpdateProfit,$res["id"],$filtr_year_insert,$filtr_period_insert,$row["P2000G1"],$res["id"],$filtr_year_insert,$filtr_period_insert));
               }else{
-                mysqli_query($link,sprintf($queryInsertProfit,$res["id"],$filtr_year_insert,$filtr_period_insert,$row["DOXID_15"]));
+                mysqli_query($link,sprintf($queryInsertProfit,$res["id"],$filtr_year_insert,$filtr_period_insert,$row["P2000G1"]));
 
               }
               mysqli_free_result($resultAmount);

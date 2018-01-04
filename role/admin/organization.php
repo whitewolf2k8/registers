@@ -147,6 +147,7 @@
         ." as t2 on t1.`id_year` = t2.id left join period as t3 "
         ."on t1.id_period = t3.id  WHERE t1.id_org = ".$org["id"]." ORDER BY t2.nu DESC, t3.start_m DESC";
       $result = mysqli_query($link,$str_profit);
+
       if(mysqli_num_rows($result)>0){
         $profit_info=array();
         while($r=mysqli_fetch_array($result, MYSQLI_ASSOC)){
