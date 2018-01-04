@@ -295,7 +295,7 @@
                   $kdmoU = $row["KMIS_OD"];
                   $kdgU = $row["KOD_GL"];
                   $nuU = changeCodingPage($row['NAME_U']);
-                  $adU = changeCodingPage($row['NAME_VUL'].",".$row['NOM_B']);
+                  $adU = changeCodingPage($row['NAM_VUL'].",".$row['NOM_B']);
                   $piU = $row['P_IND'];
                   $teU = $row['TEF'];
                   $teaU = getTea($row['TEF']);
