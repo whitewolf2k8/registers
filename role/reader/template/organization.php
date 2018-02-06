@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="../../../css/style.css" media="screen" type="text/css" />
 <link rel="stylesheet" href="../../../css/style_menu.css" media="screen" type="text/css" />
 <link rel="stylesheet" href="../../../css/modal-contact-form.css"  type="text/css" />
-<link rel="stylesheet" href="../../../css/block.css"  type="text/css" />
 
 <title>Головна</title>
 <link rel="shortcut icon" href="/images/favicon.png" type="image/png">
@@ -27,6 +26,7 @@
     }
 
     if (correct) {
+    //  document.getElementById('lo').innerHTML='<div id="preloader"></div>';
       form.submit();
     }
   }
@@ -34,6 +34,7 @@
   $(document).ready(function() {
     $("#postCode").ForceNumericOnly();
   });
+
 
 </script>
 
@@ -93,49 +94,6 @@
           </div>
         </div>
 
-        <div id="change_adress" class="parent_popup" >
-          <div id="popup" class="popup" style="width:400px;left:40%;">
-            <div id='errorMesAdd' style='display="none";'>
-            </div>
-            <h2>Редагування фактичної адреси</h2>
-            <div class="clr"></div>
-            <p>
-              <div class="navigation_left"  style="margin-left:10px;">Область</div>
-              <div class="navigation_right">
-                <select id='obl_ch' onchange="updateLists(this.options[this.selectedIndex].value,'','ray_ch')" style="text-align:center; width:250px;"></select>
-              </div>
-            </p>
-            <div class="clr"></div>
-            <p>
-              <div class="navigation_left"  style="margin-left:10px;">Район</div>
-              <div class="navigation_right"><select id='ray_ch' onchange="generateTeLists('1',getIndexObl('obl_ch'),getIndexObl('ray_ch'),'ter_ch')" style="width:250px;text-align:center;"></select></div>
-            </p>
-            <div class="clr"></div>
-            <p>
-              <div class="navigation_left"  style="margin-left:10px;">Місто/Село</div>
-              <div class="navigation_right"><select id='ter_ch' style="width:250px;text-align:center;"></select></div>
-            </p>
-            <div class="clr"></div>
-            <p>
-              <div class="navigation_left"  style="margin-left:10px;">Поштовий індекс</div>
-              <div class="navigation_right"><input align="right" type="text" id="postCodeCh" maxlength="5" name="postCodeCh" style="width:250px;text-align:center;" /></div>
-            </p>
-            <div class="clr"></div>
-            <p>
-              <div class="navigation_left"  style="margin-left:10px;">Адреса</div>
-              <div class="navigation_right"><input align="right" type="text" id="adressAddCh" maxlength="150" name="adressAdd" style="width:250px;text-align:center;" /></div>
-            </p>
-            <div class="clr"></div>
-            <div>
-              <p align="center">
-    	          <input type="button" value="Скасувати" class="button" onclick="showHide('change_adress');" />
-                <input type="hidden" value="Видалити" id="btDel" class="button"  />
-                <input type="button" value="Зберегти" class="button" id="btChange" />
-    	        </p>
-            </div>
-          </div>
-        </div>
-
         <div id="contactAdd" class="parent_popup" >
           <div id="popup" class="popup" style="width:400px;left:40%;">
             <div id='errorMesCon' style='display="none";'></div>
@@ -164,27 +122,6 @@
             </div>
           </div>
         </div>
-
-        <div id="contactChange" class="parent_popup" >
-          <div id="popup" class="popup" style="width:400px;left:40%;">
-            <div id='errorMesCon' style='display="none";'></div>
-            <h2>Редагувати контактні дані</h2>
-            <div class="clr"></div>
-            <div id="typeC"> </div>
-            <p>
-              <div class="navigation_right"><input align="right" type="text" id="contactDataCh" maxlength="250" name="contactData" style="width:400px;text-align:center;" /></div>
-            </p>
-            <div class="clr"></div>
-            <div>
-              <p align="center">
-                <input type="button" value="Скасувати" class="button" onclick="showHide('contactChange');" />
-                <input type="hidden" value="Видалити" id="btContactDel" class="button" />
-                <input type="button" value="Зберегти" id="btContactCh" class="button"/>
-              </p>
-            </div>
-          </div>
-        </div>
-
 
         <form name="adminForm" action="index.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="mode" />
@@ -225,7 +162,7 @@
                     <text > - <? echo "Код території(повний/короткий):".$value["tea"]."/"
                       .$value["te"].", адреса : ".$value["pi"].",".$value['ad'];?>
                     </text>
-                    <input type="button" class="btn_edit" onclick="callAddWindow('change','<? echo $value["id"]; ?>');" />
+
                   </p>
               <? }
               } ?>
@@ -240,23 +177,24 @@
             <div class="clr"></div>
             <div id ="contact">
               <? if(isset($contact)){
-
                   $count=0;
                   foreach ($contact as $key => $value) {
                     if($count==0){
                       echo "<p>";
                       $count+=1;
                     }
-                    if($value["type"]==0) {
-                        echo "<text>Телефон: ".$value["data"].";</text>"
-                          ."<input type=\"button\" class=\"btn_edit\" onclick=\"contactChange(".$value['id'].",".$value['id_org'].",'".$value['data']."',".$value['type'].");\" />";
-                    } else if($value["type"]==1) {
+                    switch ($value["type"]) {
+                      case "0":
+                        echo "<text>Телефон: ".$value["data"].";</text>";
 
-                        echo"<text>Факс: ".$value["data"].";</text>"
-                          ."<input type=\"button\" class=\"btn_edit\" onclick=\"contactChange(".$value['id'].",".$value['id_org'].",'".$value['data']."',".$value['type'].");\" />";
-                    } else {
-                        echo"<text>Email: ".$value["data"].";</text>"
-                          ."<input type=\"button\" class=\"btn_edit\" onclick=\"contactChange(".$value['id'].",".$value['id_org'].",'".$value['data']."',".$value['type'].");\" />";
+                        break;
+                      case "1":
+                        $text="<text>Факс: ".$value["data"].";</text>";
+
+                      case "2":
+                        $text="<text>Email: ".$value["data"].";</text>";
+
+                        break;
                     }
                     if ($count==3){
                       echo "</p>";
@@ -342,224 +280,12 @@
             } ?>
           <? } ?>
 
-          <? if(isset($bankrut_info)){ ?>
-            <p>
-              <text>
-                <b>Дані про перебування особи в процесі провадження у справі про банруцтво, санації :</b>
-              </text>
-            </p>
-            <? foreach ($bankrut_info as $key => $value) {
-              echo "<p> <text> ";
-              echo "Номер справи: ".(str_replace(" ","",$value['deal_number']!="")?str_replace(" ","",$value['deal_number']):"--------------")." ; ";
-              echo "Дата: ".(str_replace(" ","",$value['date_deal']!="")?str_replace(" ","",$value['date_deal']):"--------------")." ; ";
-              echo "ПІБ ліквідатора: ".(str_replace(" ","",$value['maneger_deal']!="")?str_replace(" ","",$value['maneger_deal']):"--------------")." ; ";
-              echo "Тип : ".((str_replace(" ","",$value['type_deal'])!="")?$value['type_deal']:"--------------")." ; "."</p></text>";
-            } ?>
-          <? } ?>
-
-          <? if(isset($act_info)){ ?>
-            <p>
-              <text>
-                <b>Дані про наявність акту(-ів):</b>
-              </text>
-            </p>
-            <? foreach ($act_info as $key => $value) {
-              echo "<p style='text-align:left;'> <text> ";
-              echo "Дата складання: ".(str_replace(" ","",$value['da']!="")?str_replace(" ","",$value['da']):"--------------")." ; ";
-              echo "Дата ліквідації по рішенню суду: ".(str_replace(" ","",$value['dl']!="")?str_replace(" ","",$value['dl']):"--------------")." ; ";
-              echo "Тип атку: ( ".(str_replace(" ","",$value['types']!="")?$value['types']:"--------------")." ) ; ";
-              echo "Відділ що склав : ".((str_replace(" ","",$value['dep'])!="")?$value['dep']:"--------------")." ; ";
-              echo "Адреса складання : ".((str_replace(" ","",$value['ad'])!="")?$value['ad']:"--------------").";  "."</p></text>";
-            } ?>
-          <? } ?>
-
-          <? if(isset($cause_info)){ ?>
-            <p>
-              <text>
-                <b>Дані про порушення адмінсправ(и):</b>
-              </text>
-            </p>
-            <? foreach ($cause_info as $key => $value) {
-              echo "<p style='text-align:left;'> <text> ";
-              echo "Номер/Дата адмінсправи: ".(str_replace(" ","",$value['decree']!="")?str_replace(" ","",$value['decree']):"--------------")." ; ";
-              echo " Відповідальна особа: ".(str_replace(" ","",$value['volator']!="")?str_replace(" ","",$value['volator']):"--------------")." ; ";
-              echo " Керівник відділу ініціатора : ".((str_replace(" ","",$value['nu'])!="")?$value['nu']:"--------------").";  "."</p></text>";
-            } ?>
-          <? } ?>
-
-          <? if(isset($violation_info)){ ?>
-            <p>
-              <text>
-                <b>Дані про порушення законодвства:</b>
-              </text>
-            </p>
-            <? foreach ($violation_info as $key => $value) {
-              echo "<p style='text-align:left;'> <text> ";
-              echo "Вихідний № листа: ".(str_replace(" ","",$value['label']!="")?str_replace(" ","",$value['label']):"--------------")." ; "."</p></text>";
-            } ?>
-          <? } ?>
-
-          <? if(isset($activity_info)){ ?>
-            <p>
-              <text>
-                <b>Дані про призупинення діяльності:</b>
-              </text>
-            </p>
-            <? foreach ($activity_info as $key => $value) {
-              echo "<p style='text-align:left;'> <text> ";
-              echo "Номер/дата листа: ".(str_replace(" ","",$value['label']!="")?str_replace(" ","",$value['label']):"--------------")." ; "."</p></text>";
-            } ?>
-          <? } ?>
-          <br>
-        <p>
-          <text>
-            <b>Чистий дохід від реалізації продукції (товарів, робіт, послуг) :</b>
-          </text>
-          <? if(isset($profit_info[0])){ ?>
-            <p style='text-align:center;'>
-              <text>
-                <? echo " - дохід за ".$profit_info[0]['nuPeriod']." ".$profit_info[0]['yearShot']." становив ".$profit_info[0]['profit']." тис.грн ;" ?>
-              <text>
-            </p>
-          <? } ?>
-          <? if(isset($profit_info[1])){ ?>
-            <p style='text-align:center;'>
-              <text>
-                <? echo " - дохід за ".$profit_info[1]['nuPeriod']." ".$profit_info[1]['yearShot']." становив ".$profit_info[1]['profit']." тис.грн ;" ?>
-              <text>
-            </p>
-          <? } ?>
-          <div class="demo">
-            <input class="hide" id="hd-1" type="checkbox">
-            <label for="hd-1">Чистий дохід від реалізації продукції (товарів, робіт, послуг) за <font style="color:red;"> інші періоди</font> </label>
-            <div>
-              <? for ($i=2; $i < count($profit_info) ; $i++) { ?>
-                <p>
-                  <? echo " - дохід за ".$profit_info[$i]['nuPeriod']." ".$profit_info[$i]['yearShot']." становив ".$profit_info[$i]['profit']." тис.грн ;" ?>
-                </p>
-              <? }  ?>
-            </div>
-          </div>
-        </p>
-
-
-        <p>
-          <text>
-            <b>Середня кількість працівник (за формами фінансової звітності та формою 1-ПВ) :</b>
-          </text>
-          <? if(isset($amount_res[0])){ ?>
-            <p style='text-align:center;'>
-              <text>
-                <? echo " - кількість працівник за ".$amount_res[0]['nuPeriod']." ".$amount_res[0]['yearShot']." становив:  у фін.звіті ".$amount_res[0]['amountF']."осіб, у 1-ПВ ".$profit_info[0]['amountP']."осіб ; " ?>
-              <text>
-            </p>
-          <? } ?>
-          <? if(isset($amount_res[1])){ ?>
-            <p style='text-align:center;'>
-              <text>
-                <? echo " - кількість працівник за ".$amount_res[1]['nuPeriod']." ".$amount_res[1]['yearShot']." становив:  у фін.звіті ".$amount_res[1]['amountF']."осіб, у 1-ПВ ".$profit_info[1]['amountP']."осіб ; " ?>
-              <text>
-            </p>
-          <? } ?>
-          <div class="demo">
-            <input class="hide" id="hd-2" type="checkbox">
-            <label for="hd-2">Середня кількість працівник (за формами фінансової звітності та формою 1-ПВ) за <font style="color:red;"> інші періоди</font> </label>
-            <div>
-              <? for ($i=2; $i < count($amount_res) ; $i++) { ?>
-                <p>
-                  <? echo " - кількість працівник за ".$amount_res[$i]['nuPeriod']." ".$amount_res[$i]['yearShot']." становив:  у фін.звіті ".$amount_res[$i]['amountF']."осіб, у 1-ПВ ".$profit_info[$i]['amountP']."осіб ; " ?>
-                </p>
-              <? }  ?>
-            </div>
-          </div>
-        </p>
-
-
-
-        <p>
-          <text>
-            <b>Ознака активності за даними ДФС :</b>
-          </text>
-          <? if(isset($activity_tax_info[0])){ ?>
-            <p style='text-align:center;'>
-              <text>
-                <? echo " - ознака за ".$activity_tax_info[0]['nuPeriod']." ".$activity_tax_info[0]['yearShot']." :  ".$activity_tax_info[0]['sign']." ;" ?>
-              <text>
-            </p>
-          <? } ?>
-          <? if(isset($activity_tax_info[1])){ ?>
-            <p style='text-align:center;'>
-              <text>
-                <? echo " - ознака за ".$activity_tax_info[1]['nuPeriod']." ".$activity_tax_info[1]['yearShot']." :  ".$activity_tax_info[1]['sign']." ;" ?>
-              <text>
-            </p>
-          <? } ?>
-          <div class="demo">
-            <input class="hide" id="hd-3" type="checkbox">
-            <label for="hd-3">Ознака активності за даними ДФС за <font style="color:red;"> інші періоди</font>: </label>
-            <div>
-              <? for ($i=2; $i < count($activity_tax_info) ; $i++) { ?>
-                <p>
-                  <? echo " - ознака за ".$activity_tax_info[$i]['nuPeriod']." ".$activity_tax_info[$i]['yearShot']." :  ".$activity_tax_info[$i]['sign']." ;" ?>
-                </p>
-              <? }  ?>
-            </div>
-          </div>
-        </p>
-
-        <p>
-          <text>
-            <b>Ознака наявності електронно цифрового підпису :</b>
-          </text>
-          <? if(isset($info_ecp[0])){ ?>
-            <p style='text-align:center;'>
-              <text>
-                <? echo " - ознака наявності ЕЦП за ".$info_ecp[0]['nuYear']." рік :  ".$info_ecp[0]['el_info']." ;" ?>
-              <text>
-            </p>
-          <? } ?>
-          <div class="demo">
-            <input class="hide" id="hd-4" type="checkbox">
-            <label for="hd-4">Ознака наявності електронно цифрового підпису за <font style="color:red;"> інші періоди</font>: </label>
-            <div>
-              <? for ($i=1; $i < count($info_ecp) ; $i++) { ?>
-                <p>
-                  <? echo " - ознака наявності ЕЦП за ".$info_ecp[$i]['nuYear']." рік :  ".$info_ecp[$i]['el_info']." ;" ?>
-                </p>
-              <? }  ?>
-            </div>
-          </div>
-        </p>
-
-        <p>
-          <text>
-            <b> Відомості про згоду на використання інформації, отриманої за результатами ДСС в публікаціях :</b>
-          </text>
-          <? if(isset($info_consents[0])){ ?>
-            <p style='text-align:center;'>
-              <text>
-                <? echo " - відомость про згоду на використання інформації,  в публікаціях за ".$info_consents[0]['nuYear']." рік :  ".$info_consents[0]['type']." ;" ?>
-              <text>
-            </p>
-          <? } ?>
-          <div class="demo">
-            <input class="hide" id="hd-5" type="checkbox">
-            <label for="hd-5">Відомості про згоду на використання інформації, отриманої за результатами ДСС в публікаціях за <font style="color:red;"> інші періоди</font>: </label>
-            <div>
-              <? for ($i=1; $i < count($info_consents) ; $i++) { ?>
-                <p>
-                  <? echo " - відомость про згоду на використання інформації,  в публікаціях за ".$info_consents[$i]['nuYear']." рік :  ".$info_consents[$i]['type']." ;" ?>
-                </p>
-              <? }  ?>
-            </div>
-          </div>
-        </p>
-
         </div>
           <div class="clr"></div>
           <div id="lo"></div>
         </form>
       </div>
+
 
 	  </div><!-- .content -->
 
