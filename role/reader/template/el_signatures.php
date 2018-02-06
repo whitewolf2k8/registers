@@ -14,27 +14,7 @@
   function submitForm(mode) {
     correct = true;
     form = document.forms['adminForm'];
-    if(mode=='import'){
-      if (form.fileImp.value=="") {
-        correct = false;
-        document.getElementById('fileImp').className="error";
-        document.getElementById('errorMes').className="error";
-        document.getElementById('errorMes').innerHTML="<p>Будь ласка оберіть файл для імпорту.</p>";
-      }
-    }
 
-    if(mode=='edit'){
-      correct= confirm("Ви впевнені в змінах ??");
-      if(correct){
-        var arrCheck=document.getElementsByName("checkList[]");
-        for(var i=0;i<arrCheck.length;i++){
-          arrCheck[i].disabled=false;
-        }
-      }
-    }
-    if(mode=='del'){
-      correct= confirm("Ви що хочете видалити відмічені записи??");
-    }
     if (correct) {
       document.getElementById('lo').innerHTML='<div id="preloader"></div>';
       form.mode.value = mode;
@@ -81,6 +61,12 @@
                <div class="navigation_right"><input align="right" type="text" id="filtr_kdmo" name="filtr_kdmo" value="<?php echo $filtr_kdmo; ?>" style="width:180px;text-align:center;" /></div>
             </p>
             <div class="clr"></div>
+            <p>
+               <div class="navigation_left">рік</div>
+               <div class="navigation_right">
+                  <select id="filtr_year_select" name="filtry_year_select" style="width:200px;text-align:center;"><? echo $select_year; ?></select>
+               </div>
+            </p>
             </p>
             <div class="clr"></div>
             <p align="center">
@@ -105,7 +91,7 @@
                 echo "<td style =\" overflow:hidden;\" >".$value["kd"]."</td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["kdmo"]."</td>";
                 echo "<td style =\" overflow:hidden;\" >".$value["el_info"]."</td>";
-                echo "<td style =\" overflow:hidden;\" >".$value["year"]."</td>";
+                echo "<td style =\" overflow:hidden;\" >".$value["nu"]."</td>";
                 echo"</tr>";
               }
         } ?>

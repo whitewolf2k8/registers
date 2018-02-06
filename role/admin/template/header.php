@@ -80,10 +80,70 @@
       <li><a href="act_show.php">АКТ пошук</a></li>
       </ul>
   </li>
+<<<<<<< Updated upstream
   <li class="top"><a href="#" id="" class="top_link"><span class="down">Доукументація</span></a>
       <ul class="sub">
         <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'main.pdf'});\""; ?>;>Про систему</a></li>
         <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'select_org.pdf'});\""; ?>;>Вибірка </a></li>
+=======
+  <li class="top"><a href="#" id="" class="top_link"><span class="down">Документація</span></a>
+      <ul class="sub">
+        <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Головна сторінка 1.pdf'});\""; ?>;>Про систему</a></li>
+
+        <li><a href="" class="fly">Вхідні дані</a>
+            <ul>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Завантаження АРМ.pdf'});\""; ?>;>Завантаження АРМ</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Електронні підписи.pdf'});\""; ?>;>Електронні підписи</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Дані про банкрутів.pdf'});\""; ?>;>Дані про банкрутів</a></li>
+                <li><a href="" class="fly">Завантаження чисельності</a>
+                    <ul>
+                        <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Завантаження чисельності з 1-ПВ.pdf'});\""; ?>;>з 1-ПВ</a></li>
+                        <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Завантаження-чисельності з фінансів.pdf'});\""; ?>;>з фінансів</a></li>
+                    </ul>
+                </li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Порушення законодавства.pdf'});\""; ?>;>Порушення законодавства</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Порушення адмінсправи.pdf'});\""; ?>;>Порушення адмінсправи</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Призупинення діяльноісті.pdf'});\""; ?>;>Призупинення діяльності</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Активність за даними ДФС.pdf'});\""; ?>;>Активність за даними ДфС</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Згоди ОДА.pdf'});\""; ?>;>Згоди ОДА</a></li>
+            </ul>
+        </li>
+        <li><a href="" class="fly">Довідники</a>
+            <ul>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Квед 2010.pdf'});\""; ?>;>Квед 2010</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'КІСЕ  2014.pdf'});\""; ?>;>КІСЕ 2014</a></li>
+                <li><a href="" class="fly">Території</a>
+                    <ul>
+                        <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Території KOATUU.pdf'});\""; ?>;>KOATUU</a></li>
+                        <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Території Регіони.pdf'});\""; ?>;>Регіони</a></li>
+                    </ul>
+                </li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'ОПФ.pdf'});\""; ?>;>ОПФ</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Органи управління.pdf'});\""; ?>;>Органи управління</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Відділи.pdf'});\""; ?>;>Відділи</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Керівники.pdf'});\""; ?>;>Керівники</a></li>
+            </ul>
+        </li>
+        <li><a href="" class="fly">Запити</a>
+            <ul>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Вибірка підприємтсва.pdf'});\""; ?>;>Вибірка підприємств</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Експорт підприємств по файлу 1.pdf'});\""; ?>;>Експорт підприємств по файлу</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Експорт підприємств по списку.pdf'});\""; ?>;>Експорт підприємств по списку</a></li>
+                <li><a href="" class="fly">Експорт фактичних адрес підприємств</a>
+                    <ul>
+                        <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Експорт фактичних адрес підприємств по фільтрам.pdf'});\""; ?>;>по фільтрам</a></li>
+                        <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Експорт фактичних адрес підприємств по списку заданому користувачем.pdf'});\""; ?>;>по списку заданому користувачем</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="" class="fly">Акти</a>
+            <ul>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Акт введення.pdf'});\""; ?>;>АКТ введення</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'Акт пошуку.pdf'});\""; ?>;>АКТ пошук</a></li>
+            </ul>
+        </li>
+>>>>>>> Stashed changes
       </ul>
   </li>
   <li class="top_l">
