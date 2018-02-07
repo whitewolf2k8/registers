@@ -155,7 +155,7 @@
         }
       }
       mysqli_free_result($result);
-      print_r($result);
+  
 
       $str_amount="SELECT t2.nu as nuYear,t2.short_nu as yearShot, t3.nu as nuPeriod,t3.start_m, t3.finish_m ,t1.amount, t1.type FROM `amount_workers` as t1  left join year"
         ." as t2 on t1.`id_year` = t2.id left join period as t3 "
