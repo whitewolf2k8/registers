@@ -1,27 +1,34 @@
 <?
   require_once('../../lib/start.php');
 
+  $filtr_year_insert=isset($_POST['filtr_year_insert']) ? stripslashes($_POST['filtr_year_insert']) : 0;
+  $filtr_year_select=isset($_POST['filtry_year_select']) ? stripslashes($_POST['filtry_year_select']) : 0;
+
   $filtr_kd=isset($_POST['filtr_kd']) ? stripslashes($_POST['filtr_kd']) : '';
   $filtr_kdmo=isset($_POST['filtr_kdmo']) ? stripslashes($_POST['filtr_kdmo']) : '';
 
   $paginathionLimitStart=isset($_POST['limitstart']) ? stripslashes($_POST['limitstart']) : 0;
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
 
-  
+
   $ERROR_MSG="";
 
   $where = array();
-   $where[]=' inf_add.id_org != 0';
+   $where[]=' t1.id_org != 0';
   if($filtr_kd!=""){
-    $where[]=" org.kd = '".$filtr_kd."'";
+    $where[]=" t2.kd = '".$filtr_kd."'";
   }
   if($filtr_kdmo!=""){
-    $where[]=" org.kdmo = '".$filtr_kdmo."'";
+    $where[]=" t2.kdmo = '".$filtr_kdmo."'";
+  }
+  if($filtr_year_select!=""){
+    $where[]=" t1.id_year = ".$filtr_year_select;
   }
 
   $whereStrPa = ( count( $where ) ? ' WHERE ' . implode( ' AND ', $where ) : '' );
-  $qeruStrPaginathion="SELECT COUNT(inf_add.id) as resC   FROM  add_information as inf_add"
-  ." left join organizations as org  on org.id=inf_add.id_org ".$whereStrPa;
+  $qeruStrPaginathion="SELECT COUNT(t1.id) as resC   FROM  el_signatures as t1"
+  ." left join organizations as t2 on t2.id=t1.id_org"
+  ." left join year as t3 on t3.id=t1.id_year".$whereStrPa;
   $resultPa = mysqli_query($link,$qeruStrPaginathion);
   if($resultPa){
     $r=mysqli_fetch_array($resultPa, MYSQLI_ASSOC);
@@ -38,10 +45,10 @@
     $whereStr.=' LIMIT '.$paginathionLimitStart.','.$paginathionLimit;
   }
 
-  $qeruStr="SELECT y.nu, org.kd,org.kdmo,inf_add.* FROM "
-      ." add_information as inf_add "
-      ." left join organizations as org on org.id=inf_add.id_org"
-      ." left join year as y on y.id=inf_add.year".$whereStr;
+  $qeruStr="SELECT t3.nu, t2.kd,t2.kdmo,t1.* FROM "
+      ." el_signatures as t1 "
+      ." left join organizations as t2 on t2.id=t1.id_org"
+      ." left join year as t3 on t3.id=t1.id_year".$whereStr;
 
   $result = mysqli_query($link,$qeruStr);
   if($result){
