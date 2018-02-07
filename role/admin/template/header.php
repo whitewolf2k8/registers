@@ -122,7 +122,7 @@
             <ul>
                 <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'¬иб≥рка п≥дприЇмтсва.pdf'});\""; ?>;>¬иб≥рка п≥дприЇмств</a></li>
                 <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'≈кспорт п≥дприЇмств по файлу 1.pdf'});\""; ?>;>≈кспорт п≥дприЇмств по файлу</a></li>
-                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'≈кспорт п≥дприЇмств по списку.pdf'});\""; ?>;>≈кспорт п≥дприЇмств по списку</a></li>
+                <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'≈кспорт п≥дприЇмств по списку 1.pdf'});\""; ?>;>≈кспорт п≥дприЇмств по списку</a></li>
                 <li><a href="" class="fly">≈кспорт фактичних адрес п≥дприЇмств</a>
                     <ul>
                         <li><a OnClick=<? echo "\"openUrlDoc('document_view.php',{path:'≈кспорт фактичних адрес п≥дприЇмств по ф≥льтрам.pdf'});\""; ?>;>по ф≥льтрам</a></li>
