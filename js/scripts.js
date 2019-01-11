@@ -1,4 +1,5 @@
 function submitFormLim(lim){
+  document.getElementById('lo').innerHTML='<div id="preloader"></div>';
   var x = document.getElementsByName("limit");
     x[0].value=lim;
   var x = document.getElementsByName("limitstart");
@@ -7,6 +8,7 @@ function submitFormLim(lim){
 }
 
 function submitFormLimStart(limS){
+  document.getElementById('lo').innerHTML='<div id="preloader"></div>';
   var x = document.getElementsByName("limitstart");
     x[0].value=limS;
     document.forms['adminForm'].submit();

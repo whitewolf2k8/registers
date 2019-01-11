@@ -126,8 +126,8 @@
               $filds[0][]="t1.kice";
             break;
             case 'iz':
-              $headTable["kice"]['type']="N";
-              $headTable["kice"]['len']=4;
+              $headTable["iz"]['type']="N";
+              $headTable["iz"]['len']=1;
               $filds[0][]="t1.iz";
             break;
             case 'e1_10':

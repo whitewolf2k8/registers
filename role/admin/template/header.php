@@ -57,6 +57,7 @@
       </li>
       <li><a href="load_opf.php">ОПФ</a></li>
       <li><a href="load_management.php">Органи управління</a></li>
+      <li><a href="load_skof.php">СКОФ</a></li>
       <li><a href="department.php">Відділи</a></li>
       <li><a href="manegers.php">Керівники</a></li>
     </ul>

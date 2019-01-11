@@ -30,7 +30,7 @@
     $filtr_arr_typse_act=isset($_POST['types']) ? $_POST['types'] : array(0);
   }
 
-  $arrfild= isset($_POST['filds'])? $_POST['filds'] :  array('kd','kdmo','nu','pk','kdg','te','tea','ad','pi');
+  $arrfild= isset($_POST['fildList'])? $_POST['fildList'] :  array('kd','kdmo','nu','pk','kdg','te','tea','ad','pi');
 
   $paginathionLimitStart=isset($_POST['limitstart']) ? stripslashes($_POST['limitstart']) : 0;
   $paginathionLimit=isset($_POST['limit']) ? stripslashes($_POST['limit']) : 50;
@@ -81,8 +81,12 @@
           $filds[0][]="t1.pi";
         break;
         case 'pf':
-          $headTable["pf"]="Організаційна<br>форма";
+          $headTable["pf"]="Код організаційної<br>форми";
           $filds[0][]="t1.pf";
+        break;
+        case 'pf_nu':
+          $headTable["pf_nu"]="Назва організаційної<br>форми";
+          $filds[0][]="t4.nu as pf_nu";
         break;
         case 'gu':
           $headTable["gu"]="Орган <br> управління";
@@ -196,6 +200,23 @@
         case 'pr':
           $headTable["pr"]="Тип змін";
           $filds[0][]="t1.pr";
+        break;
+        case 'phone':
+          $headTable["phone"]="Телефони";
+        break;
+        case 'phacs':
+          $headTable["phacs"]="Факс";
+        break;
+        case 'mail':
+          $headTable["mail"]="Електронні адреси";
+        break;
+        case 'sof':
+          $headTable["sof"]="Код СКОФ";
+          $filds[0][]="t1.sof";
+        break;
+        case 'sof_nu':
+          $headTable["sof_nu"]="Назва коду <br> СКОФ";
+          $filds[0][]="t5.nu as sof_nu";
         break;
       }
     }
@@ -331,7 +352,9 @@ $where = array();
 
   $qeruStrPaginathion="SELECT COUNT(DISTINCT t1.id) as resC FROM `organizations` as t1  "
     ." left join  `actual_address`  as t2 on t2.id_org=t1.id"
-    ." left join  `acts` as t3 on t1.id=t3.org ".$whereStrPa;
+    ." left join  `acts` as t3 on t1.id=t3.org "
+    ." left join  `opf` as t4 on t1.pf=t4.kd "
+    ." left join  `skof` as t5 on t1.sof=t5.kod ".$whereStrPa;
 
   $resultPa = mysqli_query($link,$qeruStrPaginathion);
   if($resultPa){
@@ -353,8 +376,9 @@ $where = array();
 
   $qeruStr="SELECT ".$fildStr." FROM `organizations` as t1"
     ." left join  `actual_address`  as t2 on t2.id_org=t1.id"
-    ." left join  `acts` as t3 on t1.id=t3.org ".$whereStr;
-
+    ." left join  `acts` as t3 on t1.id=t3.org "
+    ." left join  `opf` as t4 on t1.pf=t4.kd "
+    ." left join  `skof` as t5 on t1.sof=t5.kod ".$whereStr;
   $result = mysqli_query($link,$qeruStr);
   if($result){
     $ListResult=array();
@@ -368,11 +392,52 @@ $where = array();
           }
         }
       }
+
       $row["kdg"]=(($row["kdg"]>0)?$row["kdg"]:"- - - - -");
+      $row["pf_nu"]=(($row["pf_nu"]!='')?$row["pf_nu"]:"- - - - -");
+      $row["sof_nu"]=(($row["sof_nu"]!='')?$row["sof_nu"]:"- - - - -");
       $ListResult[]=$row;
     }
     mysqli_free_result($result);
   }
+
+  if(array_key_exists('phone', $headTable)||array_key_exists('phacs', $headTable)||array_key_exists('mail', $headTable)){
+    $type=array();
+
+    if(array_key_exists('phone', $headTable)){ $type[]=0;}
+    if(array_key_exists('phacs', $headTable)){ $type[]=1; }
+    if(array_key_exists('mail', $headTable)){ $type[]=2; }
+
+    $strType=(count( $type )) ? ' type in ( ' . implode( ', ', $type ).' )' : '' ;
+    foreach ($ListResult as $key => $value) {
+      $queryS="SELECT data, type FROM `contact` WHERE id_org = ".$value['id'].(($strType!='')?" AND ".$strType:"");
+
+      $result = mysqli_query($link,$queryS);
+      if($result){
+        $listContact=array('phone'=>array(),'phacs'=>array(),'mail'=>array());
+        while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+
+          if ($row['type']==0) {$listContact['phone'][]=$row['data']; }
+          else if($row['type']==1){ $listContact['phacs'][]=$row['data']; }
+          else if($row['type']==2){ $listContact['mail'][]=$row['data']; }
+        }
+        mysqli_free_result($result);
+      }
+
+      if(array_key_exists('phone', $headTable)){
+        $ListResult[$key]=$ListResult[$key]+array('phone' => ((count( $listContact['phone'] )) ? implode( ';', $listContact['phone'] ): '')) ;
+      }
+      if(array_key_exists('phacs', $headTable)){
+        $ListResult[$key]=$ListResult[$key]+array('phacs' => ((count( $listContact['phacs'] )) ? implode( ';', $listContact['phacs'] ): '')) ;
+      }
+      if(array_key_exists('mail', $headTable)){
+        $ListResult[$key]=$ListResult[$key]+array('mail' => ((count( $listContact['mail'] )) ? implode( ';', $listContact['mail'] ): '')) ;
+      }
+
+    }
+
+  }
+
 
 
 

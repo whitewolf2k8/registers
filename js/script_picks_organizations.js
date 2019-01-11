@@ -411,13 +411,13 @@
   }
 
   function checkAllFild() {
-    for (var i = 1; i < 34; i++) {
+    for (var i = 1; i < 40; i++) {
       document.getElementById("f_"+i).setAttribute('checked',"");
     }
   }
 
   function delAllcheckFild() {
-    for (var i = 1; i < 34; i++) {
+    for (var i = 1; i < 40; i++) {
       document.getElementById("f_"+i).removeAttribute('checked');
     }
   }

@@ -89,6 +89,18 @@
         }
       }
 
+      if($org["sof"]!=0){
+        $qeruStr="SELECT kod,nu FROM `skof` WHERE kod=".$org["sof"];
+        $result = mysqli_query($link,$qeruStr);
+        if($result){
+          if(mysqli_num_rows($result)>0){
+            while($row=mysqli_fetch_array($result, MYSQLI_ASSOC)){
+              $org["sof_text"]=$row['kod']."(".$row['nu'].")";
+            }
+          } 
+        }
+      }
+
       $str_bankrut="SELECT * FROM bankrupts WHERE  id_org = ".$org["id"];
       $result = mysqli_query($link,$str_bankrut);
       if(mysqli_num_rows($result)>0){

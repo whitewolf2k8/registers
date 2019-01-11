@@ -44,12 +44,12 @@
             ."`pk`=?,`ad`=?,`pi`=?,`te`=?,`tea`=?,`e1_10`=?,`e2_10`=?,`e3_10`=?,"
             ."`e4_10`=?,`e5_10`=?,`e6_10`=?,`uo`=?,`vdf10`=?,"
             ."`iz`=?,`pf`=?,`kice`=?,`gu`=?,`os`=?,`rik`=?,`sn`=?,`rn`=?,`dr`=?,"
-            ."`pr`=?, `dz`=?, `dl`=?  WHERE `kd`=? and `kdmo`=?";
+            ."`pr`=?, `dz`=?, `dl`=?, `sof`=? WHERE `kd`=? and `kdmo`=?";
           $queryInsert = "INSERT INTO `organizations`(`kd`, `kdmo`, `kdg`, `nu`,"
             ." `pk`, `ad`, `pi`, `te`, `tea`, `e1_10`, `e2_10`, `e3_10`, `e4_10`,"
             ."`e5_10`, `e6_10`, `uo`, `vdf10`, `iz`, `pf`, `kice`, `gu`,"
-            ." `os`, `rik`, `sn`, `rn`, `dr`, `pr`, `dz`, `dl`) VALUES (?,?,?,?,?,?,?,?,?,"
-            ."?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            ." `os`, `rik`, `sn`, `rn`, `dr`, `pr`, `dz`, `dl`,`sof`) VALUES (?,?,?,?,?,?,?,?,?,"
+            ."?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
           $stmtSelect = mysqli_stmt_init($link);
           $stmtUpdate = mysqli_stmt_init($link);
           $stmtInsert = mysqli_stmt_init($link);
@@ -59,9 +59,9 @@
           {
             echo " ??????? ?????????? ?????? \n <br>";
           } else{
-            mysqli_stmt_bind_param($stmtInsert, "iisssssssssssssssssssssssssss",$kd,$kdmo,$kdg,$nu,$pk,$ad,$pi,$te,$tea,$e1_10,$e2_10,$e3_10,$e4_10,$e5_10,$e6_10,$uo,$vdf10,$iz,$pf,$kice,$gu,$os,$rik,$sn,$rn,$dr,$pr,$dz,$dl);
+            mysqli_stmt_bind_param($stmtInsert, "iissssssssssssssssssssssssssss",$kd,$kdmo,$kdg,$nu,$pk,$ad,$pi,$te,$tea,$e1_10,$e2_10,$e3_10,$e4_10,$e5_10,$e6_10,$uo,$vdf10,$iz,$pf,$kice,$gu,$os,$rik,$sn,$rn,$dr,$pr,$dz,$sof,$dl);
             mysqli_stmt_bind_param($stmtSelect, "ii", $kdS, $kdmoS);
-            mysqli_stmt_bind_param($stmtUpdate, "iisssssssssssssssssssssssssssii",$kdU,$kdmoU,$kdgU,$nuU,$pkU,$adU,$piU,$teU,$teaU,$e1_10U,$e2_10U,$e3_10U,$e4_10U,$e5_10U,$e6_10U,$uoU,$vdf10U,$izU,$pfU,$kiceU,$guU,$osU,$rikU,$snU,$rnU,$drU,$prU,$dzU,$dlU,$kdUS,$kdmoUS );
+            mysqli_stmt_bind_param($stmtUpdate, "iissssssssssssssssssssssssssssii",$kdU,$kdmoU,$kdgU,$nuU,$pkU,$adU,$piU,$teU,$teaU,$e1_10U,$e2_10U,$e3_10U,$e4_10U,$e5_10U,$e6_10U,$uoU,$vdf10U,$izU,$pfU,$kiceU,$guU,$osU,$rikU,$snU,$rnU,$drU,$prU,$dzU,$dlU,$sofU,$kdUS,$kdmoUS );
             for($i=1;$i<=$rowCount;$i++){
               $row= dbase_get_record_with_names ( $db , $i);
 
@@ -100,6 +100,7 @@
                 $prU = $row['PR'];
                 $dzU = $row['DZ'];
                 $dlU = $row['DL'];
+                $sofU = $row['SOF'];
                 $kdUS = $row["KD"];
                 $kdmoUS = $row["KDMO"];
                 mysqli_stmt_execute($stmtUpdate);
@@ -134,6 +135,7 @@
                 $pr = $row['PR'];
                 $dz = $row['DZ'];
                 $dl = $row['DL'];
+                $sof = $row['SOF'];
                 mysqli_stmt_execute($stmtInsert);
                 $countInsert+=1;
               }

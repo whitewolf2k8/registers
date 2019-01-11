@@ -134,8 +134,8 @@
               $filds[0][]="t1.kice";
             break;
             case 'iz':
-              $headTable["kice"]['type']="N";
-              $headTable["kice"]['len']=4;
+              $headTable["iz"]['type']="N";
+              $headTable["iz"]['len']=1;
               $filds[0][]="t1.iz";
             break;
             case 'e1_10':
@@ -284,7 +284,7 @@
               $where[]=" t1.kd =".$rowTable["KD"];
             }
 
-            if($keyFildExist[1]==1){
+            if($keyFildExist[1]==1 && $rowTable["KDMO"] != 0){
               $where[]=" t1.kdmo =".$rowTable["KDMO"];
             }
             $fildStr = ( count( $filds[0] ) ?implode( ' , ',   $filds[0] ) : '' );
@@ -302,6 +302,7 @@
             }
             mysqli_free_result($result);
           }
+
           $cnt_exp+=1;
           session_start();
           $_SESSION['ls_sleep_test'] =$cnt_exp;
