@@ -48,7 +48,7 @@
 
 	  <div class="content">
       <div class="mainConteiner">
-        <h2>Вибірка підприємств по обраним респонентам </h2>
+        <h2>Експорт підприємств по списку</h2>
         <div id='errorMes' style='display="none"'>
       		    <?php if ($ERROR_MSG != '') echo '<p class="error">'.$ERROR_MSG.'</p>';?>
       	</div>
@@ -260,6 +260,32 @@
                   &nbsp;
                   <label>
                     <input type="checkbox" id="f_34" name="fildList[]" value="pr" <? echo (in_array('pr',$arrfild))?"checked":""; ?> >&nbsp;<font>pr</font> - Тип (1-ввід, 2-кор., 9-АБК, 8- вибуло в іншу обл.)
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_35" name="fildList[]" value="phone" <? echo (in_array('phone',$arrfild))?"checked":""; ?> >&nbsp;<font>phone</font> - контактні телефони
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_36" name="fildList[]" value="phacs" <? echo (in_array('phacs',$arrfild))?"checked":""; ?> >&nbsp;<font>phacs</font> - факс
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_37" name="fildList[]" value="mail" <? echo (in_array('mail',$arrfild))?"checked":""; ?> >&nbsp;<font>mail</font> - електроні адреси
+                  </label>
+                </span>
+              </p>
+              <p>
+                <span>
+                  <label>
+                    <input type="checkbox" id="f_38" name="fildList[]" value="sof" <? echo (in_array('sof',$arrfild))?"checked":""; ?> >&nbsp;<font>sof</font> - СКОФ
+                  </label>
+                  &nbsp;
+                  <label>
+                    <input type="checkbox" id="f_39" name="fildList[]" value="sof_nu" <? echo (in_array('sof_nu',$arrfild))?"checked":""; ?> >&nbsp;<font>sof_nu</font> - Назва коду СКОФ
                   </label>
                 </span>
               </p>

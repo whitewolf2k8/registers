@@ -105,6 +105,11 @@
               $headTable["pf"]['len']=3;
               $filds[0][]="t1.pf";
             break;
+            case 'pf_nu':
+              $headTable["pf_nu"]['type']="C";
+              $headTable["pf_nu"]['len']=100;
+              $filds[0][]="t4.nu as pf_nu";
+            break;
             case 'gu':
               $headTable["gu"]['type']="N";
               $headTable["gu"]['len']=5;
@@ -241,6 +246,28 @@
               $headTable["pr"]['len']=1;
               $filds[0][]="t1.pr";
             break;
+            case 'phone':
+              $headTable["phone"]["type"]="C";
+              $headTable["phone"]['len']=200;
+            break;
+            case 'phacs':
+              $headTable["phacs"]["type"]="C";
+              $headTable["phacs"]['len']=200;
+            break;
+            case 'mail':
+              $headTable["mail"]["type"]="C";
+              $headTable["mail"]['len']=200;
+            break;
+            case 'sof':
+              $headTable["sof"]["type"]="N";
+              $headTable["sof"]['len']=3;
+              $filds[0][]="t1.sof";
+            break;
+            case 'sof_nu':
+              $headTable["sof_nu"]["type"]="C";
+              $headTable["sof_nu"]['len']=200;
+              $filds[0][]="t5.nu as sof_nu";
+            break;
           }
         }
       }
@@ -258,14 +285,18 @@
 
             $qeruStr="SELECT ".$fildStr." FROM `organizations` as t1"
               ." left join  `actual_address`  as t2 on t2.id_org=t1.id"
-              ." left join  `acts` as t3 on t1.id=t3.org ".$whereStr;
+              ." left join  `acts` as t3 on t1.id=t3.org "
+              ." left join  `opf` as t4 on t1.pf=t4.kd "
+              ." left join  `skof` as t5 on t1.sof=t5.kod ".$whereStr;
 
             $result=mysqli_query($link,$qeruStr);
             if($result){
               while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                $row+=getContactsdata($link,$headTable ,$row['id']);
                 $listItems[]=$row;
               }
             }
+
             mysqli_free_result($result);
           $cnt_exp+=1;
           session_start();
@@ -300,6 +331,7 @@
               }
             }
           }
+
           $row_arr=array();
           foreach ($headTable as $k => $v) {
             if($v['type']=="C"){
@@ -401,6 +433,41 @@
       }
     }
     return $flag;
+  }
+  function getContactsdata($link, $headTable,$idOrg)
+  {
+      $type=array();
+      $resultData=array();
+
+      if(array_key_exists('phone', $headTable)){ $type[]=0;}
+      if(array_key_exists('phacs', $headTable)){ $type[]=1; }
+      if(array_key_exists('mail', $headTable)){ $type[]=2; }
+
+      if(count($type)>0){
+        $strType=(count( $type )) ? ' type in ( ' . implode( ', ', $type ).' )' : '' ;
+        $queryS="SELECT data, type FROM `contact` WHERE id_org = ".$idOrg.(($strType!='')?" AND ".$strType:"");
+        $result = mysqli_query($link,$queryS);
+        if($result){
+          $listContact=array('phone'=>array(),'phacs'=>array(),'mail'=>array());
+          while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            if ($row['type']==0) {$listContact['phone'][]=$row['data']; }
+            else if($row['type']==1){ $listContact['phacs'][]=$row['data']; }
+            else if($row['type']==2){ $listContact['mail'][]=$row['data']; }
+          }
+          mysqli_free_result($result);
+        }
+
+          if(in_array(0, $type)){
+            $resultData+=array('phone' => ((count( $listContact['phone'] )) ? implode( ';', $listContact['phone'] ): '')) ;
+          }
+          if(in_array(1, $type)){
+            $resultData+=array('phacs' => ((count( $listContact['phacs'] )) ? implode( ';', $listContact['phacs'] ): '')) ;
+          }
+          if(in_array(2, $type)){
+            $resultData+=array('mail' => ((count( $listContact['mail'] )) ? implode( ';', $listContact['mail'] ): '')) ;
+          }
+      }
+      return $resultData;
   }
 
   closeConnect($link);

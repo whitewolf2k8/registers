@@ -269,6 +269,11 @@
             $headTable["pf"]['len']=3;
             $filds[0][]="t1.pf";
           break;
+          case 'pf_nu':
+            $headTable["pf_nu"]['type']="C";
+            $headTable["pf_nu"]['len']=100;
+            $filds[0][]="t4.nu as pf_nu";
+          break;
           case 'gu':
             $headTable["gu"]['type']="N";
             $headTable["gu"]['len']=5;
