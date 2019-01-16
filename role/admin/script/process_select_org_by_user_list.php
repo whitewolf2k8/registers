@@ -2,10 +2,8 @@
   include_once('../../../lib/start.php');
   include_once('../../../lib/function.php');
   include_once('../../../lib/setting.php');
-  include_once ('../../../Classes/PHPExcel.php');
+  include_once('../../../Classes/PHPExcel.php');
   $action=$_POST['mode'];
-
-
 
     if($action=="getOrg"){
 

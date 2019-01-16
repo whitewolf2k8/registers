@@ -576,7 +576,6 @@
 
     if($result){
       if(mysqli_num_rows($result)>0){
-
         $def = array();
         foreach ($headTable as $key => $value) {
           if($value['type']=="N"){
@@ -586,50 +585,50 @@
           }
         }
         $file_name=generateFileName();
-        $db=dbase_create('../../../files/unload/'.$file_name.'.dbf', $def);
-        if (!$db) {
-          $ERROR_MSG.="Не можливо створити базу даних <br>";
-          setMaxSession("");
-        }else{
-          setMaxSession(mysqli_num_rows($result));
-          $count=0;
-          while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            if(count($filds[1])>0){
-              foreach ($filds[1] as $key => $value) {
-                if($value=="n_vdf10"){
-                  $row[$value]=getKvedName($link,$row[substr($value, 2)]);
-                }else{
-                  $row[$value]=getKvedName($link,$row[substr($value, 1)]);
-                }
-              }
-            }
-            $row+=getContactsdata($link,$headTable ,$row['id']);
-
-
-
-
-            $row_arr=array();
-            foreach ($headTable as $key => $value) {
-              if($value['type']=="C"){
-                $row_arr[]=mb_convert_encoding($row[$key], "cp866", "windows-1251");
-              }else{
-                $row_arr[]=$row[$key];
-              }
-            }
-            dbase_add_record($db,$row_arr);
-            $count+=1;
-            session_start();
-            $_SESSION['ls_sleep_test'] =$count;
-            session_write_close();
-          }
-          dbase_close($db);
-          mysqli_free_result($result);
-        }
-      }else {
+      $db=dbase_create('../../../files/unload/'.$file_name.'.dbf', $def);
+      if (!$db) {
+        $ERROR_MSG.="Не можливо створити базу даних <br>";
         setMaxSession("");
-        $ERROR_MSG.="По заданим параметрам не знайдено ні одного підприємства <br>";
+      }else{
+        setMaxSession(mysqli_num_rows($result));
+        $count=0;
+        while ($row=mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+          if(count($filds[1])>0){
+            foreach ($filds[1] as $key => $value) {
+              if($value=="n_vdf10"){
+                $row[$value]=getKvedName($link,$row[substr($value, 2)]);
+              }else{
+                $row[$value]=getKvedName($link,$row[substr($value, 1)]);
+              }
+            }
+          }
+          $row+=getContactsdata($link,$headTable ,$row['id']);
+
+
+
+
+          $row_arr=array();
+          foreach ($headTable as $key => $value) {
+            if($value['type']=="C"){
+              $row_arr[]=mb_convert_encoding($row[$key], "cp866", "windows-1251");
+            }else{
+              $row_arr[]=$row[$key];
+            }
+          }
+          dbase_add_record($db,$row_arr);
+          $count+=1;
+          session_start();
+          $_SESSION['ls_sleep_test'] =$count;
+          session_write_close();
+        }
+        dbase_close($db);
+        mysqli_free_result($result);
       }
+    }else {
+      setMaxSession("");
+      $ERROR_MSG.="По заданим параметрам не знайдено ні одного підприємства <br>";
     }
+  }
     $res=array();
      $res["er"]=$ERROR_MSG;
   //  $res["er"]=iconv("windows-1251","utf-8",$ERROR_MSG);
