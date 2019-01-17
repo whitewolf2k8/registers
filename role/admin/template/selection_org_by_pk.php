@@ -40,7 +40,7 @@
           <input class="knob"   readonly  data-width="150" data-displayPrevious=true data-fgColor="#0d932e" data-skin="tron" data-thickness=".2" value="0">
         </div>
         <form name="adminForm" id="adminForm" action="selection_org_by_pk.php" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="mode" />
+          <input type="hidden" id="mode" name="mode" value="" />
 
           <div class="item_blue" style="position: relative; width: 880px; left: 50%; margin-left: -440px;">
             <div id='errorM' style='display="none"; argin-left:15%;'>	</div>
@@ -278,7 +278,7 @@
 
           </div>
           <div class="clr"></div>
-          <div id="lo"></div>
+
 
           <div id="table_block" class="prokrutka"  align="center">
             <table id="table_id" >
@@ -286,7 +286,7 @@
             </table>
           </div>
 
-
+          <div id="lo"></div>
         </form>
      </div>
 

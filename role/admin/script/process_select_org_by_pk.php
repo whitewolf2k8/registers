@@ -4,10 +4,10 @@
   include_once('../../../lib/setting.php');
   include_once ('../../../Classes/PHPExcel.php');
   $action=$_POST['mode'];
-    if($action=="getOrgs"){
 
+    if($action=="getOrgs"){
       $kdNu=trim(iconv("utf-8","windows-1251",$_POST['pkNu']));
-      $arrfild= isset($_POST['fildList'])? $_POST['fildList'] :  array('kd','kdmo','nu','pk','kdg','te','tea','ad','pi');
+      $arrfild= (isset($_POST['fildList']) &&  $_POST['fildList']!='')?(explode ( ',', $_POST['fildList'])) :  array('kd','kdmo','nu','pk','kdg','te','tea','ad','pi');
       $resProcessFild=getFildArray($arrfild);
       $headTable=$resProcessFild['headTable'];
       $filds=$resProcessFild['filds'];
@@ -63,12 +63,13 @@
   if($action=="generationFile"){
     set_time_limit(90000);
 
-    $arrOrgId=(isset($_POST['orgs']))?$_POST['orgs']:array();
+    $arrOrgId=(isset($_POST['orgs']) &&  $_POST['orgs']!='')?(explode ( ',', $_POST['orgs'])):array();
+    
     $typeFile=$_POST['typeF'];
     $ERROR_MSG="";
     $cnt_exp=0;
 
-    $arrfild= isset($_POST['fildList'])? $_POST['fildList'] :  array('kd','kdmo','nu','pk','kdg','te','tea','ad','pi');
+    $arrfild= (isset($_POST['fildList']) &&  $_POST['fildList']!='')?(explode ( ',', $_POST['fildList'])) :  array('kd','kdmo','nu','pk','kdg','te','tea','ad','pi');
     $action = isset($_POST['mode']) ? $_POST['mode'] : '';
 
     $resProcessFild=getFildArray($arrfild);
